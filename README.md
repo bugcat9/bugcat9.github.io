@@ -1,10 +1,12 @@
-## 博客
+# Hexo
 
-* master，啥也不干起说明作用
-* gh-pages，放hexo生成的静态文件
-* source，存放源文件
+hexo文件存储仓库
+
+`.github/workflows/deploy.yml`存放自动化脚本，使用github action进行自动化部署
 
 
 
-博客网页：[https://zhou-ning.github.io/](https://zhou-ning.github.io/)
+**参考：**
+
+* https://zhuanlan.zhihu.com/p/170563000
 
