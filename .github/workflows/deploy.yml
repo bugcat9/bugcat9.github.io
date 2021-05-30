@@ -39,6 +39,7 @@ jobs:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET}}
         run: |
+          echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
           sed -i '639s/123/$CLIENT_ID/' ./themes/next/_config.yml
           sed -i '640s/123/$CLIENT_SECRET/' ./themes/next/_config.yml
 
