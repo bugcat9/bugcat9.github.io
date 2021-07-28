@@ -18,6 +18,8 @@ matplotlib是最流行的Python底层绘图库，主要做数据可视化图表,
 
 ![anatomy.png](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/anatomy.png)
 
+<!--more-->
+
 ## 简单使用
 
 ```python
