@@ -1,5 +1,5 @@
 ---
-title: matplotlib画图(一)基本操作
+title: numpy基础学习
 date: 2021-07-24 11:10:00
 tags:
 - python
