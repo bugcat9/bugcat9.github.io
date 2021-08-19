@@ -16,8 +16,6 @@ categories:
 
 ![img](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/activity_lifecycle.png)
 
-
-
 但是我感觉比较好理解的是《Android编程权威指南》中的图解
 
 ![image-20210818155656276](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210818155656276.png)
@@ -30,6 +28,8 @@ categories:
 |  停止  |     是     |     否     |    否    |
 |  暂停  |     是     | 是或者部分 |    否    |
 |  运行  |     是     |     是     |    是    |
+
+<!--more-->
 
 ## 实例展示
 
