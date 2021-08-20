@@ -4,7 +4,7 @@
  tags: 
  - 软件安装
  categories:
- - android 
+ - 环境配置安装
 ---
 
 
