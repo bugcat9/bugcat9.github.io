@@ -12,6 +12,8 @@ categories:
 
 `Activity`之间经常需要传输数据，我们常用的方法就是使用`Intent`
 
+<!--more-->
+
 ## 实例一单方面传输
 
 创建项目`TwoActivity`，然后在项目中除`MainActivity`之外，再添加一个`SecondActivity`
@@ -274,6 +276,21 @@ public class SecondAcrivity extends AppCompatActivity {
 }
 ```
 
+实现子`activity`发送返回信息给父`activity`，有以下两种方法可用：
+
+ `public final void setResult(int resultCode)`
+
+  `public final void setResult(int resultCode, Intent data)  `
+
+一般来说，参数`resultCode`可以是以下任意一个预定义常量。
+
+* `Activity.RESULT_OK`
+* `Activity.RESULT_CANCELED`
+
+当然如需自己定义结果代码，还可使用另一个常量：`RESULT_FIRST_USER`。
+
+在父`activity`需要依据子`activity`的完成结果采取不同操作时，设置结果代码就非常有用。 例如，假设子`activity`有一个`OK`按钮和一个`Cancel`按钮，并且每个按钮的单击动作分别设置 有不同的结果代码。那么，根据不同的结果代码，父`activity`就能采取不同的操作。  子`activity`可以不调用`setResult(...)`方法。如果不需要区分附加在intent上的结果或其他信 息，可让操作系统发送默认的结果代码。如果子`activity`是以调用`startActivityForResult(...) `或者`ActivityResultLauncher`方法启动的，结果代码则总是会返回给父`activity`。在没有调用`setResult(...)`方法的情况下， 如果用户按了后退按钮，父`activity`则会收到`Activity.RESULT_CANCELED`的结果代码。
+
 最终结果展示，发送信息之后按返回键，会出结果展示
 
 ![image-20210820215024582](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210820215024582.png)
@@ -286,3 +303,5 @@ public class SecondAcrivity extends AppCompatActivity {
 
 * https://segmentfault.com/a/1190000037601888
 * https://developer.android.com/training/basics/intents/result
+* 《Android编程权威指南中文第3版》
+
