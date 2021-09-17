@@ -22,6 +22,8 @@ pseudo ground truth的概念是指来自弱监督模型的一组采样对象预�
 
 提出RefineLoc模型，一种弱监督的时间定位方法，它通过利用pseudo ground truth实况来评估迭代细化策略
 
+<!--more-->
+
 ## 怎么做的
 
 ![image-20210911184214062](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210911184214062.png)
