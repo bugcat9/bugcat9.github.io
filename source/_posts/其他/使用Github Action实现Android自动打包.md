@@ -2,12 +2,16 @@
 title: 使用Github Action实现Android自动打包
 date: 2021-09-23 10:48:28
 tags:
+- github action
 categories:
+- 其他
 ---
 
 # 使用Github Action实现Android自动打包
 
 Github Action是个好东西，我使用他实现了hexo自动打包上传，然后我就在想能否使用Github Action打包写好的Android代码，打包好Android的包apk，经过我在网上查找资料发现这个功能是完全可以实现的
+
+<!--more-->
 
 ## Android命令行打包
 
@@ -161,7 +165,7 @@ jobs:
 
 可以看到我们上传一个tag之后，最终效果是这样的
 
-![image-20210927205713787](新建文件夹/image-20210927205713787.png)
+![image-20210927205713787](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210927205713787.png)
 
 ## 使用secret
 
@@ -169,7 +173,7 @@ jobs:
 
 在仓库的setting中我们加入`ALIAS`和`PASSWORD`两个secret，其中就是jks的别名和密码(这里我将storePassword和keyPassword设置的一样，所以只有一个密码)
 
-![image-20210929170814946](新建文件夹/image-20210929170814946.png)
+![image-20210929170814946](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210929170814946.png)
 
 更改`keystore.properties`为
 
