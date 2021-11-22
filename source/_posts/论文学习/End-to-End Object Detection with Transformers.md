@@ -3,6 +3,7 @@ title: End-to-End Object Detection with Transformers
 date: 2021-09-29 19:11:51
 tags:
 - 目标检测
+- transformer
 categories: 
 - 论文学习
 mathjax: true
