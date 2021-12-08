@@ -4,7 +4,7 @@ date: 2021-09-11 19:01:46
 tags:
  - 时间动作定位
  - 时序动作定位
- - 动作检测
+ - 对比学习
 categories:
  - 论文学习
 mathjax: true

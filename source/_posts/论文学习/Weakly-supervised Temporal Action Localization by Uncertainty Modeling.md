@@ -2,6 +2,7 @@
 title: Weakly-supervised Temporal Action Localization by Uncertainty Modeling
 date: 2021-12-02 11:09:14
 tags:
+- 时间动作定位
 - 时序动作定位
 - 弱监督
 categories:

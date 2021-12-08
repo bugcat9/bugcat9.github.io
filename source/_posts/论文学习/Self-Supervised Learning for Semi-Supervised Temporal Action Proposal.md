@@ -3,7 +3,7 @@ title: Self-Supervised Learning for Semi-Supervised Temporal Action Proposal
 date: 2021-10-24 21:23:40
 tags:
 - 时间动作定位
-- 时许动作定位
+- 时序动作定位
 - 自监督
 categories:
 - 论文学习

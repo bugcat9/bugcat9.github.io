@@ -5,6 +5,7 @@
  - 时间动作定位
  - 时序动作定位
  - 动作检测
+ - 综述
  categories:
  - 论文学习
  mathjax: true
