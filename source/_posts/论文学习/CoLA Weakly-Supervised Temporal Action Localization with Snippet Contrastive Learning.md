@@ -19,12 +19,16 @@ mathjax: true
 ## 做了什么
 
 * 提出利用视频片段对比学习来实现动作定位
-* 提出了一个Snippet Contrast (SniCo) Loss来喜欢特征空间中hard snippet的表示，它指导网络感知精确的时间边界，避免时间间隔中断。
-* 由于没有办法访问帧级别的注释，引入了一种hard snippet挖掘算法，来定位潜在的hard snippet。
+* 提出了一个Snippet Contrast (SniCo) Loss来从特征空间中hard snippet的表示，它指导网络感知精确的时间边界，避免时间间隔中断。
+* 由于没有办法访问帧级别的注释，引入了一种hard snippet挖掘算法，来定位潜在的hard snippet（这里的hard snippet我理解为比较难发现并分类的片段）。
 
 <!--more-->
 
 ## 怎么做
+
+![image-20220414193438015](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20220414193438015.png)
+
+论文的动机可以从图中看出，由于缺乏帧级别的标签，上图中**#2**和**#3**这两个片段很难进行分类，如果只是使用baseline，我们会发现**#2**被识别为背景，而**#3**被识别为动作，这和GT是相违背。但是我们发现在这些片段中**#1**是很容易分类成动作（论文称这很容易识别的动作片段为easy action），而**#4**很容易分类背景（论文里面称为easy bkg），我们将**#2**和**#1**进行对比很容易发现**#2**是个动作，**#3**和**#4**对比很容易发现是背景，通过这种对比的思想就提出了这篇论文的模型。论文中将类型**#2**和**#3**的片段成为hard snippets，因为他们都是“cheating”的
 
 论文的模型如下
 
@@ -34,7 +38,7 @@ mathjax: true
 
 ![image-20210913192458877](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913192458877.png)
 
-给定$N$个未裁剪的视频$\lbrace V_n \rbrace^N_{n=1}$和它们视频级别的标签$\lbrace y_n\rbrace^N_{n=1}$，其中$y_n\in \mathbb R^C $，$C$是动作类别的数量
+给定$N$个未裁剪的视频$\lbrace{V_n}\rbrace^N_{n=1}$和它们视频级别的标签 $\lbrace y_n\rbrace^N_{n=1}$ ，其中 $y_n\in \mathbb R^C $ ，$C$是动作类别的数量
 
 对于每个视频$V_n$，我们把它分成多帧不重叠的$L_n$片段，其中$V_n=\lbrace S_{n,l}\rbrace^{L_n}_{l=1}$，由于视频长度的变化，利用采样，固定视频为数量$T$的片段$\lbrace S_{n,t}\rbrace^T_{t=1}$（采样的方法很常见，也是正常的方法）。
 
@@ -48,13 +52,15 @@ $f_{embed}$通过时间卷积和ReLU激活函数实现。
 
 ![image-20210913192542486](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913192542486.png)
 
-给定特征$X_n^E$,利用 $f_{cls}$获得类激活序列即CAS（在论文当中叫T-CAS，其实概念是相同的）
+给定特征$X_n^E$  ,利用   $f_{cls}$获得类激活序列即CAS（在论文当中叫T-CAS，其实概念是相同的）
 
 ![image-20210913192823389](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913192823389.png)
 
 我们简单地沿着通道维度(fsum)加上Sigmoid函数对CAS进行求和，以获得一个类不可知的聚合，并使用它来表示动作
 
 ![image-20210913193042814](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913193042814.png)
+
+其中$A_n^{ness}\in\mathbb R^T$
 
 ###  Hard & Easy Snippet Mining
 
@@ -72,13 +78,13 @@ hard Snippet 指那种边界相邻的片段，由于它们位于动作和背景�
 
 其中$\epsilon(\cdot )$是一个heaviside跃阶函数，其中$\theta_b$是阈值，如果$A_n^{ness}\geq\theta_b$，则$A_n^{bin}=1$,反之则为0
 
-接着我们采取两种级联的扩张或者变窄操作，来扩大或缩小动作间隔的时间范围，将扩张和变窄程度不同的不同区域定义为硬背景（hard background）或者硬动作（hard action）区域。
+接着我们采取两种级联的扩张或者变窄操作（这个操作在语义分割动作有所使用），来扩大或缩小动作间隔的时间范围，将扩张和变窄程度不同的不同区域定义为硬背景（hard background）或者硬动作（hard action）区域。
 
 ![image-20210913195927059](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913195927059.png)
 
-其中(·;∗)+和(·;∗)−分别表示掩膜∗下的二元扩张和变窄操作。
+其中(·;∗)+和(·;∗)−分别表示mask∗下的二元扩张和变窄操作。这个些个操作类似卷积，作用是挖掘出hard的片段。
 
-内部区域$R_n^{inner}$定义为掩码较小m和掩码较大的M变窄序列之间的不同片段的差值，如图3左边部分(绿色部分)所示。
+内部区域$R_n^{inner}$定义为mask较小m和mask较大的M变窄序列之间的不同片段的差值，如图3左边部分(绿色部分)所示。
 
 同样，外部的$R_n^{outer}$计算为mask大掩码M和小掩码m之间的差值，如图3右侧部分(粉红色)所示。
 
@@ -90,7 +96,7 @@ hard Snippet 指那种边界相邻的片段，由于它们位于动作和背景�
 
 ![image-20210914204708488](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210914204708488.png)
 
-其中$I_n^{inner}$是$R_n^{inner}$内的代码片段的索引集，$I_n^{act}$是$I_n^{inner}$中大小为$k^{hard}$的子集，即$\lvert I_n^{act} \rvert=k^{hard}$。其中$k^{hard}$是一个超参
+其中$I_n^{inner}$是$R_n^{inner}$内的代码片段的索引集，$I_n^{act}$是$I_n^{inner}$中大小为$k^{hard}$的子集，即$\lvert I_n^{act} \rvert=k^{hard}$。其中$k^{hard}$是一个超参，简单理解就是找了$k^{hard}$个hard action片段
 
 同理可以得到 hard background snippets
 
@@ -100,7 +106,7 @@ hard Snippet 指那种边界相邻的片段，由于它们位于动作和背景�
 
 为了形成对比对，我们仍然需要挖掘具有区别性的简单片段
 
-我们假设动作度得分为top-k和bottom-k的视频片段恰好是easy action 片段($X_n^{EA}\in \mathbb R^{k^{easy}\times 2d}$)和easy background  片段 ($X_n^{EB}\in \mathbb R^{k^{easy}\times 2d}$)
+我们假设动作度得分为top-k和bottom-k的视频片段恰好是easy action 片段($X_n^{EA}\in \mathbb R^{k^{easy}\times 2d}$)和easy background  片段 ($X_n^{EB}\in \mathbb R^{k^{easy}\times 2d}$)，可以理解为选取了k个容易区分的片段
 
 我们基于前面计算的动作评分$A_n^{ness}$进行简单的代码片段挖掘。
 
@@ -144,7 +150,7 @@ Action Loss（$L_a$）使用交叉熵损失
 
 ![image-20210915161743980](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210915161743980.png)
 
-我们将它们投射到一个标准化的单位球体上，以防止空间坍塌或膨胀(没怎么看懂)
+我们将它们投射到一个标准化的单位球体上，以防止空间坍塌或膨胀(没怎么看懂)，不过这其实是一个简单对比学习。
 
 建立了一个(S+ 1)分类问题，利用交叉熵损失来表示正例比负例被选择的概率
 
@@ -156,4 +162,16 @@ Action Loss（$L_a$）使用交叉熵损失
 
 ## 总结
 
-本文思路不错，但是有些部分有点难懂，希望再研究研究能够看懂
+本文思路不错，直接从以前WTAL中使用比较多的度量学习直接进入到对比学习，算是一种进步。
+
+图像的 eroded和dilated操作可以看：
+
+https://python.iitter.com/other/134126.html
+
+https://cloud.tencent.com/developer/article/1913623
+
+https://www.jianshu.com/p/fc07d3065cf1
+
+https://vernonsong.github.io/2017/03/07/opencv-dilate/
+
+https://vernonsong.github.io/2017/03/08/opencv-morphologyEx/
