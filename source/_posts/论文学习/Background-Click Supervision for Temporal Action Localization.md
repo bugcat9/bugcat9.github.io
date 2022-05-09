@@ -65,7 +65,7 @@ BackTAL使用三个时间卷积层来处理视频特征序列。输入视频特�
 
 ![image-20220429203658216](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20220429203658216.png)
 
-![image-20220429203706475](新建文件夹/image-20220429203706475.png)
+![image-20220509163603985](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20220509163603985.png)
 
 同样的，对于该视频中N_frame 注释的背景帧，计算平均分数
 
