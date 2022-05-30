@@ -2,7 +2,6 @@
 title: RefineLoc Iterative Refinement for Weakly-Supervised Action Localization
 date: 2021-09-11 16:53:31
 tags:
- - 时间动作定位
  - 时序动作定位
  - 弱监督
 categories:
