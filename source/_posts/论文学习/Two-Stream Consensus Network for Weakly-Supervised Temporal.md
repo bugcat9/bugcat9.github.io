@@ -53,7 +53,7 @@ mathjax: true
 
 公式中$\sigma(),W_A,b_A$分别为sigmoid函数、权重向量和偏差。然后，作者对特征序列进行注意力加权池化，生成单个前景特征，并将其输入FC、softmax层，获得视频级别预测：
 
-![image-20220719124409241](新建文件夹/image-20220719124409241.png)
+![image-20220719124409241](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20220719124409241.png)
 
 ![image-20220719124422377](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20220719124422377.png)
 
