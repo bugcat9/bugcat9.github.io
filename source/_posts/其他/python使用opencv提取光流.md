@@ -13,6 +13,8 @@ categories:
 
 使用的方法是TVL1方法，最终提取的光流图片还可以配合I3D模型进行特征的提取。光流的计算先需要将视频一帧一帧提取出来，然后再通过连续两帧之间的差异进行计算。
 
+<!--more-->
+
 ## 提取帧
 
 提取视频的帧的算法如下：
@@ -188,6 +190,16 @@ if __name__ == '__main__':
     extract_flow(root, out_root)
     print("finish!!!!!!!!!!!!!!!!!!")
 
+```
+
+## 环境配置
+
+提取光流时需要使用到`cv2.optflow.DualTVL1OpticalFlow_create()`，这玩意安装有时候会有版本问题，所以安装的opencv-python和pencv-contrib-python最好版本相同
+
+```python
+pip install opencv-python==4.1.2.30
+ 
+pip install opencv-contrib-python==4.1.2.30
 ```
 
 ## 结果
