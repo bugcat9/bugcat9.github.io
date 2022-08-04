@@ -6,6 +6,7 @@ tags:
 - 弱监督
 categories:
 - 论文学习
+mathjax: true
 ---
 
 # Weakly-supervised Temporal Action Localization by Uncertainty Modeling
