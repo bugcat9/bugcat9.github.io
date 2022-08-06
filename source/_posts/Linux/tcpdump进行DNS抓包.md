@@ -2,7 +2,10 @@
 title: tcpdump进行DNS抓包
 date: 2022-08-05 17:47:50
 tags:
+- 计算机网络
+- Linux
 categories:
+- Linux
 ---
 
 # tcpdump进行DNS抓包
@@ -22,6 +25,8 @@ host -t A www.baidu.com
 ![image-20220805191657175](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220805191657175.png)
 
 www.baidu.com是www.a.shifen.com的别名。www.a.shifen.com有两个地址112.80.248.75和112.80.248.76
+
+<!--more-->
 
 使用tcpdump进行抓包
 

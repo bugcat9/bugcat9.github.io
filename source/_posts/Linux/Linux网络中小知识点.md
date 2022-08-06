@@ -2,12 +2,17 @@
 title: Linux网络中小知识点
 date: 2022-08-05 14:32:29
 tags:
+- 计算机网络
+- Linux
 categories:
+- Linux
 ---
 
 # Linux网络中小知识点
 
 记录一下Linux网络当中一些零碎的小知识点。
+
+<!--more-->
 
 ## 1.通过`/etc/services`查看应用层网络协议
 
