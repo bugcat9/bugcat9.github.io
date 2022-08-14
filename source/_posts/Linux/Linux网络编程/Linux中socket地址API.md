@@ -4,9 +4,10 @@ date: 2022-08-11 22:27:33
 tags:
 - 计算机网络
 - Linux
+- Linux网络编程
 - Linux高性能服务器编程
 categories:
-- Linux
+- Linux网络编程
 ---
 
 # Linux中socket地址API
@@ -66,7 +67,7 @@ int main()
 
 所以`test`中`value`和`union_bytes`是共用一段内存的。因为在c中`short`是16位也就是2字节，`char`是8位也就是1字节，所以`union_bytes`数组的大小是2。
 
-我们给`value`赋值为`0x0102`。如果是机器是高位存储，那么`union_bytes`数组第一个元素存储`0x01`，第二个元素存储`0x02`，如果是机器是高位存储，那么`union_bytes`数组第一个元素存储`0x02`，第二个元素存储`0x01`
+我们给`value`赋值为`0x0102`。如果是机器是大端存储，那么`union_bytes`数组第一个元素存储`0x01`，第二个元素存储`0x02`，如果是机器是小端存储，那么`union_bytes`数组第一个元素存储`0x02`，第二个元素存储`0x01`
 
 ![image-20220809185922374](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220809185922374.png)
 

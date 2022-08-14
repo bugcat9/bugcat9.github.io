@@ -30,3 +30,9 @@ vim /etc/services
 
 ![image-20220805171434655](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux//image-20220805171434655.png)
 
+## 3.通过`/proc/sys/net/ipv4/tcp_tw_reuse `来设置
+
+我们也可以通过修改内核参数`/proc/sys/net/ipv4/tcp_tw_reuse `来快速回收被关闭的socket，从而使得TCP连接根本就不进入TIME_WAIT状态，进而允许应用程序立即重用本地的socket地址。
+
+![image-20220813173711574](新建文件夹/image-20220813173711574.png)
+
