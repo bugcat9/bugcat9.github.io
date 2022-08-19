@@ -2,7 +2,12 @@
 title: socket网络信息查询API
 date: 2022-08-14 19:57:14
 tags:
+- 计算机网络
+- Linux
+- Linux网络编程
+- Linux高性能服务器编程
 categories:
+- Linux网络编程
 ---
 
 # socket网络信息查询API
