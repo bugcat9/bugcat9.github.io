@@ -339,3 +339,131 @@ int main()
 最后我们去掉`s`权限，运行程序，可以看到`uid`和`euid`输出相同，表示**真实用户**和**有效用户**都是`ubuntu`，也从反面说明`s`权限的作用。
 
 ![image-20220819142209993](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220819142209993.png)
+
+## 进程间关系
+
+### 进程组
+
+Linux下每个进程都隶属于一个进程组，因此它们除了PID信息外，还有进程组ID(`PGID`)。我们可以用如下函数来获取指定进程`PGID`:
+
+```c
+#include <sys/types.h>
+#include <unistd.h>
+
+pid_t getpgid(pid_t pid);
+```
+
+该函数成功时返回进程pid所属进程组的`PGID`，失败则返回-1并设置`errno`。
+
+每个进程组都有一个首领进程，其`PGID`和`PID`相同。进程组将一直存在，直到其中所有进程都退出，或者加入到其他进程组。下面的函数用于设置`PGID`：
+
+```c
+int setpgid(pid_t pid, pid_t pgid);
+```
+
+该函数将`PID`为`pid`的进程的`PGID`设置为`pgid`。
+
+如果`pid`和 `pgid`相同，则由`pid`指定的进程将被设置为进程组首领；
+
+如果`pid`为0，则表示设置当前进程的`PGID`为`pgid `；
+
+如果`pgid`为0，则使用`pid`作为目标`PGID`。
+
+`setpgid`函数成功时返回0，失败则返回-1并设置`errno`.
+
+一个进程只能设置**自己**或者**其子进程**的`PGID`。并且，当子进程调用`exec`系列函数后，我们也不能再在父进程中对它设置`PGID`。
+
+### 会话
+
+一些有关联的进程组将形成一个会话(session)。下面的函数用于创建一个会话:
+
+```c
+#include <sys/types.h>
+#include <unistd.h>
+
+pid_t setsid(void);
+```
+
+该进程不能由**进程组的首领**进程进行调用，会报错。
+
+对于非进程组首领的进程，调用该函数不仅创建新会话，还会：
+
+* 调用进程成为会话的首领，此时该进程是新会话的唯一成员。
+* 新建一个进程组，其`PGID`就是调用进程的`PID`，调用进程成为该组的首领。
+* 调用进程将失去终端
+
+该函数成功时返回新的进程组的`PGID`，失败则返回-1并设置`errno`。
+
+Linux进程并未提供所谓**会话ID (SID）**的概念，但Linux系统认为它等于**会话首领**所在的**进程组的PGID**，并提供了如下函数来读取`SID`:
+
+```c
+#include <sys/types.h>
+#include <unistd.h>
+
+pid_t getsid(pid_t pid);
+```
+
+### 使用ps命令查看进程之间的关系
+
+在终端输入
+
+```shell
+ps -o pid,ppid,pgid,sid,comm | less
+```
+
+![image-20220821164503929](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220821164503929.png)
+
+它们之间的关系如下图
+
+从单独的进程角度看，zsh是ps和less的父进程
+
+从组的角度看，zsh是一个组（组里面只有zsh，所以zsh是进程组首领），ps和less是一个组（ps是进程组首领）
+
+从会话的角度看，会话里面有两个关联的进程组，其实zsh是会话的首领
+
+![image-20220821165830395](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220821165830395.png)
+
+## 改变工作目录和根目录
+
+进程有工作目录和根目录。
+
+工作目录：进程在哪个路径下被运行起来哪个路径就是进程的工作目录(Current Woring Directory, CWD)
+
+根目录：就是"/"
+
+工作目录和根目录可以通过`/proc/PID/cwd`和`/proc/PID/root`进行查看
+
+![image-20220821175748810](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220821175748810.png)
+
+工作目录和根目录都可以进行更改，获取进程当前工作目录和改变进程工作目录的函数分别是:
+
+```c
+#include <unistd.h>
+
+char *getcwd(char *buf, size_t size);
+int chdir(const char *path);
+```
+
+`buf`参数指向的内存用于存储进程当前工作目录的绝对路径名，其大小由`size`参数指定。
+
+如果当前工作目录的绝对路径的长度（再加上一个空结束字符“\0”)超过了`size`，则`getcwd`将返回`NULL`，并设置`errno`为`ERANGE`。
+
+如果`buf`为`NULL`并且`size`非0，则`getcwd`可能在内部使用`malloc`动态分配内存，并将进程的当前工作目录存储在其中。如果是这种情况，则我们必须自己来释放`getcwd`在内部创建的这块内存。
+
+`getcwd`函数成功时返回一个指向目标存储区（`buf`指向的缓存区或是`getcwd`在内部动态创建的缓存区）的指针，失败则返回`NULL`并设置`errno`。
+
+`chdir`函数的`path`参数指定要切换到的目标目录。它成功时返回0，失败时返回-1并设置`errno`。
+
+改变进程根目录可以使用`chroot`:
+
+```c
+#include <unistd.h>
+
+int chroot(const char *path);
+```
+
+`path`参数指定要切换到的目标根目录。它成功时返回0，失败时返回-1并设置`errno`。
+
+`chroot`**并不改变**进程的当前工作目录。
+
+改变进程的根目录之后，程序可能无法访问类似`/dev`的文件（和目录)，因为这些文件（和目录〉并非处于新的根目录之下。不过好在调用`chroot`之后，进程原先打开的文件描述符依然生效，所以我们可以利用这些早先打开的文件描述符来访问调用`chroot`之后不能直接访问的文件（和目录)，尤其是一些日志文件。此外，只有**特权进**程才能改变根目录。
