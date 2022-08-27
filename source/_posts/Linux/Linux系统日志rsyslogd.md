@@ -24,6 +24,8 @@ Linux上使用`rsyslogd`守护进程接收**用户进程**输出的日志和接�
 
 ![image-20220818105707879](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220818105707879.png)
 
+<!--more-->
+
 `rsyslogd`系统日志功能比较复杂，有facility、priority、action等概念。还有Input模块、Filetr模块、Output模块等模块内容，目前还未弄清楚相关的知识。
 
 查看了一下`/etc/rsyslog.conf`的配置文件
