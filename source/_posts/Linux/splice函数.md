@@ -30,6 +30,8 @@ ssize_t splice(int fd_in, loff_t *off_in, int fd_out, loff_t *off_out, size_t le
 
 ![image-20220816100934412](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816100934412.png)
 
+<!--more-->
+
 使用`splice`函数时，`fd_in`和`fd_out`必须至少有一个是管道文件描述符。
 
 `splice`函数调用成功时返回移动字节的数量。它可能返回0，表示没有数据需要移动，这发生在从管道中读取数据（`fd_in`是管道文件描述符）而该管道没有被写入任何数据时。`splice`函数失败时返回-1并设置`errno`。常见的`errno`如下表所示。

@@ -21,6 +21,8 @@ int fcntl(int fd, int cmd, ... /* arg */ );
 
 `fd`参数是被操作的文件描述符，`cmd`参数指定执行何种类型的操作。根据操作类型的不同，该函数可能还需要第三个可选参数 `arg`。`fcntl`函数支持的常用操作及其参数如下表所示。
 
+<!--more-->
+
 ![image-20220816114524640](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816114524640.png)
 
 `fcntl`函数成功时的返回值如表中最后一列所示，失败则返回-1并设置`errno`。
