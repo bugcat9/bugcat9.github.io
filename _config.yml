@@ -6,14 +6,14 @@
 title: bugCat's Blog
 subtitle: 毛的感情的程序猿
 description: 啥都不会
-keywords: java python C++
-author: zhou ning
+keywords: C++ python 
+author: bugCat
 language: zh-CN
 timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://zhou-ning.github.io/
+url: https://bugcat.top/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
