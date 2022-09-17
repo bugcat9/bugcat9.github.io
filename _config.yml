@@ -104,7 +104,7 @@ theme: next
 deploy:
   type: git
   # 如果是在git action上部署得使用ssh的方法
-  repo: git@github.com:zhou-ning/zhou-ning.github.io.git
+  repo: git@github.com:bugcat9/bugcat9.github.io.git
   branch: gh-pages
   message: hexo deploy
 
