@@ -21,11 +21,11 @@ Linux当中ARP 模块维护一个硬件地址到协议地址映射的缓存，�
 
 使用`arp -a`查看
 
-![image-20220805152235326](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux//image-20220805152235326.png)
+![image-20220805152235326](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux//image-20220805152235326.png)
 
 使用`/proc/net/arp`查看
 
-![image-20220805152319586](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux//image-20220805152319586.png)
+![image-20220805152319586](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux//image-20220805152319586.png)
 
 我们也可以使用`arp`命令对缓存进行操作。
 
@@ -35,7 +35,7 @@ Linux当中ARP 模块维护一个硬件地址到协议地址映射的缓存，�
 arp -d 10.0.4.6
 ```
 
-![image-20220805152619382](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220805152619382.png)
+![image-20220805152619382](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220805152619382.png)
 
 ## tcpdump进行ARP抓包
 
@@ -63,7 +63,7 @@ arp 表示只抓arp协议的包
 
 最终抓到的包的结果如下图
 
-![image-20220805154805611](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220805154805611.png)
+![image-20220805154805611](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220805154805611.png)
 
 总共抓到2个包，一个请求包一个应答包。
 
@@ -77,5 +77,5 @@ arp 表示只抓arp协议的包
 
 但是第一个数据包ARP请求数据包则不符合设定，它只写了自己ARP请求的报文大小，并未进行字节填充，这里有一些不太理解。
 
-![image-20220805165516292](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220805165516292.png)
+![image-20220805165516292](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220805165516292.png)
 

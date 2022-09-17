@@ -22,7 +22,7 @@ Linux上使用`rsyslogd`守护进程接收**用户进程**输出的日志和接�
 
 不过，日志信息具体如何分发，可以在`rsyslogd`的配置文件中设置。`rsyslogd `的主配置文件是`/etc/rsyslog.conf`，其中主要可以设置的项包括:内核日志输入路径，是否接收UDP日志及其监听端口（默认是514，见`/etc/services`文件)，是否接收TCP日志及其监听端口，日志文件的权限，包含哪些子配置文件(比如 `/etc/rsyslog.d/*.conf`)。`rsyslogd`的子配置文件则指定各类日志的目标存储文件。
 
-![image-20220818105707879](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220818105707879.png)
+![image-20220818105707879](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220818105707879.png)
 
 <!--more-->
 
@@ -165,7 +165,7 @@ logger -i -t "my_test" "test_log"
 
 使用vim查看`/var/log/syslog`可以看到我们的`logger`的结果
 
-![image-20220818172612033](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220818172612033.png)
+![image-20220818172612033](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220818172612033.png)
 
 `rsyslogd`的内容比较多，后续再补。
 
@@ -258,5 +258,5 @@ int main(int argc, char **argv)
 
 结果
 
-![image-20220818183131617](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220818183131617.png)
+![image-20220818183131617](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220818183131617.png)
 

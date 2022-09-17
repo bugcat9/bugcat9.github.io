@@ -63,7 +63,7 @@ int main()
 
 运行结果：
 
-![image-20220809181538872](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220809181538872.png)
+![image-20220809181538872](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220809181538872.png)
 
 这段代码使用的原理是**union变量所占用的内存长度等于最长的成员的内存长度。**
 
@@ -71,7 +71,7 @@ int main()
 
 我们给`value`赋值为`0x0102`。如果是机器是高位存储，那么`union_bytes`数组第一个元素存储`0x01`，第二个元素存储`0x02`，如果是机器是高位存储，那么`union_bytes`数组第一个元素存储`0x02`，第二个元素存储`0x01`
 
-![image-20220809185922374](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220809185922374.png)
+![image-20220809185922374](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220809185922374.png)
 
 扩展到32位，四字节来说以`0x12345678`为例，那么
 
@@ -85,7 +85,7 @@ int main()
 
 Linux提供了4个函数来完成主机字节序和网络字节序之间的转换:
 
-![image-20220810153657086](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220810153657086.png)
+![image-20220810153657086](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220810153657086.png)
 
 ```c
 #include <netinet/in.h>
@@ -118,7 +118,7 @@ int main(int argc, char const *argv[])
 
 运行结果：
 
-![image-20220810181643405](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220810181643405.png)
+![image-20220810181643405](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220810181643405.png)
 
 `513`二进制：`0000 0010 0000 0001`
 
@@ -134,7 +134,7 @@ int main(int argc, char const *argv[])
 
 socket网络接口中表示socket地址的是结构体`sockaddr`，他的定义在头` <bits/socket.h>`中，我看在我的电脑上看到的是如下的定义（各个版本不同，可能实现不同，我这里和书上就不大相同）：
 
-![image-20220810185029006](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220810185029006.png)
+![image-20220810185029006](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220810185029006.png)
 
 ```c
 #include <bits/socket.h>
@@ -148,7 +148,7 @@ struct sockaddr
 
 其中`__SOCKADDR_COMMON`定义在`<bits/sockaddr.h>`中
 
-![image-20220810185204703](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220810185204703.png)
+![image-20220810185204703](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220810185204703.png)
 
 ```c
 #include <bits/sockaddr.h>
@@ -176,9 +176,9 @@ typedef unsigned short int sa_family_t;
 
 宏PF\_\*和AF\_\*都定义在`<bits/socket.h>`当中，两者的值相同，所以两者可以混用
 
-![image-20220811094342093](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811094342093.png)
+![image-20220811094342093](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811094342093.png)
 
-![image-20220811094510529](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811094510529.png)
+![image-20220811094510529](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811094510529.png)
 
 `sa_data`成员用于存放socket地址值。不同的协议族的地址值有不同的含义和长度。
 
@@ -218,9 +218,9 @@ struct sockaddr_storage
 #define _SS_SIZE 128
 ```
 
-![image-20220811135111456](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811135111456.png)
+![image-20220811135111456](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811135111456.png)
 
-![image-20220811135134566](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811135134566.png)
+![image-20220811135134566](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811135134566.png)
 
 这个结构体提供了足够大的空间用于存放地址值，并且是内存对齐的。
 
@@ -282,11 +282,11 @@ struct in_addr
   };
 ```
 
-![image-20220811143542024](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811143542024.png)
+![image-20220811143542024](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811143542024.png)
 
-![image-20220811143600470](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811143600470.png)
+![image-20220811143600470](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811143600470.png)
 
-![image-20220811143622907](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811143622907.png)
+![image-20220811143622907](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811143622907.png)
 
 可以看的出来`sin_`（其实是`sin_family`）存放地址族类型，`sin_port`存放端口，`sin_addr`存放地址。`sin_zero`为了让`sockaddr_in`大小和`sockaddr	`相同，为什么有这个成员，个人感觉这是因为所以**专用socket**在实际使用中都需要转化为**通用socket地址类型**`socketaddr`，因为socket编程接口使用的是参数类型是`socketaddr`。
 
@@ -366,7 +366,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811170759741](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811170759741.png)
+![image-20220811170759741](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811170759741.png)
 
 `inet_aton`功能和`inet_addr`相同，但是将结果存在在`in_addr_t`指向的地址结构当中，函数成功返回1，失败返回0。
 
@@ -386,7 +386,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811171444397](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811171444397.png)
+![image-20220811171444397](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811171444397.png)
 
 `inet_ntoa`函数将整数的IPv4地址转化为点分十进制字符串的IPv4。成功时返回转换的字符串地址值，失败时返回-1。
 
@@ -410,7 +410,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811173503409](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811173503409.png)
+![image-20220811173503409](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811173503409.png)
 
 需要注意的是`inet_ntoa`函数内部使用一个静态变量存储转化的结果，函数的返回值指向该静态内存，因此`inet_ntoa`是不可重入的，这一点需要多注意。
 
@@ -434,7 +434,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811180430697](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811180430697.png)
+![image-20220811180430697](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811180430697.png)
 
 除此之外，下面两个函数也能完成前三个函数的功能
 
@@ -484,7 +484,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811183002035](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811183002035.png)
+![image-20220811183002035](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811183002035.png)
 
 `inet_ntop`函数进行相反的转换，前三个参数的含义与`inet_pton`的参数相同，最后一个参数 `__len`指定目标存储单元的大小。下面的两个宏能帮助我们指定这个大小(分别用于IPv4和IPv6):
 
@@ -528,11 +528,11 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811220718920](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811220718920.png)
+![image-20220811220718920](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811220718920.png)
 
 值得注意的是`ip_str2`和`ip_str3`的地址相同，也就是说传入参数和返回值相同，虽然不知道为啥这样设计。
 
-![image-20220811221357471](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811221357471.png)
+![image-20220811221357471](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811221357471.png)
 
 ## 创建socket
 
@@ -547,11 +547,11 @@ int socket(int domain, int type, int protocol);
 
 ` domain`参数是告诉系统使用的是那个底层协议族，一般都是使用IPv4，所以使用`AF_INET`即可。关于`socket`系统调用支持的所有协议族，可以查看man手册（虽然参数名不一样，但是并无大碍）。
 
-![image-20220812095854483](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812095854483.png)
+![image-20220812095854483](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812095854483.png)
 
 `type`参数指定服务类型。服务类型主要有`SOCK_STREAM`服务（流服务）和`SOCK_UGRAM`（数据报）服务。对TCP/IP协议族而言，其值取`SOCK_STREAM`表示传输层使用TCP协议，取`SOCK_DGRAM`表示传输层使用UDP协议。
 
-![image-20220812101617247](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812101617247.png)
+![image-20220812101617247](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812101617247.png)
 
 并且从Linux内核2.6.17起，增加了`SOCK_NONBLOCK`和`SOCK_CLOEXEC`这两个标志值，表示将新创建的socket设为非阻塞，以及fork调用创建子进程时在子进程中关闭该socket。在Linux内核2.6.17前，需要调用`fcntl`进行设置。
 
@@ -584,14 +584,14 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 `bind`将`addr`所指的socket地址分配给未命名的`sockfd`文件描述符，`addrlen`参数指出该socket地址的长度。
 
-![image-20220812104757237](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812104757237.png)
+![image-20220812104757237](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812104757237.png)
 
 `bind`成功时返回0，失败则返回-1并设置`errno`。其中两种常见的`errno`是`EACCES`和`EADDRINUSE`，它们的含义分别是:
 
 * `EACCES`，被绑定的地址是受保护的地址，仅超级用户能够访问。比如普通用户将socket绑定到知名服务端口（端口号为0~1023）上时，`bind`将返回`EACCES`错误。
 * `EADDRINUSE`，被绑定的地址正在使用中。比如将socket绑定到一个处于`TIME_WAIT`状态的socket地址。
 
-![image-20220812105430276](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812105430276.png)
+![image-20220812105430276](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812105430276.png)
 
 ```c++
 #include <sys/types.h>
@@ -639,13 +639,13 @@ socket被命名后，还需要调用`listen`创建一个监听队列来存放处
 int listen(int sockfd, int backlog);
 ```
 
-![image-20220812112118847](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812112118847.png)
+![image-20220812112118847](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812112118847.png)
 
 `sockfd`参数指定被监听的socket。`backlog`参数提示内核监听队列的最大长度。监听队列的长度如果超过`backlog`，服务器将不受理新的客户连接，客户端也将收到`ECONNREFUSED`错误信息。
 
 在内核版本2.2之前的Linux中，`backlog`参数是指所有处于半连接状态（`SYN_RCVD`）和完全连接状态（`ESTABLISHED`)的socket 的上限。但自内核版本2.2之后，它只表示处于完全连接状态的socket的上限，处于半连接状态的socket的上限则由`/proc/sys/net/ipv4/tcp_max_syn_backlog `内核参数定义。`backlog `参数的典型值是5。
 
-![image-20220812113608890](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812113608890.png)
+![image-20220812113608890](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812113608890.png)
 
 `listen`成功时返回0，失败则返回-1并设置`erron`。
 
@@ -662,7 +662,7 @@ int listen(int sockfd, int backlog);
 int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 ```
 
-![image-20220812143816774](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812143816774.png)
+![image-20220812143816774](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812143816774.png)
 
 `sockfd`指执行过`listen`的监听套接字的文件描述符。
 
@@ -723,7 +723,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220812151534158](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812151534158.png)
+![image-20220812151534158](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812151534158.png)
 
 并且**书上面的实验**说明了`accept`直接从监听队列中取出连接，而不论连接处于何种状态，更不关心任何网络状况的变化。比如：客户端在服务器`accept`之前就断网了，`accept`还是可以正常进行，它并不会返回错误。
 
@@ -738,7 +738,7 @@ int main(int argc, char const *argv[])
 int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 ```
 
-![image-20220812154447716](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812154447716.png)
+![image-20220812154447716](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812154447716.png)
 
 `sockfd`参数由socket系统调用返回一个`socket`。`addr`参数是服务器监听的`socket`地址。`addrlen`参数指这个地址长度。
 
@@ -765,7 +765,7 @@ int close(int fd);
 int shutdown(int sockfd, int how);
 ```
 
-![image-20220812160846669](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812160846669.png)
+![image-20220812160846669](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812160846669.png)
 
 `sockfd`参数是待关闭的socket，`howto`参数决定了`shutdown`的行为。
 
@@ -805,7 +805,7 @@ ssize_t send(int sockfd, const void *buf, size_t len, int flags);
 
 控制参数可以通过man手册进行查看，这里直接截取书上的表格
 
-![image-20220812171929139](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812171929139.png)
+![image-20220812171929139](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812171929139.png)
 
 ### UDP数据读写
 
@@ -1003,7 +1003,7 @@ int main(int argc, char const *argv[])
 
 运行结果：
 
-![image-20220813123219330](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220813123219330.png)
+![image-20220813123219330](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220813123219330.png)
 
 需要注意的是`recvmsg`只有在前面的buffer使用完之后，才会使用后面的buffer。这也是为啥把`buffer1`的大小设置为6。
 
@@ -1097,7 +1097,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220813163338463](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220813163338463.png)
+![image-20220813163338463](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220813163338463.png)
 
 ## socket选项
 
@@ -1113,7 +1113,7 @@ int setsockopt(int sockfd, int level, int optname, const void *optval, socklen_t
 
 `sockfd`参数指定被操纵的目标socket，`level`参数指定要操作的协议选项，`optname`参数则指定选项的名字，`optval`和`optlen`参数分别是操作选项的值和长度。截图了一下书中的表格。
 
-![socket选项](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/socket选项.png)
+![socket选项](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/socket选项.png)
 
 `getsockopt `和`setsockopt`这两个函数成功时返回0，失败时返回-1并设置`errno`。
 
@@ -1184,7 +1184,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220813180440008](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220813180440008.png)
+![image-20220813180440008](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220813180440008.png)
 
 emmm不知道为啥大小是这样，后续再看看。
 
@@ -1243,7 +1243,7 @@ struct hostent {
 
 从网上找了个图显示了一下
 
-![img](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/Center.png)
+![img](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/Center.png)
 
 `gethostbyname`举例
 
@@ -1301,7 +1301,7 @@ int main(int argc, char **argv)
 }
 ```
 
-![image-20220814105118617](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814105118617.png)
+![image-20220814105118617](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814105118617.png)
 
 `gethostbyaddr`举例
 
@@ -1363,7 +1363,7 @@ int main(int argc, char **argv)
 
 ```
 
-![image-20220814105222471](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814105222471.png)
+![image-20220814105222471](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814105222471.png)
 
 ### getservbyname和getservbyport
 
@@ -1430,7 +1430,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220814141312451](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814141312451.png)
+![image-20220814141312451](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814141312451.png)
 
 `getservbyport`举例
 
@@ -1461,7 +1461,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220814142922859](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814142922859.png)
+![image-20220814142922859](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814142922859.png)
 
 需要指出的是，上面讨论的4个函数都是不可重入的，即非线程安全的。不过`netdb.h`头文件给出了它们的可重入版本。正如Linux下所有其他函数的可重入版本的命名规则那样，这些函数的函数名是在原函数名尾部加上_`r (re-entrant)`。
 
@@ -1525,7 +1525,7 @@ struct addrinfo {
 
 `ai_flags`可以取下表中标志
 
-![image-20220814160248251](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814160248251.png)
+![image-20220814160248251](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814160248251.png)
 
 当我们使用hints参数的时候，可以设置其`ai_flags`，`ai_family`，`ai_socktype`和` ai_protocol`四个字段，其他字段则必须被设置为NULL。
 
@@ -1576,7 +1576,7 @@ int main(int argc, char **argv)
 }
 ```
 
-![image-20220814165923059](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814165923059.png)
+![image-20220814165923059](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814165923059.png)
 
 不过不知道为啥别名为null
 
@@ -1631,7 +1631,7 @@ int main(int argc, char **argv)
 
 ```
 
-![image-20220814170106763](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814170106763.png)
+![image-20220814170106763](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814170106763.png)
 
 不过不知道为啥别名为null
 
@@ -1649,7 +1649,7 @@ int getnameinfo(const struct sockaddr *addr, socklen_t addrlen,char *host, sockl
 
 `getnameinfo`将返回的主机名存储在host参数指向的缓存中，将服务名存储在serv参数指向的缓存中，`hostlen`和 `servlen`参数分别指定这两块缓存的长度。flags参数控制`getnameinfo`的行为，它可以接收下表中的选项。
 
-![image-20220814171842523](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814171842523.png)
+![image-20220814171842523](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814171842523.png)
 
 `getaddrinfo`和 `getnameinfo`函数成功时返回0，失败则返回错误码。
 
@@ -1689,4 +1689,4 @@ int main(int argc, char **argv)
 }
 ```
 
-![image-20220814181037933](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814181037933.png)
+![image-20220814181037933](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814181037933.png)

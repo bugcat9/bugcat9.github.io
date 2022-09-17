@@ -16,7 +16,7 @@ matplotlib是最流行的Python底层绘图库，主要做数据可视化图表,
 
 下面这张图是 Matplotlib 图形的组成部分。主要有title、tick、legend、label这类的东西，所以本次也主要从这些出发。
 
-![anatomy.png](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/anatomy.png)
+![anatomy.png](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/anatomy.png)
 
 <!--more-->
 
@@ -36,7 +36,7 @@ plt.show()
 
 展示出的图
 
-![image-20210719225539311](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210719225539311.png)
+![image-20210719225539311](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210719225539311.png)
 
 matplotlib使用起来比较简单，传入x的列表和y的列表，直接传入就可以画。
 
@@ -56,7 +56,7 @@ plt.show()
 # 存图片
 ```
 
-![image-20210719230413323](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210719230413323.png)
+![image-20210719230413323](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210719230413323.png)
 
 ## 设置x轴和y轴上的刻度（tick）
 
@@ -81,7 +81,7 @@ plt.yticks(yticks)
 plt.show()
 ```
 
-![image-20210720102612547](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210720102612547.png)
+![image-20210720102612547](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210720102612547.png)
 
 不过我们一般都是设置合适的刻度，毕竟画图需要美观，刻意设置不必要，上面只是为了举例
 
@@ -102,7 +102,7 @@ plt.yticks(yticks)
 plt.show()
 ```
 
-![image-20210720102944193](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210720102944193.png)
+![image-20210720102944193](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210720102944193.png)
 
 然后有的时候刻度是时间类型或者其他的label之类的，比如：我想展示一天24h的时间变化，刻度需要显示1：00这种，又或者是显示几年内每个月的收入变化，刻度是1998-01-01这种类型该如何显示呢？
 
@@ -147,7 +147,7 @@ plt.title("标签描述")
 plt.show()
 ```
 
-![image-20210720110852460](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210720110852460.png)
+![image-20210720110852460](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210720110852460.png)
 
 ## 设置图像风格
 
@@ -167,7 +167,7 @@ plt.plot(x, y, color='green', marker='o', linestyle='dashed', linewidth=2, marke
 plt.show()
 ```
 
-![image-20210720112925627](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210720112925627.png)
+![image-20210720112925627](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210720112925627.png)
 
 其中color是设置颜色，marker设置标记点，linestyle设置线条格式，linewidth设置线的宽度，markersize设置线的大小
 
@@ -246,5 +246,5 @@ plt.legend(loc='upper right')
 plt.show()
 ```
 
-![image-20210720114327323](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210720114327323.png)
+![image-20210720114327323](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210720114327323.png)
 

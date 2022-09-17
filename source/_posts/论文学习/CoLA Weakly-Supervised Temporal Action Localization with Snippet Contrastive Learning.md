@@ -25,17 +25,17 @@ mathjax: true
 
 ## 怎么做
 
-![image-20220414193438015](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20220414193438015.png)
+![image-20220414193438015](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220414193438015.png)
 
 论文的动机可以从图中看出，由于缺乏帧级别的标签，上图中**#2**和**#3**这两个片段很难进行分类，如果只是使用baseline，我们会发现**#2**被识别为背景，而**#3**被识别为动作，这和GT是相违背。但是我们发现在这些片段中**#1**是很容易分类成动作（论文称这很容易识别的动作片段为easy action），而**#4**很容易分类背景（论文里面称为easy bkg），我们将**#2**和**#1**进行对比很容易发现**#2**是个动作，**#3**和**#4**对比很容易发现是背景，通过这种对比的思想就提出了这篇论文的模型。论文中将类型**#2**和**#3**的片段成为hard snippets，因为他们都是“cheating”的
 
 论文的模型如下
 
-![image-20210912195346687](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210912195346687.png)
+![image-20210912195346687](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210912195346687.png)
 
 ### Feature Extraction and Embedding
 
-![image-20210913192458877](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913192458877.png)
+![image-20210913192458877](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913192458877.png)
 
 给定$N$个未裁剪的视频$\lbrace{V_n}\rbrace^N_{n=1}$和它们视频级别的标签 $\lbrace y_n\rbrace^N_{n=1}$ ，其中 $y_n\in \mathbb R^C $ ，$C$是动作类别的数量
 
@@ -49,15 +49,15 @@ $f_{embed}$通过时间卷积和ReLU激活函数实现。
 
 ###  Actionness Modeling
 
-![image-20210913192542486](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913192542486.png)
+![image-20210913192542486](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913192542486.png)
 
 给定特征$X_n^E$  ,利用   $f_{cls}$获得类激活序列即CAS（在论文当中叫T-CAS，其实概念是相同的）
 
-![image-20210913192823389](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913192823389.png)
+![image-20210913192823389](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913192823389.png)
 
 我们简单地沿着通道维度(fsum)加上Sigmoid函数对CAS进行求和，以获得一个类不可知的聚合，并使用它来表示动作
 
-![image-20210913193042814](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913193042814.png)
+![image-20210913193042814](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913193042814.png)
 
 其中$A_n^{ness}\in\mathbb R^T$
 
@@ -65,7 +65,7 @@ $f_{embed}$通过时间卷积和ReLU激活函数实现。
 
 这一块是论文的创新点，主要挖掘论文当中Hard和Easy片段
 
-![image-20210913193628164](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913193628164.png)
+![image-20210913193628164](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913193628164.png)
 
 #### Hard Snippet Mining
 
@@ -73,13 +73,13 @@ hard Snippet 指那种边界相邻的片段，由于它们位于动作和背景�
 
 首先，我们对动作评分进行阈值，以生成一个二进制序列(1或0分别表示动作或背景位置):
 
-![image-20210913194552618](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913194552618.png)
+![image-20210913194552618](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913194552618.png)
 
 其中$\epsilon(\cdot )$是一个heaviside跃阶函数，其中$\theta_b$是阈值，如果$A_n^{ness}\geq\theta_b$，则$A_n^{bin}=1$,反之则为0
 
 接着我们采取两种级联的扩张或者变窄操作（这个操作在语义分割动作有所使用），来扩大或缩小动作间隔的时间范围，将扩张和变窄程度不同的不同区域定义为硬背景（hard background）或者硬动作（hard action）区域。
 
-![image-20210913195927059](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913195927059.png)
+![image-20210913195927059](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913195927059.png)
 
 其中(·;∗)+和(·;∗)−分别表示mask∗下的二元扩张和变窄操作。这个些个操作类似卷积，作用是挖掘出hard的片段。
 
@@ -89,17 +89,17 @@ hard Snippet 指那种边界相邻的片段，由于它们位于动作和背景�
 
 经验上，我们考虑内部区域硬动作片段集，因为这些区域是$A_n^{bin}$= 1。同理外部区域被认为是硬背景代码片段集。
 
-![image-20210913201417966](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210913201417966.png)
+![image-20210913201417966](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913201417966.png)
 
 接着定义hard action snippets，$X_n^{HA}\in \mathbb R^{k^{hard}\times 2d}$，从$R_n^{inner}$中挑选出来
 
-![image-20210914204708488](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210914204708488.png)
+![image-20210914204708488](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210914204708488.png)
 
 其中$I_n^{inner}$是$R_n^{inner}$内的代码片段的索引集，$I_n^{act}$是$I_n^{inner}$中大小为$k^{hard}$的子集，即$\lvert I_n^{act} \rvert=k^{hard}$。其中$k^{hard}$是一个超参，简单理解就是找了$k^{hard}$个hard action片段
 
 同理可以得到 hard background snippets
 
-![image-20210914205334459](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210914205334459.png)
+![image-20210914205334459](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210914205334459.png)
 
 我们可以这样理解图3，对于左侧的图，我们先拿卷积核为3的神经元去移动，当3个位置都为1时（都为动作时），才把中心位置标为1，然后卷积核为6的神经元去移动，当6个位置都为1时才把中心位置标为1，显然卷积核为6的神经元比较严格看的更远，他减去卷积为3移动完的数据剩下的就是不是那么严格的位置，所以把这些位置作为hard snippet。
 
@@ -111,17 +111,17 @@ hard Snippet 指那种边界相邻的片段，由于它们位于动作和背景�
 
 我们基于前面计算的动作评分$A_n^{ness}$进行简单的代码片段挖掘。
 
-![image-20210914210005061](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210914210005061.png)
+![image-20210914210005061](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210914210005061.png)
 
 其中$S_n^{DESC}$和$S_n^{ASC}$分别为$A_n^{ness}$按照降序和升序排列的索引。基本理解和前面一样。
 
 ### Network Training
 
-![image-20210915151007435](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210915151007435.png)
+![image-20210915151007435](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915151007435.png)
 
 在挖掘hard和easy片段的基础上，我们的CoLA引入了额外的片段对比(SniCo)损失($L_s$)，与基线模型相比取得了相当大的改进。全损可以表示为:
 
-![image-20210915111910708](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210915111910708.png)
+![image-20210915111910708](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915111910708.png)
 
 其中$L_a$和$L_s$分别表示动作损失和SniCo损失。$\lambda$是平衡因子。我们将对这两个术语作如下阐述。
 
@@ -133,7 +133,7 @@ Action Loss（$L_a$）预测的视频类别与真实值之间的分类损失。�
 
 Action Loss（$L_a$）使用交叉熵损失
 
-![image-20210915113148418](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210915113148418.png)
+![image-20210915113148418](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915113148418.png)
 
 #### Snippet Contrast (SniCo) Loss
 
@@ -145,21 +145,21 @@ Action Loss（$L_a$）使用交叉熵损失
 
 对于“HA refinement”
 
-![image-20210915161615227](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210915161615227.png)
+![image-20210915161615227](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915161615227.png)
 
 对于“HB refinement”
 
-![image-20210915161743980](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210915161743980.png)
+![image-20210915161743980](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915161743980.png)
 
 我们将它们投射到一个标准化的单位球体上，以防止空间坍塌或膨胀(没怎么看懂)，不过这其实是一个简单对比学习。
 
 建立了一个(S+ 1)分类问题，利用交叉熵损失来表示正例比负例被选择的概率
 
-![image-20210915162133500](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210915162133500.png)
+![image-20210915162133500](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915162133500.png)
 
 其中$\tau$是一个超参，而$x^T$为$x$的转置，建议SniCo损失如下:
 
-![image-20210915162339793](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210915162339793.png)
+![image-20210915162339793](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915162339793.png)
 
 ## 总结
 

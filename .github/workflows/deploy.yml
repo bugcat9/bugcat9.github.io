@@ -31,7 +31,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.email "1767508581@qq.com"
-          git config --global user.name "zhou-ning"
+          git config --global user.name "bugcat9"
           npm install hexo-cli -g
           npm install
       - name: Set gitalk

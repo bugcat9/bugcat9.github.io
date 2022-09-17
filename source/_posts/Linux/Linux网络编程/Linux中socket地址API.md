@@ -61,7 +61,7 @@ int main()
 
 运行结果：
 
-![image-20220809181538872](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220809181538872.png)
+![image-20220809181538872](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220809181538872.png)
 
 这段代码使用的原理是**union变量所占用的内存长度等于最长的成员的内存长度。**
 
@@ -69,7 +69,7 @@ int main()
 
 我们给`value`赋值为`0x0102`。如果是机器是大端存储，那么`union_bytes`数组第一个元素存储`0x01`，第二个元素存储`0x02`，如果是机器是小端存储，那么`union_bytes`数组第一个元素存储`0x02`，第二个元素存储`0x01`
 
-![image-20220809185922374](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220809185922374.png)
+![image-20220809185922374](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220809185922374.png)
 
 扩展到32位，四字节来说以`0x12345678`为例，那么
 
@@ -83,7 +83,7 @@ int main()
 
 Linux提供了4个函数来完成主机字节序和网络字节序之间的转换:
 
-![image-20220810153657086](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220810153657086.png)
+![image-20220810153657086](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220810153657086.png)
 
 ```c
 #include <netinet/in.h>
@@ -116,7 +116,7 @@ int main(int argc, char const *argv[])
 
 运行结果：
 
-![image-20220810181643405](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220810181643405.png)
+![image-20220810181643405](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220810181643405.png)
 
 `513`二进制：`0000 0010 0000 0001`
 
@@ -132,7 +132,7 @@ int main(int argc, char const *argv[])
 
 socket网络接口中表示socket地址的是结构体`sockaddr`，他的定义在头` <bits/socket.h>`中，我看在我的电脑上看到的是如下的定义（各个版本不同，可能实现不同，我这里和书上就不大相同）：
 
-![image-20220810185029006](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220810185029006.png)
+![image-20220810185029006](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220810185029006.png)
 
 ```c
 #include <bits/socket.h>
@@ -146,7 +146,7 @@ struct sockaddr
 
 其中`__SOCKADDR_COMMON`定义在`<bits/sockaddr.h>`中
 
-![image-20220810185204703](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220810185204703.png)
+![image-20220810185204703](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220810185204703.png)
 
 ```c
 #include <bits/sockaddr.h>
@@ -174,9 +174,9 @@ typedef unsigned short int sa_family_t;
 
 宏PF\_\*和AF\_\*都定义在`<bits/socket.h>`当中，两者的值相同，所以两者可以混用
 
-![image-20220811094342093](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811094342093.png)
+![image-20220811094342093](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811094342093.png)
 
-![image-20220811094510529](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811094510529.png)
+![image-20220811094510529](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811094510529.png)
 
 `sa_data`成员用于存放socket地址值。不同的协议族的地址值有不同的含义和长度。
 
@@ -216,9 +216,9 @@ struct sockaddr_storage
 #define _SS_SIZE 128
 ```
 
-![image-20220811135111456](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811135111456.png)
+![image-20220811135111456](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811135111456.png)
 
-![image-20220811135134566](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811135134566.png)
+![image-20220811135134566](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811135134566.png)
 
 这个结构体提供了足够大的空间用于存放地址值，并且是内存对齐的。
 
@@ -280,11 +280,11 @@ struct in_addr
   };
 ```
 
-![image-20220811143542024](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811143542024.png)
+![image-20220811143542024](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811143542024.png)
 
-![image-20220811143600470](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811143600470.png)
+![image-20220811143600470](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811143600470.png)
 
-![image-20220811143622907](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811143622907.png)
+![image-20220811143622907](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811143622907.png)
 
 可以看的出来`sin_`（其实是`sin_family`）存放地址族类型，`sin_port`存放端口，`sin_addr`存放地址。`sin_zero`为了让`sockaddr_in`大小和`sockaddr	`相同，为什么有这个成员，个人感觉这是因为所以**专用socket**在实际使用中都需要转化为**通用socket地址类型**`socketaddr`，因为socket编程接口使用的是参数类型是`socketaddr`。
 
@@ -364,7 +364,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811170759741](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811170759741.png)
+![image-20220811170759741](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811170759741.png)
 
 `inet_aton`功能和`inet_addr`相同，但是将结果存在在`in_addr_t`指向的地址结构当中，函数成功返回1，失败返回0。
 
@@ -384,7 +384,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811171444397](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811171444397.png)
+![image-20220811171444397](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811171444397.png)
 
 `inet_ntoa`函数将整数的IPv4地址转化为点分十进制字符串的IPv4。成功时返回转换的字符串地址值，失败时返回-1。
 
@@ -408,7 +408,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811173503409](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811173503409.png)
+![image-20220811173503409](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811173503409.png)
 
 需要注意的是`inet_ntoa`函数内部使用一个静态变量存储转化的结果，函数的返回值指向该静态内存，因此`inet_ntoa`是不可重入的，这一点需要多注意。
 
@@ -432,7 +432,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811180430697](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811180430697.png)
+![image-20220811180430697](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811180430697.png)
 
 除此之外，下面两个函数也能完成前三个函数的功能
 
@@ -482,7 +482,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811183002035](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811183002035.png)
+![image-20220811183002035](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811183002035.png)
 
 `inet_ntop`函数进行相反的转换，前三个参数的含义与`inet_pton`的参数相同，最后一个参数 `__len`指定目标存储单元的大小。下面的两个宏能帮助我们指定这个大小(分别用于IPv4和IPv6):
 
@@ -526,8 +526,8 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220811220718920](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811220718920.png)
+![image-20220811220718920](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811220718920.png)
 
 值得注意的是`ip_str2`和`ip_str3`的地址相同，也就是说传入参数和返回值相同，虽然不知道为啥这样设计。
 
-![image-20220811221357471](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220811221357471.png)
+![image-20220811221357471](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220811221357471.png)

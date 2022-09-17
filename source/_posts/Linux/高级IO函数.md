@@ -91,7 +91,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220905111959054](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220905111959054.png)
+![image-20220905111959054](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220905111959054.png)
 
 ### socketpair函数
 
@@ -177,7 +177,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220905204624841](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220905204624841.png)
+![image-20220905204624841](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220905204624841.png)
 
 ### mkfifo函数
 
@@ -223,7 +223,7 @@ int main(int argc, char *argv[])
 
 可以看到这个文件类型前面有个`p`
 
-![image-20220905211906735](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220905211906735.png)
+![image-20220905211906735](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220905211906735.png)
 
 管道文件读取或者写入和普通文件相同，我们都可以使用`open`对其进行操作但是需要的是注意两点：
 
@@ -335,7 +335,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220907093500990](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220907093500990.png)
+![image-20220907093500990](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220907093500990.png)
 
 `FIFO`文件会存在进程之间通讯的问题。比如多个进程对`FIFO`进行写，但是只有一个`FIFO`进行读取时写入的数据块会不会发生交错？
 
@@ -397,13 +397,13 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220815171158327](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815171158327.png)
+![image-20220815171158327](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815171158327.png)
 
 `dup2`感觉复杂一些，其实`dup2`忽略第二个参数，功能是和`dup`一样的，除此之外`dup2`加了一个将返回第一个不小于`newfd`的整数值的文件描述符的功能，并且`newfd`也将指向`oldfd`指向的文件。
 
 下面的代码调用`dup2`，文件描述符fd2原来指向"text2.txt"文件的，调用`dup2`后，fd2改为指向"text.txt"。
 
-![image-20220815173243219](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815173243219.png)
+![image-20220815173243219](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815173243219.png)
 
 ```c
 #include <unistd.h>
@@ -438,7 +438,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220815173321291](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815173321291.png)
+![image-20220815173321291](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815173321291.png)
 
 
 
@@ -498,7 +498,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220815180645424](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815180645424.png)
+![image-20220815180645424](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815180645424.png)
 
 ## sendfile函数
 
@@ -587,7 +587,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220815185556863](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815185556863.png)
+![image-20220815185556863](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815185556863.png)
 
 ## mmap函数和munmap函数
 
@@ -616,7 +616,7 @@ int munmap(void *addr, size_t length);
 
 `flags`参数控制内存段内容被修改后程序的行为。它常用的取值如下：
 
-![image-20220815203154208](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815203154208.png)
+![image-20220815203154208](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815203154208.png)
 
 `fd`参数是被映射文件对应的文件描述符。它一般通过open系统调用获得。
 
@@ -630,7 +630,7 @@ int munmap(void *addr, size_t length);
 
 `splice`用于在两个文件描述符之间移动数据，是零拷贝操作。看了`man`手册，发现这个`splice`函数跟pipe管道关系不浅。
 
-![image-20220816100155851](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816100155851.png)
+![image-20220816100155851](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816100155851.png)
 
 ```c
 #include <fcntl.h>
@@ -646,13 +646,13 @@ ssize_t splice(int fd_in, loff_t *off_in, int fd_out, loff_t *off_out, size_t le
 
 `flags`参数则控制数据如何移动，它可以被设置为下表中的某些值的按位或。
 
-![image-20220816100934412](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816100934412.png)
+![image-20220816100934412](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816100934412.png)
 
 使用`splice`函数时，`fd_in`和`fd_out`必须至少有一个是管道文件描述符。
 
 `splice`函数调用成功时返回移动字节的数量。它可能返回0，表示没有数据需要移动，这发生在从管道中读取数据（`fd_in`是管道文件描述符）而该管道没有被写入任何数据时。`splice`函数失败时返回-1并设置`errno`。常见的`errno`如下表所示。
 
-![image-20220816101918940](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816101918940.png)
+![image-20220816101918940](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816101918940.png)
 
 下面用了一个书中的例子，实现一个零拷贝的回射服务器，它将客户端发送的信息通过`splice`从`pipefd[1]`写入管道，再使用`splice`从`pipefd[0]`向客户端写东西，从而实现零拷贝的回射服务器（整个过程没有使用`read`或者`write`操作）。
 
@@ -717,7 +717,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220816102919876](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816102919876.png)
+![image-20220816102919876](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816102919876.png)
 
 ## tee函数
 
@@ -735,7 +735,7 @@ ssize_t tee(int fd_in, int fd_out, size_t len, unsigned int flags);
 
 `flags`参数则控制数据如何移动，它可以被设置为下表中的某些值的按位或，它的参数其实和`splice`函数相同。
 
-![image-20220816100934412](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816100934412.png)
+![image-20220816100934412](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816100934412.png)
 
 `tee`函数成功时返回在两个文件描述符之间复制的数据数量（字节数)。返回0表示没有复制任何数据。`tee`失败时返回-1并设置`errno`。
 
@@ -788,7 +788,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220816111052593](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816111052593.png)
+![image-20220816111052593](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816111052593.png)
 
 ## fcntl函数
 
@@ -803,7 +803,7 @@ int fcntl(int fd, int cmd, ... /* arg */ );
 
 `fd`参数是被操作的文件描述符，`cmd`参数指定执行何种类型的操作。根据操作类型的不同，该函数可能还需要第三个可选参数 `arg`。`fcntl`函数支持的常用操作及其参数如下表所示。
 
-![image-20220816114524640](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816114524640.png)
+![image-20220816114524640](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816114524640.png)
 
 `fcntl`函数成功时的返回值如表中最后一列所示，失败则返回-1并设置`errno`。
 
@@ -861,4 +861,4 @@ int main(void)
 }
 ```
 
-![image-20220816115555375](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816115555375.png)
+![image-20220816115555375](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816115555375.png)

@@ -17,7 +17,7 @@ categories:
 
 ## 如何实现
 
-![image-20210624205135966](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210624205135966.png)
+![image-20210624205135966](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210624205135966.png)
 
 ### 1.Problem Description
 
@@ -31,7 +31,7 @@ categories:
 
 ### 3.Temporal-aware Semi-Supervised Branch
 
-![image-20210625120746578](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210625120746578.png)
+![image-20210625120746578](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210625120746578.png)
 
 半监督分支当中主要有两个点，mean teacher framework和扰动，这部分是在BMN网络上进行修改
 
@@ -41,5 +41,5 @@ categories:
 
 ### 4.Relation-aware Self-Supervised Branch
 
-![image-20210625121709195](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210625121709195.png)
+![image-20210625121709195](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210625121709195.png)
 

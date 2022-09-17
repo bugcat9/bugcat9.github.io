@@ -22,7 +22,7 @@ host -t A www.baidu.com
 
 查询结果如下
 
-![image-20220805191657175](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220805191657175.png)
+![image-20220805191657175](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220805191657175.png)
 
 www.baidu.com是www.a.shifen.com的别名。www.a.shifen.com有两个地址112.80.248.75和112.80.248.76
 
@@ -46,7 +46,7 @@ port domain表示只抓取使用domain（域名）服务的数据包
 
 最终抓取的有用结果截图如下：
 
-![image-20220805191641245](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220805191641245.png)
+![image-20220805191641245](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220805191641245.png)
 
 总共手动两个数据包
 

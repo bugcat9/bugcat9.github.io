@@ -27,21 +27,21 @@ Qt绘制二叉树是大二时数据结构的一个实习题目，当时的功能
 
 **示例1（前序和层次的）：**
 
-![QTbinarytree.png](https://gitee.com/zhou-ning/BlogImage/raw/master/数据结构/QTbinarytree.png)
+![QTbinarytree.png](https://gitee.com/bugcat9/BlogImage/raw/master/数据结构/QTbinarytree.png)
 
 **示例2（前序=“ABC##DE#G##F###” 或者 层次=“AB#CD##EF#G####”）：**
 
-![QTbinarytree3](https://gitee.com/zhou-ning/BlogImage/raw/master/数据结构/QTbinarytree3.png)
+![QTbinarytree3](https://gitee.com/bugcat9/BlogImage/raw/master/数据结构/QTbinarytree3.png)
 
 **示例3（前序="ABHFDECKG"和中序="HBDFAEKCG"）：**
 
-![QTbinarytree4](https://gitee.com/zhou-ning/BlogImage/raw/master/数据结构/QTbinarytree4.png)
+![QTbinarytree4](https://gitee.com/bugcat9/BlogImage/raw/master/数据结构/QTbinarytree4.png)
 
 ## 主要建树思路
 
 1. 主要功能就前序构造、层次构造、交换节点、查找关键字、重新构建这几个，所以为了图便捷，就直接在Qt提供的ui界面上加上这几个菜单项，可以参考下图
 
-![QTbinarytree2](https://gitee.com/zhou-ning/BlogImage/raw/master/数据结构/QTbinarytree2.png)
+![QTbinarytree2](https://gitee.com/bugcat9/BlogImage/raw/master/数据结构/QTbinarytree2.png)
 
 2. 二叉树根据前序生成一颗树。编写了一个函数CreateBinTree，利用递归进行二叉树的生成。思路也比较简单可以看下面的代码。
 ```c++
@@ -197,4 +197,4 @@ BinTreeNode *BinaryTree::creatBinaryTree(QString pre, QString in, int n)
 
 我画二叉树的思想比较简单，所以画出来也不是很好看，代码虽然可以运行，但是也有一些小细节上的问题，如果有什么更好的意见欢迎指教。
 
-[源码传输门](https://github.com/zhou-ning/Qtbinarytree.git)
+[源码传输门](https://github.com/bugcat9/Qtbinarytree.git)

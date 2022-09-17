@@ -23,7 +23,7 @@ BaSNet：有两条分支Base branch and Suppression branch
 <!--more-->
 ## 怎么做的：
 
-![image-20210411104708142](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411104708142.png)
+![image-20210411104708142](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411104708142.png)
 
 1. Suppression分支包含一个过滤模块，该模块学习过滤出背景帧以最终抑制CAS中来自它们的激活
 2. 他们的培训目标是不同的。 Base分支的目的是将插入视频分类为其原始动作类和背景类的样本。另一方面，训练带有过滤模块的Suppression分支以最小化背景类得分，而背景类得分与原始动作类的目标相同。权重共享策略可以防止分支在给出相同输入时同时满足其两个目标。因此，过滤模块是解决背景的唯一关键，并且经过培训可以抑制来自背景框架的激活，从而同时实现两个目标。这减少了背景帧的干扰并提高了动作定位性能
@@ -44,15 +44,15 @@ $$
 
 接着使用top-k均值技术，可以如下得出视频vn的c类的视频级类评分：
 
-![image-20210411151544441](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151544441.png)
+![image-20210411151544441](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151544441.png)
 
 然后，通过沿类别维度应用softmax函数，将视频级别的类别得分用于预测每个类别的样本的概率：
 
-![image-20210411151640191](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151640191.png)
+![image-20210411151640191](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151640191.png)
 
 为了训练网络，我们为每个类别定义一个具有二进制交叉熵损失的损失函数$L_{base}$
 
-![image-20210411151931573](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151931573.png)
+![image-20210411151931573](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151931573.png)
 
 其中$y^{base}_n=[y_{n;1},...,y_{n;C},1]^T\in \mathbb R^{C+1}$,其中最后一个1是背景类，因为基础分支没有去除背景所以设置为1这和后面的抑制分支想对应。
 
@@ -62,17 +62,17 @@ $$
 
 与Base分支不同，Suppression分支在其前面包含一个过滤模块，该模块被针对背景类的相反的训练目标训练为抑制背景帧。过滤模块由两个时间一维卷积层和随后的S型函数组成。过滤模块的输出是前景权重$W_n∈R^T$，范围从0到1。来自过滤模块的前景权重在时间维度上与特征图相乘以过滤出背景帧。此步骤可以表示如下：
 
-![image-20210411153148668](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411153148668.png)
+![image-20210411153148668](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411153148668.png)
 
 接着的话和前面Base 分支的训练类似，只是将$\acute{X}_n$ 代替$X_n$
 
-![image-20210413103100493](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103100493.png)
+![image-20210413103100493](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103100493.png)
 
-![image-20210413103610515](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103610515.png)
+![image-20210413103610515](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103610515.png)
 
-![image-20210413103127374](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103127374.png)
+![image-20210413103127374](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103127374.png)
 
-![image-20210413103139512](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103139512.png)
+![image-20210413103139512](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103139512.png)
 
 其中$y^{supp}_n=[y_{n;1},...,y_{n;C},0]^T\in \mathbb R^{C+1}$,其中最后一个1是背景类，因为基础分支没有去除背景所以设置为0，因为抑制分支经过了前面的过滤模块，默认是过滤掉背景。
 
@@ -82,7 +82,7 @@ $$
 
 我们联合训练base分支和Suppression 分支。我们需要优化的总体损失函数如下：
 
-![image-20210411154052601](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411154052601.png)
+![image-20210411154052601](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411154052601.png)
 
 前两个在上面已经介绍了，而$L_{norm}$:
 $$

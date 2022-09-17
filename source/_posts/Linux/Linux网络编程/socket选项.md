@@ -26,7 +26,7 @@ int setsockopt(int sockfd, int level, int optname, const void *optval, socklen_t
 
 <!--more-->
 
-![socket选项](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/socket选项.png)
+![socket选项](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/socket选项.png)
 
 `getsockopt `和`setsockopt`这两个函数成功时返回0，失败时返回-1并设置`errno`。
 
@@ -97,6 +97,6 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220813180440008](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220813180440008.png)
+![image-20220813180440008](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220813180440008.png)
 
 emmm不知道为啥大小是这样，后续再看看。

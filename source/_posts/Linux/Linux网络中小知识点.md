@@ -22,13 +22,13 @@ vim /etc/services
 
 可以看到
 
-![image-20220805144714394](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220805144714394.png)
+![image-20220805144714394](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220805144714394.png)
 
 从里面我们可以看到很多**应用层协议**使用的是什么**传输层协议**以及常用的端口。比如`ssh`使用2号端口，并且使用tcp协议进行通讯。
 
 ## 2.通过`/etc/resolv.conf`查看存放DNS服务器的IP地址
 
-![image-20220805171434655](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux//image-20220805171434655.png)
+![image-20220805171434655](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux//image-20220805171434655.png)
 
 ## 3.通过`/proc/sys/net/ipv4/tcp_tw_reuse `来设置
 

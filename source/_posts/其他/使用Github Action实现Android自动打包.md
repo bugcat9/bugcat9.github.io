@@ -23,9 +23,9 @@ Android 命令行打包可以参考官方文档https://developer.android.com/stu
 
 首先我们需要生成jks文件，我们可以使用Android Studio进行生成
 
-![image-20210927194715475](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210927194715475.png)
+![image-20210927194715475](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927194715475.png)
 
-![image-20210923114803611](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210923114803611.png)
+![image-20210923114803611](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210923114803611.png)
 
 接着为了方便，在项目的根目录下创建一个名为 `keystore.properties` 的文件。此文件应当包含签名信息，如下所示：
 
@@ -86,9 +86,9 @@ android {
 gradlew assembleRelease
 ```
 
-![image-20210927203126908](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210927203126908.png)
+![image-20210927203126908](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927203126908.png)
 
-![image-20210927203156145](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210927203156145.png)
+![image-20210927203156145](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927203156145.png)
 
 可以看到最终生成的release版的apk文件，说明Android命令行打包成功
 
@@ -130,7 +130,7 @@ jobs:
 
 上传的结果
 
-![image-20210927204736195](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210927204736195.png)
+![image-20210927204736195](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927204736195.png)
 
 但是光在这里上传并不会进行release发布，所以我们接着加
 
@@ -165,7 +165,7 @@ jobs:
 
 可以看到我们上传一个tag之后，最终效果是这样的
 
-![image-20210927205713787](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210927205713787.png)
+![image-20210927205713787](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927205713787.png)
 
 ## 使用secret
 
@@ -173,7 +173,7 @@ jobs:
 
 在仓库的setting中我们加入`ALIAS`和`PASSWORD`两个secret，其中就是jks的别名和密码(这里我将storePassword和keyPassword设置的一样，所以只有一个密码)
 
-![image-20210929170814946](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210929170814946.png)
+![image-20210929170814946](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210929170814946.png)
 
 更改`keystore.properties`为
 

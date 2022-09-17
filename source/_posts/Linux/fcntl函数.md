@@ -23,7 +23,7 @@ int fcntl(int fd, int cmd, ... /* arg */ );
 
 <!--more-->
 
-![image-20220816114524640](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816114524640.png)
+![image-20220816114524640](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816114524640.png)
 
 `fcntl`函数成功时的返回值如表中最后一列所示，失败则返回-1并设置`errno`。
 
@@ -81,4 +81,4 @@ int main(void)
 }
 ```
 
-![image-20220816115555375](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816115555375.png)
+![image-20220816115555375](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816115555375.png)

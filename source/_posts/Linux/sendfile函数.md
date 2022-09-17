@@ -97,4 +97,4 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220815185556863](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815185556863.png)
+![image-20220815185556863](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815185556863.png)

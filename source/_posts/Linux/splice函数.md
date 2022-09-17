@@ -12,7 +12,7 @@ categories:
 
 `splice`用于在两个文件描述符之间移动数据，是零拷贝操作。看了`man`手册，发现这个`splice`函数跟pipe管道关系不浅。
 
-![image-20220816100155851](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816100155851.png)
+![image-20220816100155851](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816100155851.png)
 
 ```c
 #include <fcntl.h>
@@ -28,7 +28,7 @@ ssize_t splice(int fd_in, loff_t *off_in, int fd_out, loff_t *off_out, size_t le
 
 `flags`参数则控制数据如何移动，它可以被设置为下表中的某些值的按位或。
 
-![image-20220816100934412](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816100934412.png)
+![image-20220816100934412](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816100934412.png)
 
 <!--more-->
 
@@ -36,7 +36,7 @@ ssize_t splice(int fd_in, loff_t *off_in, int fd_out, loff_t *off_out, size_t le
 
 `splice`函数调用成功时返回移动字节的数量。它可能返回0，表示没有数据需要移动，这发生在从管道中读取数据（`fd_in`是管道文件描述符）而该管道没有被写入任何数据时。`splice`函数失败时返回-1并设置`errno`。常见的`errno`如下表所示。
 
-![image-20220816101918940](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816101918940.png)
+![image-20220816101918940](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816101918940.png)
 
 下面用了一个书中的例子，实现一个零拷贝的回射服务器，它将客户端发送的信息通过`splice`从`pipefd[1]`写入管道，再使用`splice`从`pipefd[0]`向客户端写东西，从而实现零拷贝的回射服务器（整个过程没有使用`read`或者`write`操作）。
 
@@ -101,5 +101,5 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220816102919876](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816102919876.png)
+![image-20220816102919876](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816102919876.png)
 

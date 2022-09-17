@@ -19,11 +19,11 @@
 
 <!--more-->
 
-![图片](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/企业微信截图_16104173834716.png)
+![图片](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/企业微信截图_16104173834716.png)
 
 我这里选择的是windows的jdk8
 
-![图片](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/企业微信截图_16104172348073.png)
+![图片](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/企业微信截图_16104172348073.png)
 
 ps:下载需要登录自己Oracle账号，注册登录一下就行
 
@@ -37,11 +37,11 @@ ps:下载需要登录自己Oracle账号，注册登录一下就行
 
 在系统变量里面加入了变量`JAVA_HOME`，值为安装的位置
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210113195035403.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210113195035403.png)
 
 然后在Path里面加入了`%JAVA_HOME%\bin`和`%JAVA_HOME%\jre\bin`(这个有待商量)
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210113195354124.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210113195354124.png)
 
 ### 测试
 
@@ -69,17 +69,17 @@ javac 1.8.0_271
 
 然后找个合适的位置解压，解压完之后是这个样子
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210114095707274.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210114095707274.png)
 
 我们进入bin文件点击`studio64.exe`就可以运行
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210114095925560.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210114095925560.png)
 
 ### 第一次运行
 
 第一次运行可能会下载一些sdk等东西，这里的话只需要记得更改sdk下载位置，别下载到c盘就行。
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/企业微信截图_16105903698073.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/企业微信截图_16105903698073.png)
 
 ps:网络可能会导致很难下载下来，这个可以通过设置镜像等方法解决
 
@@ -87,11 +87,11 @@ ps:网络可能会导致很难下载下来，这个可以通过设置镜像等�
 
 Android 环境配置主要配置sdk的环境变量，跟上面java环境配置类似，在系统变量中加入`ANDROID_HOME`对应着sdk安装位置
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/企业微信截图_16106158683453.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/企业微信截图_16106158683453.png)
 
 然后在path当中加入`%ANDROID_HOME%\platform-tools`和`%ANDROID_HOME%\tools`
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210114172309012.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210114172309012.png)
 
 ### 测试
 

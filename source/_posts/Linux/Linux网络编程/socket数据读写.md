@@ -40,7 +40,7 @@ ssize_t send(int sockfd, const void *buf, size_t len, int flags);
 
 控制参数可以通过man手册进行查看，这里直接截取书上的表格
 
-![image-20220812171929139](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812171929139.png)
+![image-20220812171929139](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812171929139.png)
 
 ## UDP数据读写
 
@@ -238,6 +238,6 @@ int main(int argc, char const *argv[])
 
 运行结果：
 
-![image-20220813123219330](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220813123219330.png)
+![image-20220813123219330](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220813123219330.png)
 
 需要注意的是`recvmsg`只有在前面的buffer使用完之后，才会使用后面的buffer。这也是为啥把`buffer1`的大小设置为6

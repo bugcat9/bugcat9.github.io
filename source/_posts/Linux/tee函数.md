@@ -24,7 +24,7 @@ ssize_t tee(int fd_in, int fd_out, size_t len, unsigned int flags);
 
 `flags`参数则控制数据如何移动，它可以被设置为下表中的某些值的按位或，它的参数其实和`splice`函数相同。
 
-![image-20220816100934412](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816100934412.png)
+![image-20220816100934412](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816100934412.png)
 
 `tee`函数成功时返回在两个文件描述符之间复制的数据数量（字节数)。返回0表示没有复制任何数据。`tee`失败时返回-1并设置`errno`。
 
@@ -79,4 +79,4 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220816111052593](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220816111052593.png)
+![image-20220816111052593](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220816111052593.png)

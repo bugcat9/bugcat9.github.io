@@ -17,7 +17,7 @@ mathjax: true
 
 数独游戏一共有$9 \times 9$个单元格子，在数独游戏当中，玩家需要根据已有的数字去推理出所有的剩余空格的数字，并且要保证 $9 \times 9$的单位格子中每一行、每一列以及每个$3 \times 3$的九宫格内的数字不重复。数独游戏在开始的适合叫做初盘（如图1(a)所展示），包含数字和空格，当游戏成功完成时的状态叫终盘（图1(b)所展示），只有填写完成的数字。
 
-![图1](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712105810489.png)
+![图1](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712105810489.png)
 
 <!--more-->
 
@@ -54,7 +54,7 @@ mathjax: true
 
 为了解决上面提到的回溯寻找精确覆盖问题，算法大师Donald Ervin Knuth提出了舞蹈链（Dancing Links）的数据结构，并且把求解过程称为X算法。舞蹈链的数据结构中每个节点都要6个指针，分别是：Left、Right、Up、Down、Col、Row，分别代表着左、右、上、下、行、列。舞蹈链中每一列都有特殊的结点，叫做列头，列头会记录这一列中的结点个数，列头互相连接构成了链表头，舞蹈链的图示可以参考图2。
 
-![图2](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712112439300.png)
+![图2](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712112439300.png)
 
 有了舞蹈链的数据结构之后，我们可以使用X算法进行求解。X算法的步骤如下：
 
@@ -78,7 +78,7 @@ mathjax: true
 | **E** | 0     | 1     | 1     | 0     | 0     | 1     | 1     |
 | **F** | 0     | 1     | 0     | 0     | 0     | 0     | 1     |
 
-![image-20220712155430959](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712155430959.png)
+![image-20220712155430959](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712155430959.png)
 
 - 因为$M_{A,1}=1$并且$M_{B,1}=1$所以可以依次选取 $A,B$行。
 - 先选取$A$行（将$A$行加入到当前的解中），第1、4、7列均为1，如表4所展示。
@@ -92,7 +92,7 @@ mathjax: true
 | **E** | 0     | 1     | 1     | 0     | 0     | 1     | 1     |
 | **F** | 0     | 1     | 0     | 0     | 0     | 0     | 1     |
 
-![image-20220712155512313](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712155512313.png)
+![image-20220712155512313](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712155512313.png)
 
 - 第1列中第$A$行和第$B$行为1，第4列中第 $A,B,C$行为1，第7列中第$A,C,E,F$行和第$1、4、7$列，如表5所展示。
 
@@ -105,7 +105,7 @@ mathjax: true
 | **E** | 0     | 1     | 1     | 0     | 0     | 1     | 1     |
 | **F** | 0     | 1     | 0     | 0     | 0     | 0     | 1     |
 
-![image-20220712155732882](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712155732882.png)
+![image-20220712155732882](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712155732882.png)
 
 - 得到矩阵$\acute{M}$，继续进行递归
 
@@ -113,7 +113,7 @@ mathjax: true
 | ----- | ----- | ----- | ----- | ----- |
 | **D** | 0     | 1     | 1     | 1     |
 
-![image-20220712155807311](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712155807311.png)
+![image-20220712155807311](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712155807311.png)
 
 - 算法递归发现第2列为0，所以返回失败，所以开始选择$A$行不是算法的解，则从解中删除 $A$
 - 返回最开始的部分，将$B$行加入到当前的解中。第1、4列均为1，如表7所展示。
@@ -127,7 +127,7 @@ mathjax: true
 | **E** | 0     | 1     | 1     | 0     | 0     | 1     | 1     |
 | **F** | 0     | 1     | 0     | 0     | 0     | 0     | 1     |
 
-![image-20220712155848091](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712155848091.png)
+![image-20220712155848091](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712155848091.png)
 
 - 第一列中$A$行和$B$行为1，第4列中第$A,B,C$行为1。所以移除第$A,B,C$行和第1、4列，如表8所示。
 
@@ -140,7 +140,7 @@ mathjax: true
 | **E** | 0     | 1     | 1     | 0     | 0     | 1     | 1     |
 | **F** | 0     | 1     | 0     | 0     | 0     | 0     | 1     |
 
-![image-20220712155933356](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712155933356.png)
+![image-20220712155933356](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712155933356.png)
 
 - 最终得到矩阵如表9所展示，并且继续进行递归
 
@@ -150,7 +150,7 @@ mathjax: true
 | **E** | 1     | 1     | 0     | 1     | 1     |
 | **F** | 1     | 0     | 0     | 0     | 1     |
 
-![image-20220712160005226](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712160005226.png)
+![image-20220712160005226](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712160005226.png)
 
 - 选择1数量最少的列“5”。
 - 将$D$行加入到当前的解中。第3、5、6列均为1。
@@ -162,7 +162,7 @@ mathjax: true
 | **E** | 1     | 1     | 0     | 1     | 1     |
 | **F** | 1     | 0     | 0     | 0     | 1     |
 
-![image-20220712160122977](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712160122977.png)
+![image-20220712160122977](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712160122977.png)
 
 - 最终得到矩阵如表11所展示，继续递归下去就知道这个解是成功的。
 
@@ -170,7 +170,7 @@ mathjax: true
 | ---- | ---- | ---- |
 | F    | 1    | 1    |
 
-![image-20220712160144320](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712160144320.png)
+![image-20220712160144320](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712160144320.png)
 
 - 所以最终解为${B,D,F}$
 
@@ -184,7 +184,7 @@ https://zh.m.wikipedia.org/zh-hans/X%E7%AE%97%E6%B3%95
 
 整个数独游戏我采用python语言进行完成，界面采用pyqt进行编写。在这里小节介绍如何实现数组游戏，只介绍核心代码，其中几个类的关系如图所示。
 
-![image-20220712160424299](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712160424299.png)
+![image-20220712160424299](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712160424299.png)
 
 ### 舞蹈链实现DLX
 
@@ -505,7 +505,7 @@ $$
 
 sudokuore是一个类用于管理数独游戏，比如什么提示、开始游戏、重新开始游戏等功能，在这里只介绍一下数组游戏中的生成数组。数组生成也有一系列的方法，比如自己随机生成一些数字填一下然后判断数字能否有解之类的，但是这种方法生成时间太长，所以我这里采取的是选一个已经生成的初盘数独，将其中数字进行变换，比如我们把初盘中“1”和“2”进行替换，那么这个数组还是一样的有解，实现了一个看起来和之前相比就是变化的，如图展示。
 
-![image-20220712162558036](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712162558036.png)
+![image-20220712162558036](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712162558036.png)
 
 ```python
 class sudokucore():
@@ -550,17 +550,17 @@ class sudokucore():
 
 界面运行和各个部分的功能展示，如图5所展示
 
-![图5](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712162658587.png)
+![图5](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712162658587.png)
 
 全部填写完成后结果展示如图6所示
 
-![图6](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据结构/image-20220712162721385.png)
+![图6](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据结构/image-20220712162721385.png)
 
 ## 总结
 
 这次的数独小游戏，让我学习到了如何完成一个完整的小工程，也学习了舞蹈链的编写和实现，这个项目还有许多值得改进的地方，希望后续有时间再进行改进吧。
 
-仓库地址：https://github.com/zhou-ning/sudoku
+仓库地址：https://github.com/bugcat9/sudoku
 
 **参考：**
 

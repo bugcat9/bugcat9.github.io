@@ -174,9 +174,9 @@ arr_mean = arr.mean(0)      #shape(3,)
 
 图解：
 
-![image-20210726115552814](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210726115552814.png)
+![image-20210726115552814](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210726115552814.png)
 
-![image-20210726115616019](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210726115616019.png)
+![image-20210726115616019](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210726115616019.png)
 
 
 

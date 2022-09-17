@@ -156,11 +156,11 @@ public class SecondAcrivity extends AppCompatActivity {
 
 运行程序，再输入框输入`test`，然后按下按钮
 
-![image-20210820175350586](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210820175350586.png)
+![image-20210820175350586](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210820175350586.png)
 
 可以看到在的`SecondActivity`上展示了我们输入的内容
 
-<img src="https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210820175557003.png" alt="image-20210820175557003" style="zoom:50%;" />
+<img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210820175557003.png" alt="image-20210820175557003" style="zoom:50%;" />
 
 可以看到需要传输的内容从`MainActivity`传输到了`SecondActivity`
 
@@ -293,7 +293,7 @@ public class SecondAcrivity extends AppCompatActivity {
 
 最终结果展示，发送信息之后按返回键，会出结果展示
 
-![image-20210820215024582](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210820215024582.png)
+![image-20210820215024582](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210820215024582.png)
 
 ## 总结
 

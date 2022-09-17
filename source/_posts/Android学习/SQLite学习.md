@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
 运行程序之后
 
-![image-20210824165234403](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210824165234403.png)
+![image-20210824165234403](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210824165234403.png)
 
 可以查看到`studentBase.db`生成了
 
@@ -270,11 +270,11 @@ public class MainActivity extends AppCompatActivity {
 
 ### 运行结果
 
-![image-20210824224153789](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210824224153789.png)
+![image-20210824224153789](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210824224153789.png)
 
 使用`SQLiteStudio`进行查看生成的db文件
 
-![image-20210824225156765](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210824225156765.png)
+![image-20210824225156765](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210824225156765.png)
 
 ## 从数据库中读取信息
 
@@ -397,7 +397,7 @@ public class StudentCursorWrapper extends CursorWrapper {
 
 我们查询`zhangsan`并打印他的`uuid`，结合前面使用`SQLiteStudio`查看的信息，发现是一样的，也说明了我们访问到了数据库中的信息，如果需要访问不要信息，只需要写不同的where语句就行，这部分自行查阅数据库知识。
 
-![image-20210825155657523](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210825155657523.png)
+![image-20210825155657523](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210825155657523.png)
 
 ## 更新数据库
 
@@ -470,7 +470,7 @@ public int update (String table,
 
 可以看到更改成功
 
-![image-20210825164221338](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210825164221338.png)
+![image-20210825164221338](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210825164221338.png)
 
 ## 删除数据库中相关信息
 
@@ -501,7 +501,7 @@ public int delete (String table,
         );
 ```
 
-![image-20210825165546907](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210825165546907.png)
+![image-20210825165546907](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210825165546907.png)
 
 ## 总结
 

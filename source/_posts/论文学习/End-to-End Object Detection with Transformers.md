@@ -23,7 +23,7 @@ mathjax: true
 
 ## 怎么做
 
-![image-20211003170232176](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20211003170232176.png)
+![image-20211003170232176](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211003170232176.png)
 
 ### 集合预测
 
@@ -45,7 +45,7 @@ DETR输出固定大小为N的预测，只需要执行一次解码器，N比常�
 
 用$y$表示真实值，$\widehat{y}=\lbrace \widehat{y}_i\rbrace_{i=1}^N$指示N个预测值。假设N远大于图像中的目标，我们可以认为y的大小也是N，用$\phi$填充空元素。目标就是找到这两个集合的二分匹配，中的一种排列$\sigma$有着最低的损失：
 
-![image-20211003192428870](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20211003192428870.png)
+![image-20211003192428870](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211003192428870.png)
 
 匹配损失同时考虑到类别与真实值与预测值之间的相似度，使用的方法是匈牙利算法
 
@@ -53,18 +53,18 @@ DETR输出固定大小为N的预测，只需要执行一次解码器，N比常�
 
 对于$\sigma(i)$的预测，我们定义类别$c_i$的概率为$\widehat{p}_{\sigma(i)}(c_i)$预测框为$\widehat{b}_{\sigma(i)}$。我们定义$L_{match}(y_i,\widehat{y}_{\sigma(i)})$为
 
-![image-20211003195822297](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20211003195822297.png)
+![image-20211003195822297](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211003195822297.png)
 
 第二步就是计算损失函数，之前的步骤就是使用匈牙利算法计算所有的匹配。我们定义的loss与常见的检测模型很相似，就是负对数似然与box损失的线性组合。
 
-![image-20211003200122762](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20211003200122762.png)
+![image-20211003200122762](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211003200122762.png)
 
 
 #### 边界框损失
 
 上面提到了$L_{box}(b_i,\widehat{b}_{\sigma(i)})$,$L_{box}(b_i,\widehat{b}_{\sigma(i)})$我们定义如下
 
-![image-20211004100109331](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20211004100109331.png)
+![image-20211004100109331](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211004100109331.png)
 
 我们直接预测box在图像中的位置，直接使用L1loss的话，对小目标就不公平，因此我们使用了L1 loss 与IOU loss的组合，让loss对目标的大小不敏感。
 
@@ -74,7 +74,7 @@ DETR输出固定大小为N的预测，只需要执行一次解码器，N比常�
 
 #### Transfomer encoder
 
-![img](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/v2-c6a17e20665898daf3507fb8b805dfcf_720w.jpg)
+![img](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/v2-c6a17e20665898daf3507fb8b805dfcf_720w.jpg)
 
 首先使用$1\times1$的卷积将原来的$C=2048$降维到$d$维，得到$z_0\in \mathbb R^{d\times H\times W}$的特征图，因为编码器需要一个序列作为输入因此我们将$z_0$压缩到一维，得到$d\times HW$的特征映射。每个encoder层由multi-head self-attention模块和FFN组成。由于transformer对排列顺序不敏感，所以我们加入了位置的编码，并添加到所有attention层的输入。
 

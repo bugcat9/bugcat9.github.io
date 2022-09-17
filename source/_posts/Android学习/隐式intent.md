@@ -21,7 +21,7 @@ Intent 分为两种类型：
 
 具体过程如图所示：
 
-![img](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/intent-filters_2x.png)
+![img](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/intent-filters_2x.png)
 
 1. *Activity A* 创建包含操作描述的 `Intent`，并将其传递给 `startActivity()`
 2. Android 系统搜索所有应用中与 Intent 匹配的 Intent 过滤器。寻找到匹配项

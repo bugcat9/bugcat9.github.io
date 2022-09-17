@@ -66,5 +66,5 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220815180645424](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815180645424.png)
+![image-20220815180645424](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815180645424.png)
 

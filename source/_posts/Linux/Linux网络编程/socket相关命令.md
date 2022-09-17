@@ -29,11 +29,11 @@ int socket(int domain, int type, int protocol);
 
 ` domain`参数是告诉系统使用的是那个底层协议族，一般都是使用IPv4，所以使用`AF_INET`即可。关于`socket`系统调用支持的所有协议族，可以查看man手册（虽然参数名不一样，但是并无大碍）。
 
-![image-20220812095854483](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812095854483.png)
+![image-20220812095854483](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812095854483.png)
 
 `type`参数指定服务类型。服务类型主要有`SOCK_STREAM`服务（流服务）和`SOCK_UGRAM`（数据报）服务。对TCP/IP协议族而言，其值取`SOCK_STREAM`表示传输层使用TCP协议，取`SOCK_DGRAM`表示传输层使用UDP协议。
 
-![image-20220812101617247](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812101617247.png)
+![image-20220812101617247](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812101617247.png)
 
 并且从Linux内核2.6.17起，增加了`SOCK_NONBLOCK`和`SOCK_CLOEXEC`这两个标志值，表示将新创建的socket设为非阻塞，以及fork调用创建子进程时在子进程中关闭该socket。在Linux内核2.6.17前，需要调用`fcntl`进行设置。
 
@@ -66,14 +66,14 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 `bind`将`addr`所指的socket地址分配给未命名的`sockfd`文件描述符，`addrlen`参数指出该socket地址的长度。
 
-![image-20220812104757237](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812104757237.png)
+![image-20220812104757237](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812104757237.png)
 
 `bind`成功时返回0，失败则返回-1并设置`errno`。其中两种常见的`errno`是`EACCES`和`EADDRINUSE`，它们的含义分别是:
 
 * `EACCES`，被绑定的地址是受保护的地址，仅超级用户能够访问。比如普通用户将socket绑定到知名服务端口（端口号为0~1023）上时，`bind`将返回`EACCES`错误。
 * `EADDRINUSE`，被绑定的地址正在使用中。比如将socket绑定到一个处于`TIME_WAIT`状态的socket地址。
 
-![image-20220812105430276](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812105430276.png)
+![image-20220812105430276](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812105430276.png)
 
 ```c++
 #include <sys/types.h>
@@ -121,13 +121,13 @@ socket被命名后，还需要调用`listen`创建一个监听队列来存放处
 int listen(int sockfd, int backlog);
 ```
 
-![image-20220812112118847](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812112118847.png)
+![image-20220812112118847](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812112118847.png)
 
 `sockfd`参数指定被监听的socket。`backlog`参数提示内核监听队列的最大长度。监听队列的长度如果超过`backlog`，服务器将不受理新的客户连接，客户端也将收到`ECONNREFUSED`错误信息。
 
 在内核版本2.2之前的Linux中，`backlog`参数是指所有处于半连接状态（`SYN_RCVD`）和完全连接状态（`ESTABLISHED`)的socket 的上限。但自内核版本2.2之后，它只表示处于完全连接状态的socket的上限，处于半连接状态的socket的上限则由`/proc/sys/net/ipv4/tcp_max_syn_backlog `内核参数定义。`backlog `参数的典型值是5。
 
-![image-20220812113608890](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812113608890.png)
+![image-20220812113608890](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812113608890.png)
 
 `listen`成功时返回0，失败则返回-1并设置`erron`。
 
@@ -144,7 +144,7 @@ int listen(int sockfd, int backlog);
 int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 ```
 
-![image-20220812143816774](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812143816774.png)
+![image-20220812143816774](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812143816774.png)
 
 `sockfd`指执行过`listen`的监听套接字的文件描述符。
 
@@ -205,7 +205,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220812151534158](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812151534158.png)
+![image-20220812151534158](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812151534158.png)
 
 并且**书上面的实验**说明了`accept`直接从监听队列中取出连接，而不论连接处于何种状态，更不关心任何网络状况的变化。比如：客户端在服务器`accept`之前就断网了，`accept`还是可以正常进行，它并不会返回错误。
 
@@ -220,7 +220,7 @@ int main(int argc, char const *argv[])
 int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 ```
 
-![image-20220812154447716](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812154447716.png)
+![image-20220812154447716](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812154447716.png)
 
 `sockfd`参数由socket系统调用返回一个`socket`。`addr`参数是服务器监听的`socket`地址。`addrlen`参数指这个地址长度。
 
@@ -247,7 +247,7 @@ int close(int fd);
 int shutdown(int sockfd, int how);
 ```
 
-![image-20220812160846669](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220812160846669.png)
+![image-20220812160846669](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220812160846669.png)
 
 `sockfd`参数是待关闭的socket，`howto`参数决定了`shutdown`的行为。
 

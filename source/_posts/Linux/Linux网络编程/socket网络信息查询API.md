@@ -69,7 +69,7 @@ struct hostent {
 
 从网上找了个图显示了一下
 
-![img](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/Center.png)
+![img](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/Center.png)
 
 `gethostbyname`举例
 
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
 }
 ```
 
-![image-20220814105118617](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814105118617.png)
+![image-20220814105118617](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814105118617.png)
 
 `gethostbyaddr`举例
 
@@ -189,7 +189,7 @@ int main(int argc, char **argv)
 
 ```
 
-![image-20220814105222471](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814105222471.png)
+![image-20220814105222471](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814105222471.png)
 
 ## getservbyname和getservbyport
 
@@ -256,7 +256,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220814141312451](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814141312451.png)
+![image-20220814141312451](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814141312451.png)
 
 `getservbyport`举例
 
@@ -287,7 +287,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220814142922859](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814142922859.png)
+![image-20220814142922859](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814142922859.png)
 
 需要指出的是，上面讨论的4个函数都是不可重入的，即非线程安全的。不过`netdb.h`头文件给出了它们的可重入版本。正如Linux下所有其他函数的可重入版本的命名规则那样，这些函数的函数名是在原函数名尾部加上_`r (re-entrant)`。
 
@@ -351,7 +351,7 @@ struct addrinfo {
 
 `ai_flags`可以取下表中标志
 
-![image-20220814160248251](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814160248251.png)
+![image-20220814160248251](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814160248251.png)
 
 当我们使用hints参数的时候，可以设置其`ai_flags`，`ai_family`，`ai_socktype`和` ai_protocol`四个字段，其他字段则必须被设置为NULL。
 
@@ -402,7 +402,7 @@ int main(int argc, char **argv)
 }
 ```
 
-![image-20220814165923059](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814165923059.png)
+![image-20220814165923059](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814165923059.png)
 
 不过不知道为啥别名为null
 
@@ -457,7 +457,7 @@ int main(int argc, char **argv)
 
 ```
 
-![image-20220814170106763](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814170106763.png)
+![image-20220814170106763](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814170106763.png)
 
 不过不知道为啥别名为null
 
@@ -475,7 +475,7 @@ int getnameinfo(const struct sockaddr *addr, socklen_t addrlen,char *host, sockl
 
 `getnameinfo`将返回的主机名存储在host参数指向的缓存中，将服务名存储在serv参数指向的缓存中，`hostlen`和 `servlen`参数分别指定这两块缓存的长度。flags参数控制`getnameinfo`的行为，它可以接收下表中的选项。
 
-![image-20220814171842523](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814171842523.png)
+![image-20220814171842523](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814171842523.png)
 
 `getaddrinfo`和 `getnameinfo`函数成功时返回0，失败则返回错误码。
 
@@ -515,4 +515,4 @@ int main(int argc, char **argv)
 }
 ```
 
-![image-20220814181037933](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220814181037933.png)
+![image-20220814181037933](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220814181037933.png)

@@ -25,11 +25,11 @@ pseudo ground truth的概念是指来自弱监督模型的一组采样对象预�
 
 ## 怎么做的
 
-![image-20210911184214062](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210911184214062.png)
+![image-20210911184214062](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210911184214062.png)
 
 ### Snippet-Level Classification Module
 
-![image-20210912211014735](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210912211014735.png)
+![image-20210912211014735](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210912211014735.png)
 
 这个模块接受特征图F，然后产生T×N的类别激活图C（类激活序列的概念，在时间动作定位当中很常见，自行进行了解）
 
@@ -51,9 +51,9 @@ pseudo ground truth的概念是指来自弱监督模型的一组采样对象预�
 
 具体来说，我们将 C 通过一个 softmax 层以获得$\bar{C}$,并将A通过两个 softmax 层。第一个softmax 层在background-foreground维度生成$\bar{A}^{bf}$,而第二个softmax 层是在$\bar{A}^{bf}$时间维度生成$\bar{A}^{time}$
 
-![image-20210912212420180](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210912212420180.png)
+![image-20210912212420180](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210912212420180.png)
 
-![image-20210912212428662](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210912212428662.png)
+![image-20210912212428662](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210912212428662.png)
 
 别人的注意力模块仅受视频级别标签的监督，以改善视频分类，而我们的注意力则由视频级标签和一组伪背景-前景标签，目的是提高动作片段的定位
 
@@ -67,15 +67,15 @@ pseudo ground truth的概念是指来自弱监督模型的一组采样对象预�
 
 对于片段$(t_1,t_2)$
 
-![image-20210912213225224](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210912213225224.png)
+![image-20210912213225224](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210912213225224.png)
 
 ### Iterative Refinement Process
 
-![image-20210912212825938](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210912212825938.png)
+![image-20210912212825938](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210912212825938.png)
 
 让$g^(M_η )$作为pseudo ground truth生成函数，使用来自$M_η$的信息(η迭代后训练的WSTAL基模型)将每个片段映射到伪背景-前景标签。在η+1迭代时，我们训练了一个新的WSTAL基模型Mη+1，用于计算视频级标签和片段级伪地面真标签的联合损失。具体地说，我们用下面的方法计算给定视频上的Mη+1的损失
 
-![image-20210912213355698](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20210912213355698.png)
+![image-20210912213355698](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210912213355698.png)
 
 
 

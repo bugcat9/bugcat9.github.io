@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220829204127701](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220829204127701.png)
+![image-20220829204127701](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220829204127701.png)
 
 ### setitimer函数
 
@@ -152,13 +152,13 @@ int main(int argc, char *argv[])
 }
 ```
 
-![image-20220829212215274](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220829212215274.png)
+![image-20220829212215274](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220829212215274.png)
 
 ## socket选项SO_RCVTIMEO和SO_SNDTIMEO
 
 `socket`选项`SO_RCVTIMEO`和`SO_SNDTIMEO`，它们分别用来设置`socket `接收数据超时时间和发送数据超时时间。因此，这两个选项仅对与数据接收和发送相关的`socket`专用系统调用( socket专用的系统调用指的是5.2～5.11节介绍的那些socketAPI)有效，这些系统调用包括`send`、`sendmsg`、`recv`、`recvmsg`、`accept`和 `connect`。将选项SO_RCVTIMEO和SO_SNDTIMEO对这些系统调用的影响总结于表中（来源Linux高性能服务器编程）。
 
-![image-20220830110132529](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220830110132529.png)
+![image-20220830110132529](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220830110132529.png)
 
 这里举书上的代码例子，比较简单 明了
 

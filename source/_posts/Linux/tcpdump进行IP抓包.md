@@ -24,7 +24,7 @@ IP数据报由**报头**和**数据**两部分组成，其中，数据是高层�
 
 IP的**头部结构**如下：
 
-![image-20220806113346237](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220806113346237.png)
+![image-20220806113346237](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220806113346237.png)
 
 固定部分为实线部分，长度为20字节。可变长的选项部分长度最多40字节，所以IP头部最多60字节长。
 
@@ -92,7 +92,7 @@ IP的**头部结构**如下：
 
 我们抓取本地回路上的数据包，通过`telnet 127.0.0.1`配合`tcpdump`进行抓包
 
-![image-20220806142812432](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220806142812432.png)
+![image-20220806142812432](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220806142812432.png)
 
 抓包命令如下：
 
@@ -112,7 +112,7 @@ sudo tcpdump -ntx -i lo -c 1
 
 最终抓包结果如图所示：
 
-![image-20220805223608148](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220805223608148.png)
+![image-20220805223608148](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220805223608148.png)
 
 ```
 IP 127.0.0.1.52904 > 127.0.0.1.23: Flags [S], seq 1003093548, win 65495, options [mss 65495,sackOK,TS val 3642507651 ecr 0,nop,wscale 7], length 0
@@ -164,7 +164,7 @@ ping baidu.com -s 1473
 
 我们使用ping命令发送1473个字节，那么这个IP数据报自然而然的会进行分片。
 
-![image-20220806153303334](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220806153303334.png)
+![image-20220806153303334](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220806153303334.png)
 
 然还使用
 

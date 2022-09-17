@@ -57,13 +57,13 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220815171158327](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815171158327.png)
+![image-20220815171158327](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815171158327.png)
 
 `dup2`感觉复杂一些，其实`dup2`忽略第二个参数，功能是和`dup`一样的，除此之外`dup2`加了一个将返回第一个不小于`newfd`的整数值的文件描述符的功能，并且`newfd`也将指向`oldfd`指向的文件。
 
 下面的代码调用`dup2`，文件描述符fd2原来指向"text2.txt"文件的，调用`dup2`后，fd2改为指向"text.txt"。
 
-![image-20220815173243219](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815173243219.png)
+![image-20220815173243219](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815173243219.png)
 
 ```c
 #include <unistd.h>
@@ -98,5 +98,5 @@ int main(int argc, char const *argv[])
 }
 ```
 
-![image-20220815173321291](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220815173321291.png)
+![image-20220815173321291](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220815173321291.png)
 
