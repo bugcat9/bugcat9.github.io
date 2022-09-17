@@ -1,4 +1,5 @@
 ---
+
 title: 高级I/O函数
 date: 2022-08-15 09:50:54
 tags:
@@ -14,9 +15,11 @@ categories:
 
 <!--more-->
 
-## pipe函数
+## 管道
 
-`pipe`函数可用于创建一个管道（匿名），以实现进程之间的通讯（主要感觉是父子进程之间），。
+### pipe函数
+
+`pipe`函数可用于创建一个管道（匿名），以实现进程之间的通讯（主要感觉是父子进程之间）。
 
 ```c
 #include <unistd.h>
@@ -33,7 +36,64 @@ int pipe(int pipefd[2]);
 
 如果管道的写端文件描述符`pipefd[1]`的**引用计数**减少至0，即没有任何进程需要往管道中写人数据，则针对该管道的读端文件描述符 `pipefd[0]`的`read`操作将返回0，即读取到了文件结束标记（End Of File，EOF);反之，如果管道的读端文件描述符`pipefd[0]`的引用计数减少至0，即没有任何进程需要从管道读取数据，则针对该管道的写端文件描述符`pipefd[1]`的`write`操作将失败，并引发`SIGPIPE `信号。
 
-## socketpair函数
+```c
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <sys/wait.h>
+
+void sys_err(const char *str)
+{
+    perror(str);
+    exit(1);
+}
+
+int main(int argc, char const *argv[])
+{
+
+    pid_t pid;
+    char buf[1024];
+    int fd[2];
+    char *p = "test for pipe\n";
+
+    if (pipe(fd) == -1)
+        sys_err("pipe");
+
+    pid = fork();
+    if (pid < 0)
+    {
+        sys_err("fork err");
+    }
+    else if (pid == 0)
+    {
+        // 子进程
+        // 关闭写端
+        close(fd[1]);
+        // 从管道的文件描述符fd[0]中将信息读出
+        int len = read(fd[0], buf, sizeof(buf));
+        // 将读的信息写到STDOUT_FILENO上
+        write(STDOUT_FILENO, buf, len);
+        close(fd[0]);
+    }
+    else
+    {
+        // 父进程
+        // 关闭读端
+        close(fd[0]);
+        // 向管道的文件描述符fd[1]中写入
+        write(fd[1], p, strlen(p));
+        // 回收子进程
+        wait(NULL);
+        close(fd[1]);
+    }
+    return 0;
+}
+```
+
+![image-20220905111959054](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220905111959054.png)
+
+### socketpair函数
 
 `socketpair`函数能创建双向管道（一对套接字），并且似乎只能用于本地通讯。
 
@@ -55,6 +115,240 @@ int socketpair(int domain, int type, int protocol, int sv[2]);
 `sv[2]`则是传出参数，和上面的`pipe`相同，里面包含着两个通讯用的文件描述符，只不过这两个文件描述符是既可以读又可以写的。
 
 `socketpair`函数调用成功返回0，如果失败返回-1，并且设置`errno`。
+
+`socketpair`用法比较简单，和上面`pipe`有一些类似
+
+```c
+#include <sys/types.h> /* See NOTES */
+#include <sys/socket.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <string.h>
+
+void sys_err(const char *str)
+{
+    perror(str);
+    exit(1);
+}
+
+int main(int argc, char const *argv[])
+{
+    pid_t pid;
+    int fd[2];
+    char buf[1024];
+    if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd))
+        sys_err("socketpair error");
+
+    pid = fork();
+    if (pid < 0)
+    {
+        sys_err("fork err");
+    }
+    else if (pid == 0)
+    {
+        // 子进程
+        // 关闭写端
+        // 从管道的文件描述符fd[0]中将信息读出
+        int len = read(fd[0], buf, sizeof(buf));
+        // 将读的信息写到STDOUT_FILENO上
+        write(STDOUT_FILENO, buf, len);
+        char *p = "child test for socketpair\n";
+        write(fd[0], p, strlen(p));
+    }
+    else
+    {
+        // 父进程
+        char *p = "parent test for socketpair\n";
+        // 向管道的文件描述符fd[1]中写入
+        write(fd[1], p, strlen(p));
+        int len = read(fd[1], buf, sizeof(buf));
+        // 将读的信息写到STDOUT_FILENO上
+        write(STDOUT_FILENO, buf, len);
+        // 回收子进程
+
+        wait(NULL);
+        close(fd[0]);
+        close(fd[1]);
+    }
+
+    return 0;
+}
+```
+
+![image-20220905204624841](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220905204624841.png)
+
+### mkfifo函数
+
+```c
+#include <sys/types.h>
+#include <sys/stat.h>
+
+int mkfifo(const char *pathname, mode_t mode);
+```
+
+`mkfifo`会创建一个`fifo`类型的文件，然后两个进程可任意通过`open`的方式打开这个文件进行进程间的通讯。
+
+`pathname`表示文件名，`mode`指定了文件的读写权限。
+
+函数成功调用返回0失败返回-1，并且设置`errno`。
+
+下面的代码就是创建一个名为mytestfifo的fifo文件
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <pthread.h>
+
+void sys_err(const char *str)
+{
+    perror(str);
+    exit(1);
+}
+
+int main(int argc, char *argv[])
+{
+    int ret = mkfifo("mytestfifo", 0664);
+    if (ret == -1)
+        sys_err("mkfifo error");
+
+    return 0;
+}
+```
+
+可以看到这个文件类型前面有个`p`
+
+![image-20220905211906735](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220905211906735.png)
+
+管道文件读取或者写入和普通文件相同，我们都可以使用`open`对其进行操作但是需要的是注意两点：
+
+1.程序**不能以O_RDWR模式打开FIFO文件进行读写操作**，而其行为也未明确定义，因为如一个管道以读/写方式打开，进程就会读回自己的输出，同时我们通常使用FIFO只是为了单向的数据传递。
+
+2.打开FIFO文件通常有四种方式，
+
+```c
+open(const char *pathname, O_RDONLY); // 1
+open(const char *pathname, O_RDONLY | O_NONBLOCK); // 2
+open(const char *pathname, O_WRONLY); // 3
+open(const char *pathname, O_WRONLY | O_NONBLOCK); // 4
+```
+
+`O_NONBLOCK`表示阻塞。所以
+
+* `O_RDONLY`：open将会调用阻塞，除非有另外一个进程以写的方式打开同一个FIFO，否则一直等待。
+* `O_WRONLY`：open将会调用阻塞，除非有另外一个进程以读的方式打开同一个FIFO，否则一直等待。
+* `O_RDONLY|O_NONBLOCK`：如果此时没有其他进程以写的方式打开FIFO，此时open也会成功返回，此时FIFO被读打开，而不会返回错误。
+* `O_WRONLY|O_NONBLOCK`：立即返回，如果此时没有其他进程以读的方式打开，open会失败打开，此时FIFO没有被打开，返回-1。
+
+例子：
+
+fifo_w.cpp：
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <cstring>
+
+void sys_err(char const *str)
+{
+    perror(str);
+    exit(-1);
+}
+
+int main(int argc, char *argv[])
+{
+    int fd;
+    char buf[4096];
+
+    if (argc < 2)
+    {
+        printf("Enter like this: ./a.out fifoname\n");
+        return -1;
+    }
+    fd = open(argv[1], O_WRONLY); //打开管道文件
+
+    if (fd < 0)
+        sys_err("open fifo error\n");
+
+    for (int i = 0; i < 5; i++)
+    {
+        sprintf(buf, "hello world %d\n", i);
+        write(fd, buf, strlen(buf)); // 向管道写数据
+    }
+
+    close(fd);
+
+    return 0;
+}
+
+```
+
+fifo_r.cpp:
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <string.h>
+
+void sys_err(char const *str)
+{
+    perror(str);
+    exit(1);
+}
+
+int main(int argc, char *argv[])
+{
+    int fd, len;
+    char buf[4096];
+
+    if (argc < 2)
+    {
+        printf("./a.out fifoname\n");
+        return -1;
+    }
+    // int fd = mkfifo("testfifo", 644);
+    // open(fd, ...);
+    fd = open(argv[1], O_RDONLY); // 打开管道文件
+    if (fd < 0)
+        sys_err("open");
+    while (1)
+    {
+        len = read(fd, buf, sizeof(buf)); // 从管道的读端获取数据
+        write(STDOUT_FILENO, buf, len);
+    }
+    close(fd);
+
+    return 0;
+}
+```
+
+![image-20220907093500990](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220907093500990.png)
+
+`FIFO`文件会存在进程之间通讯的问题。比如多个进程对`FIFO`进行写，但是只有一个`FIFO`进行读取时写入的数据块会不会发生交错？
+
+为了解决这个问题，**系统规定：**在一个以`O_WRONLY`（即阻塞方式）打开的`FIFO`中， 如果写入的数据长度小于等待`PIPE_BUF`，那么或者写入全部字节，或者一个字节都不写入。
+
+所以所有的写请求都是发往一个阻塞的FIFO的，并且每个写记请求的数据长度小于等于`PIPE_BUF`字节，系统就可以确保数据决不会交错在一起。
+
+其中`PIPE_BUF`是`FIFO`的长度，它在头文件`limits`.h中被定义。在linux或其他类UNIX系统中，它的值通常是4096字节。
+
+**参考：**
+
+* https://blog.csdn.net/xiajun07061225/article/details/8471777
+* https://www.cnblogs.com/52php/p/5840229.html
 
 ## dup和dup2函数
 
