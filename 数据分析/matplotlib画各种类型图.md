@@ -16,6 +16,8 @@ matplotlib是最流行的Python底层绘图库，主要做数据可视化图表,
 
 matplotlib能画的图有折线图、散点图、柱状图、直方图、饼状图等，所以本次主要讲解这几张图，注意本次代码主要使用官方文档上的**面向对象**风格，当然使用pyplot风格也是同样可以实现的
 
+<!--more-->
+
 ## 折线图
 
 折线图是默认的图像，直接使用plot就可以画出
@@ -39,7 +41,7 @@ ax.legend()  # Add a legend.
 plt.show()
 ```
 
-![image-20210724091951456](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210724091951456.png)
+![image-20210724091951456](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724091951456.png)
 
 ## 散点图
 
@@ -64,7 +66,7 @@ ax.grid(True)
 plt.show()
 ```
 
-![image-20210723213104165](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210723213104165.png)
+![image-20210723213104165](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210723213104165.png)
 
 ## 柱状图
 
@@ -103,7 +105,7 @@ fig.tight_layout()
 plt.show()
 ```
 
-![image-20210724090632449](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210724090632449.png)
+![image-20210724090632449](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724090632449.png)
 
 使用横着展示的条形图，直接使用barh就可以实现
 
@@ -133,7 +135,7 @@ ax.bar_label(rects1, padding=3)
 plt.show()
 ```
 
-![image-20210724092623279](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210724092623279.png)
+![image-20210724092623279](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724092623279.png)
 
 ## 直方图
 
@@ -160,7 +162,7 @@ plt.show()
 
 ```
 
-![image-20210724094320817](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210724094320817.png)
+![image-20210724094320817](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724094320817.png)
 
 `hist`参数中`bins`是指条形的个数像这个图里面就是20个条形
 
@@ -184,7 +186,7 @@ ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 plt.show()
 ```
 
-![image-20210724095404058](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210724095404058.png)
+![image-20210724095404058](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724095404058.png)
 
 需要注意的是`pie`函数中的`autopct`是用来显示百分比的，`shadow`用来控制阴影，`startangle`用来控制选择角度，而这个突出显示则是使用`explode`进行
 

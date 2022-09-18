@@ -271,11 +271,11 @@ void error_handling(char *message)
 
 可以看到他等待3秒后就向下继续运行了。
 
-![select情况1](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/select情况1.gif)
+![select情况1](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/select情况1.gif)
 
 运行结果显示每3秒进行一次。
 
-![image-20220715110925008](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220715110925008.png)
+![image-20220715110925008](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220715110925008.png)
 
 ### 情况2
 
@@ -287,7 +287,7 @@ result = select(fd_max + 1, &tempfds, (fd_set *)0, (fd_set *)0, (struct timeval 
 
 运行结果显示，每次都是阻塞在那里，知道有写描述符集的使用。
 
-![image-20220715111515047](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/Linux/image-20220715111515047.png)
+![image-20220715111515047](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220715111515047.png)
 
 
 

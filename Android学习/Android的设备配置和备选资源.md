@@ -47,7 +47,7 @@ categories:
 
 接着我们创建建水平模式布局，在项目工具窗口中，右键单击res目录后选择New → Android resource directory菜单项。创建资源目录界面列出了资源类型及其对应的资源特征，如图所示。
 
-![image-20210819173327553](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210819173327553.png)
+![image-20210819173327553](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210819173327553.png)
 
 从资源类型（Resource type） 列表中选择layout，保持Source set的main选项不变。
 
@@ -55,9 +55,9 @@ categories:
 
 这个窗口看起来有模有样，但实际用途仅限于设置目录名。点击OK按钮让Android Studio创建res/layout-land。 这里的-land后缀名是配置修饰符的一个使用例子。Android依靠res子目录的配置修饰符定位最佳资源以匹配当前设备配置。
 
-![image-20210819180013963](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210819180013963.png)
+![image-20210819180013963](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210819180013963.png)
 
-![image-20210819180056828](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210819180056828.png)
+![image-20210819180056828](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210819180056828.png)
 
 我们将`layout-land`中的`activity_main.xml`写入以下内容
 
@@ -83,11 +83,11 @@ categories:
 
 运行程序，竖屏时结果如下（这个截图是使用Android studio截图的，有点长）
 
-<img src="https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210819212529509.png" alt="image-20210819212529509" style="zoom:50%;" />
+<img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210819212529509.png" alt="image-20210819212529509" style="zoom:50%;" />
 
 我们再进行横屏，结果如下(吐槽一下，这个黑屏部分时刘海屏)
 
-![image-20210819212627488](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210819212627488.png)
+![image-20210819212627488](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210819212627488.png)
 
 可以看到这两个界面使用的`layput`文件是不相同的，通过不同目录名或者叫修饰符由系统进行选择
 

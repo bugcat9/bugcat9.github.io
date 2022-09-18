@@ -1,15 +1,11 @@
 ---
-title:  第15讲：SCRUM敏捷软件模型开发过程
-date: 2020-03-29 15:19:26
-tags:
-- 敏捷开发
-categories:
-- 其他
-toc: true
+ title: 第15讲：SCRUM敏捷软件模型开发过程 
+ date: 2021-05-20 23:13:23 
+ tags: 
+ - 敏捷开发
+ categories:
+ - 其他
 ---
-
-<!-- # 第15讲：SCRUM敏捷软件模型开发过程 -->
-
 > 重点：
 >
 > （1）回顾和思考CMMI模型的核心思想是什么？这一模型有什么特点？适合什么样的企业和项目？
@@ -18,7 +14,10 @@ toc: true
 > （4）理解SCRUM敏捷开发模型的”三个角色“、”三个工件“、”四
 >
 > 个会议“的内容和方法。
+>
+
 <!--more-->
+
 ## 一、简介：
 
 思想：一切为了简单、快捷
@@ -64,7 +63,7 @@ Scrum 实践活动：
 | Sprint burn down        | 冲刺燃尽图，说白了就是记录当前周期的需求完成情况             |
 | Rlease                  | 开发周期完成，项目发布新的可用版本                           |
 
-![敏捷开发1](https://gitee.com/zhou-ning/BlogImage/raw/master/敏捷开发/敏捷开发1.png)
+![敏捷开发1](https://gitee.com/bugcat9/BlogImage/raw/master/敏捷开发/敏捷开发1.png)
 
 
 
@@ -109,7 +108,7 @@ Scrum主管在实际项目中称为项目经理，主要工作：去除那些影
 
 开发团队是负责开发并交付产品的团队。团队规模要小，组成大致为5至9名具有跨职能技能的人（设计者，开发者等）,实践中，2~9人均可，但超过7人会导致沟通成本上升，最好团队成员技能水平大致相同。
 
-![敏捷开发2](https://gitee.com/zhou-ning/BlogImage/raw/master/敏捷开发/敏捷开发2.png)
+![敏捷开发2](https://gitee.com/bugcat9/BlogImage/raw/master/敏捷开发/敏捷开发2.png)
 
 ### 4.参与者
 
@@ -127,7 +126,7 @@ Scrum项目周期以一组迭代周期“sprints”组成。典型的迭代周�
 
 冲刺计划会主要是确定冲刺目标，简单程数这个迭代将要完成什么
 
-<img src="https://gitee.com/zhou-ning/BlogImage/raw/master/敏捷开发/敏捷开发3.png" alt="敏捷开发3" style="zoom:80%;" />
+<img src="https://gitee.com/bugcat9/BlogImage/raw/master/敏捷开发/敏捷开发3.png" alt="敏捷开发3" style="zoom:80%;" />
 
 ### 3.Daily Stand Meeting
 
@@ -155,13 +154,13 @@ Scrum项目周期以一组迭代周期“sprints”组成。典型的迭代周�
 
 产品订单写的是项目中待完成的工作列表，理想的是每一个待完成的工作都将对客户和用户产生价值，产品所有者将对这个列表进行优先级排序，每个迭代开始前优先级的排序工作还需要再度修正。
 
-<img src="https://gitee.com/zhou-ning/BlogImage/raw/master/敏捷开发/敏捷开发4.png" alt="敏捷开发4" style="zoom:80%;" />
+<img src="https://gitee.com/bugcat9/BlogImage/raw/master/敏捷开发/敏捷开发4.png" alt="敏捷开发4" style="zoom:80%;" />
 
 ### 2.Sprint backlog (冲刺订单)
 
 Sprint Backlog是Product Backlog的子集，Sprint Backlog的内容，由团队成员集体决定，团队中任何人都可以添加，删减或者更改迭代中的工作项目，团队中的每个人都为了冲刺目标以及将发布的结果而工作。
 
-<img src="https://gitee.com/zhou-ning/BlogImage/raw/master/敏捷开发/敏捷开发5.png" alt="敏捷开发5" style="zoom:80%;" />
+<img src="https://gitee.com/bugcat9/BlogImage/raw/master/敏捷开发/敏捷开发5.png" alt="敏捷开发5" style="zoom:80%;" />
 
 ## 六、Scrum过程
 

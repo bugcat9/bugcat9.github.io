@@ -132,7 +132,7 @@ https://blog.csdn.net/guolin_blog/article/details/17482095
 
 运行之后，等待一会，结果如图所示，可以看到我们得到了百度返回的请求，并且把请求显示在了TextView之上。
 
-![image-20210906202925419](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210906202925419.png)
+![image-20210906202925419](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210906202925419.png)
 
 ### JsonObjectRequest介绍
 
@@ -204,7 +204,7 @@ private JsonObjectRequest getJsonObjectRequest() {
 
 运行结果，可以看到把天气数据进行了显示
 
-![image-20210907203713536](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210907203713536.png)
+![image-20210907203713536](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210907203713536.png)
 
 ### ImageRequest介绍
 
@@ -227,7 +227,7 @@ private JsonObjectRequest getJsonObjectRequest() {
 
 ```java
     private ImageRequest getImageRequest() {
-        String url = "https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/avatar/zhouning.jpg";
+        String url = "https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.jpg";
         ImageRequest imageRequest = new ImageRequest(
                 url,
                 new Response.Listener<Bitmap>() {
@@ -267,17 +267,17 @@ private JsonObjectRequest getJsonObjectRequest() {
 
 然后可以得到，下面图片的显示，其中的图片是我自己博客的头像，显示在上面
 
-![image-20210908200246145](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210908200246145.png)
+![image-20210908200246145](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210908200246145.png)
 
 ## 自定义Request
 
 学习了上面三个简单的`Request`使用之后，我们发现其实他们的构造方法都有些类似，并且他们的实现部分其实也是类似的都是继承自`Request`类
 
-![image-20210908202151443](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210908202151443.png)
+![image-20210908202151443](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210908202151443.png)
 
-![image-20210908202210668](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210908202210668.png)
+![image-20210908202210668](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210908202210668.png)
 
-![image-20210908202225771](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210908202225771.png)
+![image-20210908202225771](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210908202225771.png)
 
 所以基于这三种类的学习其实我们也可以实现自定义类别。根据官网的教程，如果我们需要实现自定义请求，我们需要实现下面两点操作：
 
@@ -453,7 +453,7 @@ public class XMLRequest extends Request<XmlPullParser> {
 
 可以看到结果，其中乱码部分其实是省份（中文），但是不知道什么原因乱码了，自己也采取了一些方法但是都没有用，日后解决了再写个文章。
 
-![image-20210909203722103](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210909203722103.png)
+![image-20210909203722103](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210909203722103.png)
 
 ### 自定义GsonRequest
 
@@ -566,7 +566,7 @@ WeatherInfo类中含有city、temp、time这几个字段。
 
 运行结果
 
-![image-20210911204452119](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210911204452119.png)
+![image-20210911204452119](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210911204452119.png)
 
 ## 总结
 

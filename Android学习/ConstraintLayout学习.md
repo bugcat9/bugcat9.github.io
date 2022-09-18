@@ -37,15 +37,15 @@ app:layout_constraintTop_toTopOf//举一反三app:layout_constraintTop_toBottomO
 
 创建`Constraint`如图所示
 
-![动画](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/动画.gif)
+![动画](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/动画.gif)
 
 `Constraint`的属性如下图所示
 
-![image-20210821174332342](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210821174332342.png)
+![image-20210821174332342](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210821174332342.png)
 
 `view`水平方向和竖直方向的尺寸是分别由宽度设置和高度设置决定的。能设置的值有以下三种
 
-![image-20210821174936423](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210821174936423.png)
+![image-20210821174936423](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210821174936423.png)
 
 
 
@@ -57,17 +57,17 @@ app:layout_constraintTop_toTopOf//举一反三app:layout_constraintTop_toBottomO
 
 对于前两类理解起来可能比较简单，对于动态适应的话我理解的是就是之前的`match parent`,设置为动态适应之后就回充满整个Constraint
 
-![image-20210821180855391](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210821180855391.png)
+![image-20210821180855391](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210821180855391.png)
 
 ### 2.Bias
 
 `Bias`是偏置,主要用来设置位置偏移比例，取值范围从0到1，默认是0.5也就是居中。这个偏置对应着图中红色框框部分,可以通过移动这一部分进行`view`移动，当然也可以在蓝色框框部分进行填写
 
-![image-20210821220201491](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210821220201491.png)
+![image-20210821220201491](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210821220201491.png)
 
 我们可以通过修改`Bias`的值来移动位置，比如修改成0.2，然后展示结果如下
 
-![image-20210821220900560](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210821220900560.png)
+![image-20210821220900560](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210821220900560.png)
 
 ### 3.Guideline
 
@@ -75,7 +75,7 @@ app:layout_constraintTop_toTopOf//举一反三app:layout_constraintTop_toBottomO
 
 比如说我们加一个`horizontal guideline` 
 
-![image-20210821230855642](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210821230855642.png)
+![image-20210821230855642](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210821230855642.png)
 
 ### 4.Barrier
 
@@ -83,25 +83,25 @@ app:layout_constraintTop_toTopOf//举一反三app:layout_constraintTop_toBottomO
 
 比如，我们需要一个`ImageView`一直在一排按钮之下`100dp`的位置，就可以使用这个`Barrier`，可以看到动图上`ImageView`是一直在这三个按钮之下`100dp`的位置。
 
-![动画2](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/动画2.gif)
+![动画2](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/动画2.gif)
 
 具体做法是先添加一个`Barrier`
 
-![image-20210822110903058](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210822110903058.png)
+![image-20210822110903058](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210822110903058.png)
 
 然后完成`View`的绑定，在`ComponentTree`窗口里，直接拖动对应的子`View`到`Barrier`里就完成绑定了，如下：
 
-![image-20210822111508491](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210822111508491.png)
+![image-20210822111508491](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210822111508491.png)
 
 然后在属性中设置`Barrier`的方向
 
-![image-20210822111630034](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210822111630034.png)
+![image-20210822111630034](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210822111630034.png)
 
 最后`View`添加约束到`Barrier`
 
 我在可视化编辑器上添加添加不了这个约束，我采取的是手动添加
 
-![image-20210822112652686](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210822112652686.png)
+![image-20210822112652686](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210822112652686.png)
 
 最终达到的效果如上面动图一样
 
@@ -111,7 +111,7 @@ app:layout_constraintTop_toTopOf//举一反三app:layout_constraintTop_toBottomO
 
 这是官方给定的一组图
 
-![img](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/constraint-chain-styles_2x.png)
+![img](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/constraint-chain-styles_2x.png)
 
 1. **Spread**：视图是均匀分布的（在考虑外边距之后）。这是默认值。
 2. **Spread inside**：第一个和最后一个视图固定在链两端的约束边界上，其余视图均匀分布。
@@ -120,7 +120,7 @@ app:layout_constraintTop_toTopOf//举一反三app:layout_constraintTop_toBottomO
 
 如需创建链，请选择要包含在链中的所有视图，右键点击其中一个视图，选择 **Chains**，然后选择 **Center Horizontally** 或 **Center Vertically**，如下动图中所示：
 
-![动画3](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/动画3.gif)
+![动画3](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/动画3.gif)
 
 需要注意的是创建`Chain`的时候这些子`View`不要带`Constraint`，有的话要清除掉`Constraint`，因为已有的`Constraint`会影响后续的操作
 

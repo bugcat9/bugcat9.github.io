@@ -13,6 +13,8 @@ numpy模块是学习数据分析和深度学习必须学习的内容，一个在
 
 官网👉[https://numpy.org/](https://numpy.org/)
 
+<!--more-->
+
 ## numpy创建矩阵
 
 一般创建矩阵使用比较多的就是array、ones等函数，下面展示一些部分创建矩阵的用法
@@ -172,9 +174,9 @@ arr_mean = arr.mean(0)      #shape(3,)
 
 图解：
 
-![image-20210726115552814](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210726115552814.png)
+![image-20210726115552814](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210726115552814.png)
 
-![image-20210726115616019](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/数据分析/image-20210726115616019.png)
+![image-20210726115616019](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210726115616019.png)
 
 
 

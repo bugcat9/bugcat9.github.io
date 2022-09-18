@@ -16,9 +16,9 @@ Android权限可以分为两大类：安装时权限、运行时权限和特殊�
 
 
 
-![image-20210918202325809](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210918202325809.png)
+![image-20210918202325809](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210918202325809.png)
 
-![image-20210918202805326](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210918202805326.png)
+![image-20210918202805326](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210918202805326.png)
 
 **本文主要针对于`Android6.0`之后的介绍！！！**
 
@@ -48,7 +48,7 @@ Android权限可以分为两大类：安装时权限、运行时权限和特殊�
 
 后面我们也会实现这样的功能
 
-![image-20210918205745566](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210918205745566.png)
+![image-20210918205745566](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210918205745566.png)
 
 系统会为运行时权限分配“dangerous”保护级别
 
@@ -118,7 +118,7 @@ public static int checkSelfPermission (Context context, String permission)
 
 使用`ActivityResultLauncher`需要先指定`ActivityResultContract`类型的协议不过在Android当中已经有实现好的类，那就是`RequestPermission`类
 
-![image-20210923204407573](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210923204407573.png)
+![image-20210923204407573](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210923204407573.png)
 
 可以看到`RequestPermission`类是`ActivityResultContract<String,Boolean>`类型的，其中`String`代表权限的名字，而`Boolean`代表最后返回是否授予权限的结果，所以使用起来比较简单，类似有Activity的跳转
 
@@ -147,7 +147,7 @@ requestPermissionLauncher.launch(Manifest.permission.CAMERA);
 
 调用结果
 
-![image-20210923205400390](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210923205400390.png)
+![image-20210923205400390](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210923205400390.png)
 
 #### 使用`requestPermissions`
 
@@ -264,21 +264,21 @@ requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_
 
 我们一开始安装程序进入程序，`shouldShowRequestPermissionRationale`返回false，所以进入第三个分支，并且请求授予权限
 
-![image-20210927111601508](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210927111601508.png)
+![image-20210927111601508](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927111601508.png)
 
 我们点击拒绝后，关闭程序(后台杀死)，再次进入程序
 
-![image-20210927111714036](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210927111714036.png)
+![image-20210927111714036](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927111714036.png)
 
 点击拒绝后可以看到下图的内容，说明这个时候进入第二个分支，`shouldShowRequestPermissionRationale`返回true
 
-![image-20210927111813939](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210927111813939.png)
+![image-20210927111813939](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927111813939.png)
 
 关闭程序(后台杀死)，再次进入程序，这次我们点击拒绝并且不在询问，然后再关闭程序(后台杀死)，再进入
 
 这次直接跳转第三个分支，并且直接拒绝权限授予，说明`shouldShowRequestPermissionRationale`返回false
 
-![image-20210927112331524](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/android/image-20210927112331524.png)
+![image-20210927112331524](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927112331524.png)
 
 ### 请求权限建议流程：
 

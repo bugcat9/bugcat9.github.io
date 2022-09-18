@@ -1,5 +1,15 @@
+---
+ title: A Survey on Temporal Action Localization 
+ date: 2021-06-15 22:00:00 
+ tags: 
+ - 时序动作定位
+ - 动作检测
+ - 综述
+ categories:
+ - 论文学习
+ mathjax: true
+---
 [toc]
-
 # A Survey on Temporal Action Localization
 
 > **摘要:**在计算机视觉中，时间动作定位是视频理解中最关键也是最具挑战性的问题之一。由于其广泛的应用，近年来引起了广泛的关注日常生活应用。时间动作定位技术已经取得了很大的进展，特别是最近深度学习的发展。而且在未裁剪的情况下，现在需要更多的时间动作定位视频。在这篇论文中，我们的目标是调查最新的技术和模型的视频时间行动定位。主要包括相关技术、一些基准数据集和评价时间动作定位的度量。此外，我们从两个方面总结了时间动作定位各方面:全监督学习和弱监督学习。并列举了几部具有代表性的作品并比较他们各自的表现。最后，对其进行了深入分析，并提出了发展前景研究方向，并总结调查。
@@ -22,7 +32,7 @@
 
 时间动作定位非常贴近我们的生活，它具有广泛的应用前景和社会价值在视频概况(video summarization)、公共视频监控、技能评估和日常生活安全。所以它在最最近几年得到了广泛的关注。与“动作检测”有关的出版物总数约为324127份，近二十年来包括书籍、期刊、论文、会议论文、专利和一些科技成果。下面我们主要分析出版学术和回忆论文的趋势动作检测，如同**图1**所示
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20201027193624091.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20201027193624091.png)
 
 本调查旨在帮助对时态动作本地化感兴趣的初学者。它提供一个概括动作定位的方法和最新进展，本文余下部分组织如下。
 
@@ -33,13 +43,15 @@
 * 第六节讨论现在的挑战和建议未来的方向
 * 第七节总结本论文
 
+<!--more-->
+
 ## 2.相关技术
 
 因为最近时间本地化已经成为了一个活跃的研究领域，许多解决此问题的不同的方法被提出。虽然动作检测已经研究了许多年，但是它仍处于实验室数据集的测试阶段，没有实际的实用性和工业化。理解视频中动作发生的时间和内容是非常具有挑战性的。可以看出，目前对于这个任务仍然没有健壮的解决方案。在本节中，我们将回顾时间动作定位的相关技术。
 
 众所周知，视频特征表示可以为视频动作提供有用的信息，并且很多实验已经被做了。在过去的二十年，众所周知特征提取的进展一般经历了两个重要的历史时期。一个是传统的动作检测阶段在2014年之前，另一个时期时深度学习阶段，在2014年之后。时间线框架如**图2**所示
 
-![image-20201027201856154](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20201027201856154.png)
+![image-20201027201856154](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20201027201856154.png)
 
 在深度学习阶段，它们主要被分为两种类型框架：“两阶段检测(‘two-stage detection)”和“一阶段检测（one-stage detection）”。特别，前面一种依赖“检测和分类”(proposal-then-classification)范式，这是一个主流方法，后一种同时检测和分类,所以我们称之为一级检测
 
@@ -97,7 +109,7 @@ Y. Xiong et al在2017年提出了一个新的框架用来准确的确定不同�
 
 以上时间动作建议区域方法的性能比较如表1所示。
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20201114104053741.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20201114104053741.png)
 
 #### 一阶段定位方法
 
@@ -143,7 +155,7 @@ AVA是一个时空本地化的原子视觉动作数据集。它包含了430个15
 
 接下来，我们总结和比较这些数据集显示表2。
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20201114213744116.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20201114213744116.png)
 
 ## 4.评价指标
 
@@ -151,7 +163,7 @@ AVA是一个时空本地化的原子视觉动作数据集。它包含了430个15
 
 在二分类问题当中，TP代表True Positive，FP代表False Positive，TN代表True Negative，而FN代表False Negative。这四个参数被用来计算多种性能评价指标。给出了四个参数的逻辑细节在表3中。
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20201114214140041.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20201114214140041.png)
 
 其中，在实际的二进制分类中，positive-1标签指的是你比较关心的样本，比如一个动作或者一个异常事件。
 
@@ -222,7 +234,7 @@ $$
 
 近年来，随着各种新型网络的引进，准确率已达到最新的46.9%[26]。当然，与图像中的目标检测还有一定的差距，这也是目前难以实现大规模商业化的原因。但我们可以相信，随着技术的不断进步，精度一定会实现突破。
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20201115121823022.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20201115121823022.png)
 
 ### B.弱监督时间动作定位(W-TAL)
 
@@ -242,7 +254,7 @@ $$
 
 以下是在THUMOS14数据集上的性能比较，与全监督学习和各种代表性方法发表的标准相同，如表5所示
 
-![](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/paper/image-20201115130532292.png)
+![](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20201115130532292.png)
 
 #### 3）对W-TAL问题的见解
 

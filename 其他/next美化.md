@@ -1,3 +1,12 @@
+---
+ title: Next主题美化
+ date: 2021-05-22 22:02:23 
+ tags: 
+ - hexo
+ - next
+ categories:
+ - 其他 
+---
 # Next主题美化
 
 最近使用hexo的next主题在github上搭建了一个博客，但是发现这个next主题并不完全是自己想要的，所以还需要美(zhe)化（ten）一下。主要折腾了三个方面：
@@ -13,9 +22,9 @@
 
 添加鼠标点击礼花特效🎉，效果如下
 
-![鼠标点击礼花特效](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/others/鼠标点击礼花特效.gif)
+![鼠标点击礼花特效](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/others/鼠标点击礼花特效.gif)
 
-在`themes\next\source\js\cursor\`目录下 创建**fireworks.js**，具体**fireworks.js**的内容可以点击👉[fireworks.js](https://github.com/zhou-ning/hexo-theme-next/blob/master/source/js/cursor/fireworks.js)进行查看(不展示因为实在是太长了)
+在`themes\next\source\js\cursor\`目录下 创建**fireworks.js**，具体**fireworks.js**的内容可以点击👉[fireworks.js](https://github.com/bugcat9/hexo-theme-next/blob/master/source/js/cursor/fireworks.js)进行查看(不展示因为实在是太长了)
 
 然后在主题自定义布局文件`themes\next\layout\_custom\custom.swig`中添加以下代码：
 
@@ -60,9 +69,9 @@ cursor_effect: fireworks
 
 个性化回到顶端是我自己比较喜欢的，也是从上面那个参考那里借鉴的（读书人的事，怎么能咳咳，扯远了），是一个小猫然后点击可以回到顶端，效果如下：
 
-![个性化back2top](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/others/个性化back2top.gif)
+![个性化back2top](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/others/个性化back2top.gif)
 
-首先，下载该图片，点击👉[小猫图片](https://github.com/zhou-ning/hexo-theme-next/blob/master/source/images/scroll.png)
+首先，下载该图片，点击👉[小猫图片](https://github.com/bugcat9/hexo-theme-next/blob/master/source/images/scroll.png)
 
 然后在`themes\next\source\css\_common\components\back-to-top.styl`里面**添加**(不是覆盖)
 
@@ -105,9 +114,9 @@ back2top:
 
 如果你开评论的话，可以考虑加入这个特效，感觉还挺炫酷。
 
-![打字特效](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/others/打字特效.gif)
+![打字特效](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/others/打字特效.gif)
 
-首先，点击[activate-power-mode.min.js](https://github.com/zhou-ning/hexo-theme-next/blob/master/source/js/activate-power-mode.min.js)下载相应的脚本，并置于 `themes\next\source\js\` 目录下。
+首先，点击[activate-power-mode.min.js](https://github.com/bugcat9/hexo-theme-next/blob/master/source/js/activate-power-mode.min.js)下载相应的脚本，并置于 `themes\next\source\js\` 目录下。
 
 在主题自定义布局文件`themes\next\layout\_custom\custom.swig`中添加以下代码：
 
@@ -153,7 +162,7 @@ hexo d
 
 最终可以看到
 
-![展示](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/others/image-20210522214004389.png)
+![展示](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/others/image-20210522214004389.png)
 
 
 

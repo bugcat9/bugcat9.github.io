@@ -21,11 +21,11 @@ categories:
 
 其中`video_list.txt`中写的是视频的名字，也就是告诉程序需要将那些视频提取帧:
 
-![image-20220726212052926](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/others/image-20220726212052926.png)
+![image-20220726212052926](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/others/image-20220726212052926.png)
 
 `videos`中存放视频，与`video_list.txt`中写的视频名字对应
 
-![image-20220726212224852](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/others/image-20220726212224852.png)
+![image-20220726212224852](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/others/image-20220726212224852.png)
 
 ```python
 import cv2
@@ -93,7 +93,7 @@ if __name__ == '__main__':
 
 运行完这个程序就能将需要提取的视频帧放在`frames`对应的目录下。
 
-![image-20220726212537411](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/others/image-20220726212537411.png)
+![image-20220726212537411](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/others/image-20220726212537411.png)
 
 ## 提取flow光流
 
@@ -206,10 +206,10 @@ pip install opencv-contrib-python==4.1.2.30
 
 最终flow光流图和提取的帧之间如下图所示，可以看到一些梳头发的动作变化。
 
-![image-20220726213330086](https://cdn.jsdelivr.net/gh/zhou-ning/blog-image-bed@main/others/image-20220726213330086.png)
+![image-20220726213330086](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/others/image-20220726213330086.png)
 
 ## 总结
 
 记录一下光流特征提取的算法，方便自己之后进行使用。
 
-代码仓库：[https://github.com/zhou-ning/pytorch-i3d](https://github.com/zhou-ning/pytorch-i3d)
+代码仓库：[https://github.com/bugcat9/pytorch-i3d](https://github.com/bugcat9/pytorch-i3d)
