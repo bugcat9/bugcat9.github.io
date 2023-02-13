@@ -14,6 +14,8 @@ categories:
 
 首先是将之前main中大大的while循环进行封装，编程EventLoop
 
+<!--more-->
+
 ```c++
 void EventLoop::loop()
 {

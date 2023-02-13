@@ -16,6 +16,8 @@ categories:
 
 我这里实现是将接收到的消息进行了一个简单的翻转。
 
+<!--more-->
+
 ```c++
 #include <unistd.h>
 #include <sys/types.h>
