@@ -1,4 +1,4 @@
-## 博客
+# Hexo
 
 * master，啥也不干起说明作用
 * gh-pages，放hexo生成的静态文件
