@@ -3,7 +3,7 @@ title: decltype类型推导
 date: 2024-09-01 22:18:21
 tags:
 categories:
-C++
+- C++
 ---
 # decltype类型推导
 `decltype`可以推导出变量或者表达式的类型，比如
@@ -28,6 +28,7 @@ int main() {
     return 0;
 }
 ```
+<!--more-->
 平时自己使用`decltype`最多的时候是和lambda进行配合，推导lambda的类型
 ```cpp
 #include <iostream>
