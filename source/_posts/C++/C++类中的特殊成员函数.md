@@ -44,6 +44,7 @@ class Widget {
 ```
 编译器仍会生成移动和拷贝操作（假设正常生成它们的条件满足），即使可以模板实例化产出拷贝构造和拷贝赋值运算符的函数签名
 
+除此之外，现代C++还有一个三/五法则，也是对这方面的总结，感兴趣可以去了解一下。
 参考：
 
 [https://learn.microsoft.com/zh-cn/cpp/cpp/explicitly-defaulted-and-deleted-functions?view=msvc-170](https://learn.microsoft.com/zh-cn/cpp/cpp/explicitly-defaulted-and-deleted-functions?view=msvc-170)
