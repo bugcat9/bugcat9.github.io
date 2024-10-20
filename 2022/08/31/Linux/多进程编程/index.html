@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="多进程编程学习《Linux高性能服务器编程》第十三章多进程编程，里面介绍了各种Linux编程中多进程编程的内容，为了印象深刻一些，多动手多实践，所以记下这个笔记。这一篇主要记录Linux中。这一章分为fork系统调用、exec系列系统调用、处理僵尸进程、信号量、共享内存、消息队列、IPC命令。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多进程编程">
+<meta property="og:url" content="https://bugcat.top/2022/08/31/Linux/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="多进程编程学习《Linux高性能服务器编程》第十三章多进程编程，里面介绍了各种Linux编程中多进程编程的内容，为了印象深刻一些，多动手多实践，所以记下这个笔记。这一篇主要记录Linux中。这一章分为fork系统调用、exec系列系统调用、处理僵尸进程、信号量、共享内存、消息队列、IPC命令。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220902104536913.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220903203128588.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220903211841731.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220903212739059.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220903210213373.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220903213718096.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220905104308336.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916110352739.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220914191132925.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220914213741897.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916104221617.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916110659249.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916142910291.png">
+<meta property="og:image" content="c:/Users/Administrator/AppData/Roaming/Typora/typora-user-images/image-20220916143225086.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916143610901.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916143718065.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916160516010.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916183212921.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916203148729.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916203319762.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916203913760.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916204159893.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916204353109.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916204528137.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220917105516824.png">
+<meta property="article:published_time" content="2022-08-31T20:52:46.000Z">
+<meta property="article:modified_time" content="2024-10-20T13:34:26.728Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Linux高性能服务器编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220902104536913.png">
+
+<link rel="canonical" href="https://bugcat.top/2022/08/31/Linux/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>多进程编程 | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2022/08/31/Linux/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          多进程编程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-31 20:52:46" itemprop="dateCreated datePublished" datetime="2022-08-31T20:52:46+00:00">2022-08-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-20 13:34:26" itemprop="dateModified" datetime="2024-10-20T13:34:26+00:00">2024-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>17k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>15 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="多进程编程"><a href="#多进程编程" class="headerlink" title="多进程编程"></a>多进程编程</h1><p>学习《Linux高性能服务器编程》第十三章多进程编程，里面介绍了各种Linux编程中多进程编程的内容，为了印象深刻一些，多动手多实践，所以记下这个笔记。这一篇主要记录Linux中。这一章分为fork系统调用、exec系列系统调用、处理僵尸进程、信号量、共享内存、消息队列、IPC命令。</p>
+<span id="more"></span>
+<h2 id="fork系统调用"><a href="#fork系统调用" class="headerlink" title="fork系统调用"></a>fork系统调用</h2><p>Linux当作创建新进程的系统调用是fork</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">pid_t</span> <span class="title function_">fork</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>fork</code>函数的每次调用都返回两次，在父进程中返回的是子进程的<code>PID</code>，在子进程中则返回0。该返回值是后续代码判断当前进程是父进程还是子进程的依据。</p>
+<p><code>fork</code>调用失败时返回-1，并设置<code>errno</code>。</p>
+<p><code>fork</code>函数深入起来需要注意的点有很多，书中给了三个需要注意的部分：</p>
+<ul>
+<li><code>fork</code>函数复制当前进程，在内核进程表中创建一个<strong>新的</strong>进程表项。新的进程表项有很多属性和原进程相同，比如堆指针、栈指针和标志寄存器的值。但也有许多属性被赋予了新的值，比如该进程的<code>PPID</code>被设置成原进程的<code>PID</code>，<strong>信号位图被清除</strong>（原进程设置的信号处理函数不再对新进程起作用)。</li>
+<li>子进程的代码与父进程完全<strong>相同</strong>，同时它还会复制父进程的数据（堆数据、栈数据和静态数据)。数据的复制采用的是所谓的<strong>写时复制</strong>(copy on writte)，即只有在任一进程(父进程或子进程）对数据执行了<strong>写操作时</strong>，复制才会发生（先是缺页中断，然后操作系统给子进程分配内存并复制父进程的数据)。即便如此，如果我们在程序中分配了大量内存，那么使用<code>fork</code>时也应当十分谨慎，尽量避免没必要的内存分配和数据复制。</li>
+<li>创建子进程后，父进程中打开的<strong>文件描述符</strong>默认在子进程中也是打开的，且文件描述符的引用计数加1。不仅如此，父进程的用户根目录、当前工作目录等变量的引用计数均会加1。</li>
+</ul>
+<p>写个简单的小例子</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">pid_t</span> pid;</span><br><span class="line"></span><br><span class="line">    pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;fork&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m parent pid = %d, parentID = %d\n&quot;</span>, getpid(), getppid());</span><br><span class="line">            sleep(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (pid == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;child  pid = %d, parentID=%d\n&quot;</span>, getpid(), getppid());</span><br><span class="line">            sleep(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220902104536913.png" alt="image-20220902104536913"></p>
+<h2 id="exec系列系统调用"><a href="#exec系列系统调用" class="headerlink" title="exec系列系统调用"></a>exec系列系统调用</h2><p>有时我们需要在子进程中<strong>执行其他程序</strong>，即替换当前进程映像，这就需要使用如下exec系列函数之一:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="type">char</span> **environ;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">execl</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *pathname, <span class="type">const</span> <span class="type">char</span> *arg, ...<span class="comment">/* (char  *) NULL */</span>)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">execlp</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *file, <span class="type">const</span> <span class="type">char</span> *arg, ...<span class="comment">/* (char  *) NULL */</span>)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">execle</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *pathname, <span class="type">const</span> <span class="type">char</span> *arg, ...<span class="comment">/*, (char *) NULL, char *const envp[] */</span>)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">execv</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *pathname, <span class="type">char</span> *<span class="type">const</span> argv[])</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">execvp</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *file, <span class="type">char</span> *<span class="type">const</span> argv[])</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">execvpe</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *file, <span class="type">char</span> *<span class="type">const</span> argv[], <span class="type">char</span> *<span class="type">const</span> envp[])</span>;</span><br></pre></td></tr></table></figure>
+<p><code>path</code>参数指定可执行文件的完整路径，<code>file</code>参数可以接受文件名，该文件的具体位置则在环境变量<code>PATH</code>中搜寻。</p>
+<p><code>arg</code>接受可变参数，<code>argv</code>则接受参数数组，它们都会被传递给新程序(<code>path</code>或<code>file</code>指定的程序）的<code>main</code>函数。<code>envp</code>参数用于设置新程序的环境变量。如果未设置它，则新程序将使用由全局变量<code>environ</code>指定的环境变量。</p>
+<p>一般<code>exec</code>函数是不返回的，除非出错。它出错时返回-1，并设置<code>errno</code>。如果没出错，则原程序中<code>exec</code>调用之后的代码都不会执行，因为此时原程序已经被<code>exec</code>的参数指定的程序完全替换（包括代码和数据)。</p>
+<p><code>exec</code>函数不会关闭原程序打开的文件描述符，除非该文件描述符被设置了类似<code>SOCK_CLOEXEC</code>的属性。</p>
+<p><code>exec</code>函数族一般规律：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">l(list)       命令行参数列表</span><br><span class="line"></span><br><span class="line">p(path)       搜索file时使用环境变量</span><br><span class="line"></span><br><span class="line">v(vector)      使用命令行参数数组</span><br><span class="line"></span><br><span class="line">e(environment)    使用环境变量数组，不适用进程原有的环境变量，设置新加载程序运行的环境变量</span><br></pre></td></tr></table></figure>
+<p>事实上，只有<code>execve</code>是真正的系统调用，其他5个函数最终都调用<code>execve</code>，是库函数，所以<code>execve</code>在man手册第二节，其它函数在man手册第3节。</p>
+<p>小栗子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;========================\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> *argvv[] = &#123;<span class="string">&quot;ls&quot;</span>, <span class="string">&quot;-l&quot;</span>, <span class="string">&quot;-F&quot;</span>, <span class="string">&quot;-a&quot;</span>, <span class="literal">NULL</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">pid_t</span> pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// execl(&quot;/bin/ls&quot;, &quot;ls&quot;, &quot;-l&quot;, &quot;-F&quot;, &quot;-a&quot;, NULL);</span></span><br><span class="line">        <span class="comment">// execv(&quot;/bin/ls&quot;, argvv);</span></span><br><span class="line">        execlp(<span class="string">&quot;ls&quot;</span>, <span class="string">&quot;-l&quot;</span>, <span class="string">&quot;-F&quot;</span>, <span class="string">&quot;-a&quot;</span>, <span class="literal">NULL</span>); <span class="comment">// 使用环境变量</span></span><br><span class="line"></span><br><span class="line">        perror(<span class="string">&quot;execlp&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;parent\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220903203128588.png" alt="image-20220903203128588"></p>
+<h2 id="处理僵尸进程（回收子进程）"><a href="#处理僵尸进程（回收子进程）" class="headerlink" title="处理僵尸进程（回收子进程）"></a>处理僵尸进程（回收子进程）</h2><p>对于多进程程序而言，父进程一般需要跟踪子进程的退出状态。因此，当子进程结束运行时，内核不会立即释放该进程的进程表表项，以满足父进程后续对该子进程退出信息的查询（如果父进程还在运行)。因此有时候子进程会产生两种特殊状态：孤儿进程和僵尸进程（大概就这种意思）</p>
+<p><strong>孤儿进程</strong>：<strong>父进程退出</strong>，而它的一个或多个<strong>子进程还在运行</strong>，那么那些子进程将成为孤儿进程。孤儿进程将被<code>init</code>进程(进程号为1)所收养，并由<code>init</code>进程对它们完成状态收集工作。（孤儿进程并不会有什么危害，因为<code>init</code>进程会循环地wait()它的已经退出的子进程）</p>
+<p><strong>僵尸进程</strong>：一个进程使用fork创建子进程，如果<strong>子进程退出</strong>，而父进程并没有调用<code>wait</code>或<code>waitpid</code>获取子进程的状态信息，那么子进程的进程描述符仍然保存在系统中。这种进程称之为僵死进程。</p>
+<p><strong>孤儿进程</strong>例子:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">pid_t</span> pid;</span><br><span class="line">    pid = fork();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;I am child, my parent pid = %d\n&quot;</span>, getppid());</span><br><span class="line">            sleep(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;I am parent, my pid is = %d\n&quot;</span>, getpid());</span><br><span class="line">        sleep(<span class="number">9</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;------------parent going to die------------\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;fork&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>可以看的父进程退出后，子进程的<code>ppid</code>变成了1（<code>init</code>的<code>pid</code>）,也就是说子进程被<code>init</code>领养了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220903211841731.png" alt="image-20220903211841731"></p>
+<p><strong>僵尸进程</strong>例子:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">pid_t</span> pid;</span><br><span class="line">    pid = fork();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;---child, my parent= %d, going to sleep 10s\n&quot;</span>, getppid());</span><br><span class="line">        sleep(<span class="number">10</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;-------------child die--------------\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;I am parent, pid = %d, myson = %d\n&quot;</span>, getpid(), pid);</span><br><span class="line">            sleep(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;fork&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220903212739059.png" alt="image-20220903212739059"></p>
+<p>子进程处于<strong>僵尸态</strong>会占用内核资源，内核资源长期被占用得不到释放显然是一件不好的事情。所以父进程需要正确的进行调用处理好子进程</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">pid_t</span> <span class="title function_">wait</span><span class="params">(<span class="type">int</span> *wstatus)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">pid_t</span> <span class="title function_">waitpid</span><span class="params">(<span class="type">pid_t</span> pid, <span class="type">int</span> *wstatus, <span class="type">int</span> options)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>wait</code>函数将<strong>阻塞进程</strong>，直到该进程的某个子进程结束运行为止。它返回结束运行的子进程<code>PID</code>。并将该子进程的退出状态信息存储于<code>wstatus</code>参数指向的内存中。Linux中有几个宏来帮助解释子进程的退出状态信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220903210213373.png" alt="image-20220903210213373"></p>
+<p><code>wait</code>例子</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">pid_t</span> pid, wpid;</span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line"></span><br><span class="line">    pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;---child, my id= %d, going to sleep 10s\n&quot;</span>, getpid());</span><br><span class="line">        sleep(<span class="number">10</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;-------------child die--------------\n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">73</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// wpid = wait(NULL);          // 不关心子进程结束原因</span></span><br><span class="line">        wpid = wait(&amp;status); <span class="comment">// 如果子进程未终止,父进程阻塞在这个函数上</span></span><br><span class="line">        <span class="keyword">if</span> (wpid == <span class="number">-1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            perror(<span class="string">&quot;wait error&quot;</span>);</span><br><span class="line">            <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (WIFEXITED(status))</span><br><span class="line">        &#123; <span class="comment">//为真,说明子进程正常终止.</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;child exit with %d\n&quot;</span>, WEXITSTATUS(status));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (WIFSIGNALED(status))</span><br><span class="line">        &#123; <span class="comment">//为真,说明子进程是被信号终止.</span></span><br><span class="line"></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;child kill with signal %d\n&quot;</span>, WTERMSIG(status));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;------------parent wait finish: %d\n&quot;</span>, wpid);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;fork&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220903213718096.png" alt="image-20220903213718096"></p>
+<p><code>wait</code>会阻塞进程，显然不是我们服务器所期望的，而<code>waitpid</code>函数解决了这个问题，它可以设置非阻塞。</p>
+<p><code>waitpid</code>只等待由<code>pid</code>参数指定的子进程。如果<code>pid</code>取值为-1，那么它就和 wait函数相同，即等待<strong>任意</strong>一个子进程结束。</p>
+<p><code>wstatus</code>参数的含义和<code>wait</code>函数的<code>wstatus</code>参数相同。<code>options</code>参数可以控制<code>waitpid</code>函数的行为。该参数最常用的取值是<code>WNOHANG</code>。当<code>options</code>的取值是<code>WNOHANG</code>时，<code>waitpid</code>调用将是非阻塞的:如果<code>pid</code>指定的目标子进程<strong>还没有结束或意外终止</strong>，则<code>waitpid</code>立即返回0；如果目标子进程确实正常退出了，则 <code>waitpid</code>返回该子进程的<code>PID</code>。<code>waitpid</code>调用失败时返回-1并设置<code>errno</code>。</p>
+<p>Linux在事件<strong>已经发生的情况下</strong>执行非阻塞调用才能提高程序的效率。对<code>waitpid</code>函数而言，我们最好在某个子进程退出之后再调用它。那么父进程从何得知某个子进程已经退出了呢?这正是<code>SIGCHLD</code>信号的用途。当一个进程结束时，它将给其父进程发送一个<code>SIGCHLD</code>信号。因此，我们可以在父进程中捕获<code>SIGCHLD</code>信号，并在信号处理函数中调用<code>waitpid</code>函数以“彻底结束”一个子进程。</p>
+<p><code>waitpid</code>简单小例子</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">handle_child</span><span class="params">(<span class="type">int</span> sig)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">pid_t</span> pid;</span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line">    <span class="keyword">while</span> ((pid = waitpid(<span class="number">-1</span>, &amp;status, WNOHANG)) &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (WIFEXITED(status))</span><br><span class="line">        &#123; <span class="comment">//为真,说明子进程正常终止.</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;child exit with %d\n&quot;</span>, WEXITSTATUS(status));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (WIFSIGNALED(status))</span><br><span class="line">        &#123; <span class="comment">//为真,说明子进程是被信号终止.</span></span><br><span class="line"></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;child kill with signal %d\n&quot;</span>, WTERMSIG(status));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">pid_t</span> pid;</span><br><span class="line">    pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 子进程</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;child ID %d\n&quot;</span>, getpid());</span><br><span class="line">        <span class="keyword">return</span> <span class="number">73</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 父进程</span></span><br><span class="line">        <span class="comment">// 设置信号处理函数</span></span><br><span class="line">        <span class="keyword">struct</span> sigaction act;</span><br><span class="line">        act.sa_handler = handle_child;</span><br><span class="line">        act.sa_flags = <span class="number">0</span>;</span><br><span class="line">        sigemptyset(&amp;act.sa_mask); <span class="comment">//不屏蔽任何信号</span></span><br><span class="line">        sigaction(SIGCHLD, &amp;act, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;Parent ID %d\n&quot;</span>, getpid());</span><br><span class="line">            sleep(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;fork&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220905104308336.png" alt="image-20220905104308336"></p>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>信号量（注意不是信号）是操作系统（并发）里面的概念，解决的是多个进程之间的同步问题。<code>Linux</code>信号量的API都定义在<code>sys/sem.h</code>头文件中，主要包含3个系统调用:<code>semget,semop和semctl</code>。它们都被设计为操作一组信号量，即信号量集，而不是单个信号量，因此这些接口看上要复杂一点。</p>
+<h3 id="semget"><a href="#semget" class="headerlink" title="semget"></a>semget</h3><p><code>semget</code>系统调用创建一个新的信号量集，或者获取一个已经存在的信号量集。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/sem.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">semget</span><span class="params">(<span class="type">key_t</span> key, <span class="type">int</span> nsems, <span class="type">int</span> semflg)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>key</code>参数是一个键值，用来表示一个全局<strong>唯一</strong>的信号量集。要通过信号量通信的进程需要使用相同的键值来创建/获取该信号量。</p>
+<p><code>nsems</code>参数指定要创建/获取的信号量集中信号量的数目。如果是<strong>创建</strong>信号量，则该值必须被指定；如果是<strong>获取</strong>已经存在的信号量，则可以把它设置为0。</p>
+<p><code>semflg</code>参数指定信号量的操作类型以及操纵权限。</p>
+<p><code>semget</code>成功时返回一个正整数值，它是信号量集的标识符；<code>semget</code>失败时返回-1，并设置<code>errno</code>。</p>
+<p><code>semget</code>用于创建信号量集时，和它关联的内核数据结构体<code>semid_ds</code>将会被创建并初始化</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ipc_perm</span> &#123;</span></span><br><span class="line">   <span class="type">key_t</span>          __key; <span class="comment">/* Key supplied to semget(2) */</span></span><br><span class="line">   <span class="type">uid_t</span>          uid;   <span class="comment">/* Effective UID of owner */</span></span><br><span class="line">   <span class="type">gid_t</span>          gid;   <span class="comment">/* Effective GID of owner */</span></span><br><span class="line">   <span class="type">uid_t</span>          cuid;  <span class="comment">/* Effective UID of creator */</span></span><br><span class="line">   <span class="type">gid_t</span>          cgid;  <span class="comment">/* Effective GID of creator */</span></span><br><span class="line">   <span class="type">unsigned</span> <span class="type">short</span> mode;  <span class="comment">/* Permissions */</span></span><br><span class="line">   <span class="type">unsigned</span> <span class="type">short</span> __seq; <span class="comment">/* Sequence number */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">semid_ds</span> &#123;</span></span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">ipc_perm</span> <span class="title">sem_perm</span>;</span>  <span class="comment">/* Ownership and permissions */</span></span><br><span class="line">   <span class="type">time_t</span>          sem_otime; <span class="comment">/* Last semop time */</span></span><br><span class="line">   <span class="type">time_t</span>          sem_ctime; <span class="comment">/* Last change time */</span></span><br><span class="line">   <span class="type">unsigned</span> <span class="type">long</span>   sem_nsems; <span class="comment">/* No. of semaphores in set */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916110352739.png" alt="image-20220916110352739"></p>
+<h3 id="semop系统调用"><a href="#semop系统调用" class="headerlink" title="semop系统调用"></a>semop系统调用</h3><p><code>semop</code>系统调用改变信号量的值，即执行PV操作。<code>semop</code>是通过在底层是通过操作一些重要的内核变量，如：<code>semval</code>、<code>semzcnt</code>、<code>semncnt</code>、<code>sempid</code>，来实现PV功能</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">short</span>  semval;   <span class="comment">/* semaphore value */</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">short</span>  semzcnt;  <span class="comment">/* # waiting for zero */</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">short</span>  semncnt;  <span class="comment">/* # waiting for increase */</span></span><br><span class="line"><span class="type">pid_t</span>           sempid;   <span class="comment">/* PID of process that last</span></span><br></pre></td></tr></table></figure>
+<p><code>semop</code>的定义如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/sem.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">semop</span><span class="params">(<span class="type">int</span> semid, <span class="keyword">struct</span> sembuf *sops, <span class="type">size_t</span> nsops)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>semid</code>参数是由<code>semget</code>调用返回的信号量集标识符，用以指定被操作的目标信号量集。</p>
+<p><code>sops</code>参数指向一个<code>sembuf</code>结构体类型的数组，<code>sembuf</code>结构体的定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Structure used for argument to `semop&#x27; to describe operations.  */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sembuf</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> <span class="type">int</span> sem_num;	<span class="comment">/* semaphore number */</span></span><br><span class="line">  <span class="type">short</span> <span class="type">int</span> sem_op;		<span class="comment">/* semaphore operation */</span></span><br><span class="line">  <span class="type">short</span> <span class="type">int</span> sem_flg;		<span class="comment">/* operation flag */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中<code>sem_num</code>成员是信号量集中信号量的编号，0表示信号量集中第一个信号量。</p>
+<p><code>sem_op</code>成员指定操作类型，其可选值为正整数、0和负整数。每种类型的操作的行为又受到<code>sem_fig</code>成员的影响。<code>sem_fg</code>的可选值是<code>IPC_NOWAIT</code>和<code>SEM_UNDO</code>。<code>IPC_NOWAIT</code>的含义是，无论信号量操作是否成功，<code>semop</code>调用都将立即返回，这类似于非阻塞IO操作。<code>SEM_UNDO</code>的含义是，当进程退出时取消正在进行的<code>semop</code>操作。具体来说，<code>sem_op</code>和<code>sem_flg</code> 将按照如下方式来影响<code>semop</code>的行为:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220914191132925.png" alt="image-20220914191132925"></p>
+<p><code>semop</code>系统调用的第3个参数<code>num_sem_ops</code>指定要执行的操作个数，即<code>sem_ops</code>数组中元素的个数。<code>semop</code>对数组<code>sem_ops</code>中的每个成员按照数组顺序依次执行操作，并且该过程是原子操作，以避免别的进程在同一时刻按照不同的顺序对该信号集中的信号量执行<code>semop</code>操作导致的竞态条件。</p>
+<p><code>semop</code>成功时返回0，失败则返回-1并设置<code>errno</code>。失败的时候，<code>sem_ops</code>数组中指定的所有操作都不被执行。</p>
+<h3 id="semtcl系统调用"><a href="#semtcl系统调用" class="headerlink" title="semtcl系统调用"></a>semtcl系统调用</h3><p><code>semctl</code>系统调用允许调用者对信号量进行直接控制。其定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/sem.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">semctl</span><span class="params">(<span class="type">int</span> semid, <span class="type">int</span> semnum, <span class="type">int</span> cmd, ...)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>sem_id</code>参数是由<code>semget</code>调用返回的信号量集标识符，用以指定被操作的信号量集。</p>
+<p><code>semnum</code>参数指定被操作的信号量在信号量集中的编号。</p>
+<p><code>cmd</code>参数指定要执行的命令。有的命令需要调用者传递第4个参数。第4个参数的类型由用户自己定义，但<code>sys/sem.h</code>头文件给出了它的推荐格式，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">semun</span> &#123;</span></span><br><span class="line">   <span class="type">int</span>              val;    <span class="comment">/* 用于 SETVAL */</span></span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">semid_ds</span> *<span class="title">buf</span>;</span>    <span class="comment">/* 用于 IPC_STAT, IPC_SET */</span></span><br><span class="line">   <span class="type">unsigned</span> <span class="type">short</span>  *<span class="built_in">array</span>;  <span class="comment">/* 用于 GETALL, SETALL */</span></span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">seminfo</span>  *__<span class="title">buf</span>;</span>  <span class="comment">/* 用于 IPC_INFO(Linux-specific) */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span>  <span class="title">seminfo</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">int</span> semmap;				<span class="comment">/* Linux内核没有使用 */</span></span><br><span class="line">  <span class="type">int</span> semmni;				<span class="comment">/* 系统最多可以拥有的信号量集数目 */</span></span><br><span class="line">  <span class="type">int</span> semmns;				<span class="comment">/* 系统最多可以拥有的信号量数目 */</span></span><br><span class="line">  <span class="type">int</span> semmnu;				<span class="comment">/* Linux内核没有使用 */</span></span><br><span class="line">  <span class="type">int</span> semmsl;				<span class="comment">/* 一个信号集最多允许包含的信号量数目 */</span></span><br><span class="line">  <span class="type">int</span> semopm;				<span class="comment">/* semop一次最多能执行的sem_op操作数目 */</span></span><br><span class="line">  <span class="type">int</span> semume;				<span class="comment">/* Linux内核没有使用 */</span></span><br><span class="line">  <span class="type">int</span> semusz;				<span class="comment">/* sem_undo结构体的大小 */</span></span><br><span class="line">  <span class="type">int</span> semvmx;				<span class="comment">/* 最大允许的信号量值 */</span></span><br><span class="line">  <span class="type">int</span> semaem;				<span class="comment">/* 最多允许的UNDO次数（待SEM_UNDO标志的semop操作的次数）*/</span></span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>semctl</code>支持的命令</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220914213741897.png" alt="image-20220914213741897"></p>
+<p>这些操作中，<code>GETNCNT</code>、<code>GETPID</code>、<code>GETVAL</code>、<code>GETZCNT</code>和<code>SETVAL</code>操作的是单个信号量，它是由标识符<code>semid</code>指定的信号量集中的第<code>semnum</code>个信号量;而其他操作针对的是整个信号量集，此时<code>semctl</code>的参数<code>semnum</code>被忽略。</p>
+<p><code>semctl</code>成功时的返回值取决于<code>cmd</code>参数，如表13-2所示。<code>semctl</code>失败时返回-1,并设置<code>errno</code>。</p>
+<h3 id="特殊键值IPC-PRIVATE"><a href="#特殊键值IPC-PRIVATE" class="headerlink" title="特殊键值IPC_PRIVATE"></a>特殊键值IPC_PRIVATE</h3><p><code>semget</code>的调用者可以给其<code>key</code>参数传递一个特殊的键值<code>IPC_PRIVATE</code>(其值为0)，这样无论该信号量是否已经存在，<code>semget</code>都将创建一个新的信号量。使用该键值创建的信号量并非像它的名字声称的那样是进程私有的。其他进程，尤其是子进程，也有方法来访问这个信号量。所以<code>semget</code>的 man手册的<code>BUGS</code>部分上说，使用名字<code>IPC_PRIVATE</code>有些误导（历史原因)，应该称为<code>IPC_NEW</code>。比如下面的代码就在父、子进程间使用一个IPC_PRIVATE信号量来同步。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/sem.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">semun</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">int</span> val;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">semid_ds</span> *<span class="title">buf</span>;</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">short</span> <span class="type">int</span> *<span class="built_in">array</span>;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">seminfo</span> *__<span class="title">buf</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">pv</span><span class="params">(<span class="type">int</span> sem_id, <span class="type">int</span> op)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sembuf</span> <span class="title">sem_b</span>;</span></span><br><span class="line">    sem_b.sem_num = <span class="number">0</span>;</span><br><span class="line">    sem_b.sem_op = op;</span><br><span class="line">    sem_b.sem_flg = SEM_UNDO;</span><br><span class="line">    semop(sem_id, &amp;sem_b, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> sem_id = semget(IPC_PRIVATE, <span class="number">1</span>, <span class="number">0666</span>);</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">union</span> <span class="title">semun</span> <span class="title">sem_un</span>;</span></span><br><span class="line">    sem_un.val = <span class="number">1</span>;</span><br><span class="line">    semctl(sem_id, <span class="number">0</span>, SETVAL, sem_un);</span><br><span class="line"></span><br><span class="line">    <span class="type">pid_t</span> id = fork();</span><br><span class="line">    <span class="keyword">if</span> (id &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (id == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;child try to get binary sem\n&quot;</span>);</span><br><span class="line">        pv(sem_id, <span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;child get the sem and would release it after 5 seconds\n&quot;</span>);</span><br><span class="line">        sleep(<span class="number">5</span>);</span><br><span class="line">        pv(sem_id, <span class="number">1</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;parent try to get binary sem\n&quot;</span>);</span><br><span class="line">        pv(sem_id, <span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;parent get the sem and would release it after 5 seconds\n&quot;</span>);</span><br><span class="line">        sleep(<span class="number">5</span>);</span><br><span class="line">        pv(sem_id, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    waitpid(id, <span class="literal">NULL</span>, <span class="number">0</span>);</span><br><span class="line">    semctl(sem_id, <span class="number">0</span>, IPC_RMID, sem_un);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="共享内存"><a href="#共享内存" class="headerlink" title="共享内存"></a>共享内存</h2><p>共享内存是最高效的IPC机制，因为它不涉及进程之间的任何数据传输。这种高效率带来的问题是，我们必须用其他辅助手段来同步进程对共享内存的访问，否则会产生竞态条件。因此，共享内存通常和其他进程间通信方式一起使用。</p>
+<p>Linux共享内存的API都定义<code>sys/shm.h</code>头文件中，包括4个系统调用: <code>shmget</code>、<code>shmat</code>、<code>shmdt</code> 和l<code>shmctl</code>。我们将依次讨论之。</p>
+<h3 id="shmget系统调用"><a href="#shmget系统调用" class="headerlink" title="shmget系统调用"></a>shmget系统调用</h3><p><code>shmget</code>系统调用创建一段新的共享内存，或者获取一段已经存在的共享内存。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/shm.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">shmget</span><span class="params">(<span class="type">key_t</span> key, <span class="type">size_t</span> size, <span class="type">int</span> shmflg)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>key</code>参数是一个键值，用来标识一段全局唯一的共享内存。</p>
+<p><code>size</code>参数指定共享内存的大小，单位是字节。如果是创建新的共享内存，则size值必须被指。如果是获取已经存在的共享内存，则可以把<code>size</code>设置为0。</p>
+<p><code>shmflg</code>参数指定信号量的操作类型以及操纵权限。它和<code>semget</code>中<code>semflg</code>参数相同，但是<code>shmflg</code>支持两个额外的标志：<code>SHM_HUGETLB</code>和<code>SHM_NORESERVE</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916104221617.png" alt="image-20220916104221617"></p>
+<p><code>shmget</code>成功时返回—个正整数值，它是共享内存的标识符。<code>shmget</code>失败时返回-1，并设置<code>errno</code>。</p>
+<p>如果<code>shmget</code>用于创建共享内存，则这段共享内存的所有字节都被初始化为0，与之关联的内核数据结构<code>shmid_ds</code>将被创建并初始化。<code>shmid_ds</code>结构体的定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">shmid_ds</span> &#123;</span></span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">ipc_perm</span> <span class="title">shm_perm</span>;</span>    <span class="comment">/* Ownership and permissions */</span></span><br><span class="line">   <span class="type">size_t</span>          shm_segsz;   <span class="comment">/* Size of segment (bytes) */</span></span><br><span class="line">   <span class="type">time_t</span>          shm_atime;   <span class="comment">/* Last attach time */</span></span><br><span class="line">   <span class="type">time_t</span>          shm_dtime;   <span class="comment">/* Last detach time */</span></span><br><span class="line">   <span class="type">time_t</span>          shm_ctime;   <span class="comment">/* Last change time */</span></span><br><span class="line">   <span class="type">pid_t</span>           shm_cpid;    <span class="comment">/* PID of creator */</span></span><br><span class="line">   <span class="type">pid_t</span>           shm_lpid;    <span class="comment">/* PID of last shmat(2)/shmdt(2) */</span></span><br><span class="line">   <span class="type">shmatt_t</span>        shm_nattch;  <span class="comment">/* No. of current attaches */</span></span><br><span class="line">   ...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ipc_perm</span> &#123;</span></span><br><span class="line">   <span class="type">key_t</span>          __key;    <span class="comment">/* Key supplied to shmget(2) */</span></span><br><span class="line">   <span class="type">uid_t</span>          uid;      <span class="comment">/* Effective UID of owner */</span></span><br><span class="line">   <span class="type">gid_t</span>          gid;      <span class="comment">/* Effective GID of owner */</span></span><br><span class="line">   <span class="type">uid_t</span>          cuid;     <span class="comment">/* Effective UID of creator */</span></span><br><span class="line">   <span class="type">gid_t</span>          cgid;     <span class="comment">/* Effective GID of creator */</span></span><br><span class="line">   <span class="type">unsigned</span> <span class="type">short</span> mode;     <span class="comment">/* Permissions + SHM_DEST and</span></span><br><span class="line"><span class="comment">                               SHM_LOCKED flags */</span></span><br><span class="line">   <span class="type">unsigned</span> <span class="type">short</span> __seq;    <span class="comment">/* Sequence number */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916110659249.png" alt="image-20220916110659249"></p>
+<h3 id="shmat和shdt系统调用"><a href="#shmat和shdt系统调用" class="headerlink" title="shmat和shdt系统调用"></a>shmat和shdt系统调用</h3><p>共享内存被创建/获取之后，我们不能立即访问它，而是需要先将它关联到进程的地址空间中。使用完共享内存之后，我们也需要将它从进程地址空间中分离。这两项任务分别由如下两个系统调用实现:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/shm.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> *<span class="title function_">shmat</span><span class="params">(<span class="type">int</span> shmid, <span class="type">const</span> <span class="type">void</span> *shmaddr, <span class="type">int</span> shmflg)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">shmdt</span><span class="params">(<span class="type">const</span> <span class="type">void</span> *shmaddr)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>shmid</code>参数是由<code>shmget</code>调用返回的共享内存标识符。</p>
+<p><code>shmaddr</code>参数指定将共享内存关联到进程的那块地址空间，最终的效果还受到<code>shmflg</code>参数的可选标志<code>SHM_RND</code>的影响。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916142910291.png" alt="image-20220916142910291"></p>
+<p>除了<code>SHM_RND</code>标志外，shmflg参数还支持如下标志：</p>
+<p><img src="C:/Users/Administrator/AppData/Roaming/Typora/typora-user-images/image-20220916143225086.png" alt="image-20220916143225086"></p>
+<p><code>shmat</code>成功时返回共享内存被关联到的地址，失败则返回<code>(void*)-1</code>并设置<code>errno</code>。<code>shmat</code>成功时，将修改内核数据结构<code>shmid_ds</code>的部分字段，如下:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916143610901.png" alt="image-20220916143610901"></p>
+<p><code>shmdt</code>函数将关联到<code>shm_addr</code>处的共享内存从进程中分离。它成功时返回0，失败则返回-1并设置<code>errno</code>。<code>shmdt</code>在成功调用时将修改内核数据结构<code>shmid_ds</code>的部分字段，如下:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916143718065.png" alt="image-20220916143718065"></p>
+<h3 id="shmctl系统调用"><a href="#shmctl系统调用" class="headerlink" title="shmctl系统调用"></a>shmctl系统调用</h3><p>shmctl系统调用控制共享内存的某些属性。定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/shm.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">shmctl</span><span class="params">(<span class="type">int</span> shmid, <span class="type">int</span> cmd, <span class="keyword">struct</span> shmid_ds *buf)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>shmid</code>参数是由<code>shmget</code>调用返回的共享内存标识符。</p>
+<p><code>cmd</code>参数指定要执行的命令</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916160516010.png" alt="image-20220916160516010"></p>
+<p><code>shmctl</code>成功时的返回值取决于<code>cmd</code>参数，如上表所展示的，<code>shmctl</code>失败时返回-1，并且设置<code>erron</code>。</p>
+<h3 id="共享内存POSIX方法"><a href="#共享内存POSIX方法" class="headerlink" title="共享内存POSIX方法"></a>共享内存POSIX方法</h3><p>之前介绍过<code>mmap</code>函数。利用它的<code>MAP_ANONYMOUS</code>标志我们可以实现父、子进程之间的匿名内存共享。通过打开同一个文件，<code>mmap</code>也可以实现无关进程之间的内存共享。Linux提供了另外一种利用<code>mmap</code>在无关进程之间共享内存的方式。这种方式无须任何文件的支持，但它需要先使用如下函数来创建或打开一个<code>POSIX</code>共享内存对象:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/stat.h&gt;</span>        <span class="comment">/* For mode constants */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span>           <span class="comment">/* For O_* constants */</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">shm_open</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name, <span class="type">int</span> oflag, <span class="type">mode_t</span> mode)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">shm_unlink</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>shm_open</code>的使用方法与<code>open</code>系统调用完全相同。</p>
+<p><code>name</code>参数指定要创建<code>/</code>打开的共享内存对象。从可移植性的角度考虑，该参数应该使用”/somename”的格式:以“/”开始，后接多个字符，且这些字符都不是“/”；以“\0”结尾，长度不超过<code>NAME_MAX</code>(通常是255)。</p>
+<p><code>oflag</code>参数指定创建方式。它可以是下列标志中的一个或者多个的按位或:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916183212921.png" alt="image-20220916183212921"></p>
+<p><code>shm_open</code>调用成功时返回一个文件描述符。该文件描述符可用于后续的<code>mmap</code>调用，从而将共享内存关联到调用进程。<code>shm_open</code>失败时返回-1，并设置<code>errno</code>。</p>
+<p>和打开的文件最后需要关闭一样，由<code>shm_open</code>创建的共享内存对象使用完之后也需要被删除。这个过程是通过<code>shm_unlink</code>函数实现的。</p>
+<p>该函数将<code>name</code>参数指定的共享内存对象标记为等待删除。当所有使用该共享内存对象的进程都使用<code>ummap</code>将它从进程中分离之后，系统将销毁这个共享内存对象所占据的资源。</p>
+<p>如果代码中使用了上述<code>POSIX</code>共享内存函数，则编译的时候需要指定链接选项<code>-lrt</code>。</p>
+<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p>消息队列是在两个进程之间传递二进制块数据的一种简单有效的方式。每个数据块都有一个特定的类型，接收方可以根据类型来有选择地接收数据，而不一定像管道和命名管道那样必须以先进先出的方式接收数据。</p>
+<p>Linux消息队列的API都定义在<code>sys/msg.h</code>头文件中，包括4个系统调用: <code>msgget</code>、<code>msgsnd</code>、<code>msgrcv</code>和 <code>msgctl</code>。</p>
+<h3 id="msgget系统调用"><a href="#msgget系统调用" class="headerlink" title="msgget系统调用"></a>msgget系统调用</h3><p><code>msgget</code>系统调用创建一个消息队列，或者获取一个已有的消息队列。其定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/msg.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">msgget</span><span class="params">(<span class="type">key_t</span> key, <span class="type">int</span> msgflg)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>key</code>参数是一个键值，用来标识一段全局唯一的共享内存。</p>
+<p><code>msgflg</code>参数指定信号量的操作类型以及操纵权限。它和<code>semget</code>中<code>semflg</code>参数相同。</p>
+<p><code>msgget</code>成功时返回一个正整数值，它是消息队列的标识符。<code>msgget</code>失败时返回-1，并设置<code>errno</code>。</p>
+<p>如果<code>msgget</code>用于创建消息队列，则与之关联的内核数据结构<code>msqid_ds</code>将被创建并初始化。<code>msqid_ds</code>结构体的定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msqid_ds</span> &#123;</span></span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">ipc_perm</span> <span class="title">msg_perm</span>;</span>     <span class="comment">/* Ownership and permissions */</span></span><br><span class="line">   <span class="type">time_t</span>          msg_stime;    <span class="comment">/* Time of last msgsnd(2) */</span></span><br><span class="line">   <span class="type">time_t</span>          msg_rtime;    <span class="comment">/* Time of last msgrcv(2) */</span></span><br><span class="line">   <span class="type">time_t</span>          msg_ctime;    <span class="comment">/* Time of last change */</span></span><br><span class="line">   <span class="type">unsigned</span> <span class="type">long</span>   __msg_cbytes; <span class="comment">/* Current number of bytes in</span></span><br><span class="line"><span class="comment">                                    queue (nonstandard) */</span></span><br><span class="line">   <span class="type">msgqnum_t</span>       msg_qnum;     <span class="comment">/* Current number of messages</span></span><br><span class="line"><span class="comment">                                    in queue */</span></span><br><span class="line">   <span class="type">msglen_t</span>        msg_qbytes;   <span class="comment">/* Maximum number of bytes</span></span><br><span class="line"><span class="comment">                                    allowed in queue */</span></span><br><span class="line">   <span class="type">pid_t</span>           msg_lspid;    <span class="comment">/* PID of last msgsnd(2) */</span></span><br><span class="line">   <span class="type">pid_t</span>           msg_lrpid;    <span class="comment">/* PID of last msgrcv(2) */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ipc_perm</span> &#123;</span></span><br><span class="line">   <span class="type">key_t</span>          __key;       <span class="comment">/* Key supplied to msgget(2) */</span></span><br><span class="line">   <span class="type">uid_t</span>          uid;         <span class="comment">/* Effective UID of owner */</span></span><br><span class="line">   <span class="type">gid_t</span>          gid;         <span class="comment">/* Effective GID of owner */</span></span><br><span class="line">   <span class="type">uid_t</span>          cuid;        <span class="comment">/* Effective UID of creator */</span></span><br><span class="line">   <span class="type">gid_t</span>          cgid;        <span class="comment">/* Effective GID of creator */</span></span><br><span class="line">   <span class="type">unsigned</span> <span class="type">short</span> mode;        <span class="comment">/* Permissions */</span></span><br><span class="line">   <span class="type">unsigned</span> <span class="type">short</span> __seq;       <span class="comment">/* Sequence number */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="msgsnd系统调用"><a href="#msgsnd系统调用" class="headerlink" title="msgsnd系统调用"></a>msgsnd系统调用</h3><p><code>msgsnd</code>系统调用把一条消息添加到消息队列当中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/msg.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">msgsnd</span><span class="params">(<span class="type">int</span> msqid, <span class="type">const</span> <span class="type">void</span> *msgp, <span class="type">size_t</span> msgsz, <span class="type">int</span> msgflg)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>msqid</code>参数是由<code>msgget</code>调用返回的消息队列标识符。</p>
+<p><code>msgp</code>参数指向一个准备发生的消息，消息的类型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msgbuf</span> &#123;</span></span><br><span class="line">   <span class="type">long</span> mtype;       <span class="comment">/* message type, must be &gt; 0 */</span></span><br><span class="line">   <span class="type">char</span> mtext[<span class="number">512</span>];    <span class="comment">/* message data */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中，<code>mtype</code>成员指定消息的类型，它必须是一个正整数。<code>mtext</code>是消息数据。</p>
+<p><code>msgsz</code>参数是消息的数据部分(<code>mtext</code>）的长度。这个长度可以为0，表示没有消息数据。</p>
+<p><code>msgflg</code>参数控制<code>msgsnd</code>的行为。它通常仅支持<code>IPC_NOWAIT</code>标志，即以非阻塞的方式发送消息。默认情况下，发送消息时如果消息队列满了，则<code>msgsnd</code>将阻塞。若<code>IPC_NOWAIT</code>标志被指定，则<code>msgsnd</code>将立即返回并设置<code>errno</code>为<code>EAGAIN</code>。</p>
+<p>处于阻塞状态的<code>msgsnd</code>调用可能被如下两种异常情况所中断:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916203148729.png" alt="image-20220916203148729"></p>
+<p><code>msgsnd</code>成功时返回0，失败则返回-1并设置<code>errno</code>。<code>msgsnd</code>成功时将修改内核数据结构<code>msqid_ds</code>的部分字段，如下所示:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916203319762.png" alt="image-20220916203319762"></p>
+<h3 id="msgrcv调用"><a href="#msgrcv调用" class="headerlink" title="msgrcv调用"></a>msgrcv调用</h3><p><code>msgrcv</code>系统调用从消息队列中获取消息。其定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/msg.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">ssize_t</span> <span class="title function_">msgrcv</span><span class="params">(<span class="type">int</span> msqid, <span class="type">void</span> *msgp, <span class="type">size_t</span> msgsz, <span class="type">long</span> msgtyp, <span class="type">int</span> msgflg)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>msqid</code>参数是由<code>msgget</code>调用返回的消息队列标识符。</p>
+<p><code>msgp</code>参数用于存储接收的消息。</p>
+<p><code>msgsz</code>参数指的是消息数据部分的长度。</p>
+<p><code>msgtyp</code>参数指定接收何种类型的消息。我们可以使用如下几种方式来指定消息类型:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916203913760.png" alt="image-20220916203913760"></p>
+<p><code>msgflg</code>参数控制<code>msgrcv</code>函数的行为。它可以是如下一些标志的按位或:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916204159893.png" alt="image-20220916204159893"></p>
+<p>处于阻塞状态的<code>msgrcv</code>调用还可能被如下两种异常情况所中断:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916204353109.png" alt="image-20220916204353109"></p>
+<p><code>msgrcv</code>成功时返回0，失败则返回-1并设置<code>errno</code>。<code>msgrcv</code>成功时将修改内核数据结构<code>msqid_ds</code>的部分字段，如下所示:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220916204528137.png" alt="image-20220916204528137"></p>
+<h2 id="IPC命令"><a href="#IPC命令" class="headerlink" title="IPC命令"></a>IPC命令</h2><p>上述3种System V IPC进程间通信方式都使用一个全局唯一的键值（key)来描述一个共享资源。当程序调用<code>semget</code>、<code>shmget</code>或者<code>msgget</code>时，就创建了这些共享资源的一个实例。Linux提供了<code>ipcs</code>命令，以观察当前系统上拥有哪些共享资源实例。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220917105516824.png" alt="image-20220917105516824"></p>
+<p>上图展示了机器里面没有任何消息队列，但是有共享内存和信号量。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> Linux高性能服务器编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/29/Linux/Linux%E5%AE%9A%E6%97%B6%E5%99%A8/" rel="prev" title="Linux定时器">
+      <i class="fa fa-chevron-left"></i> Linux定时器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/18/Linux/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" rel="next" title="多线程编程">
+      多线程编程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">多进程编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fork%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">fork系统调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exec%E7%B3%BB%E5%88%97%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">exec系列系统调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%EF%BC%88%E5%9B%9E%E6%94%B6%E5%AD%90%E8%BF%9B%E7%A8%8B%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">处理僵尸进程（回收子进程）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="nav-number">1.4.</span> <span class="nav-text">信号量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#semget"><span class="nav-number">1.4.1.</span> <span class="nav-text">semget</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#semop%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.4.2.</span> <span class="nav-text">semop系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#semtcl%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.4.3.</span> <span class="nav-text">semtcl系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E9%94%AE%E5%80%BCIPC-PRIVATE"><span class="nav-number">1.4.4.</span> <span class="nav-text">特殊键值IPC_PRIVATE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98"><span class="nav-number">1.5.</span> <span class="nav-text">共享内存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shmget%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.5.1.</span> <span class="nav-text">shmget系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmat%E5%92%8Cshdt%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.5.2.</span> <span class="nav-text">shmat和shdt系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmctl%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.5.3.</span> <span class="nav-text">shmctl系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98POSIX%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.4.</span> <span class="nav-text">共享内存POSIX方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="nav-number">1.6.</span> <span class="nav-text">消息队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#msgget%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.6.1.</span> <span class="nav-text">msgget系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#msgsnd%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.6.2.</span> <span class="nav-text">msgsnd系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#msgrcv%E8%B0%83%E7%94%A8"><span class="nav-number">1.6.3.</span> <span class="nav-text">msgrcv调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPC%E5%91%BD%E4%BB%A4"><span class="nav-number">1.7.</span> <span class="nav-text">IPC命令</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">493k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : 'f1b2919cb1a91869488553602647d1df',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

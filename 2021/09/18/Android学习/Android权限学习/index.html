@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Android权限学习Android权限可以分为两大类：安装时权限、运行时权限和特殊权限，安装时权限包括普通权限和签名权限。 一般在应用商城上架的软件都可以看到对应的需要的权限，下面就是Android的王者荣誉当中展示的需要的权限   本文主要针对于Android6.0之后的介绍！！！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android权限学习">
+<meta property="og:url" content="https://bugcat.top/2021/09/18/Android%E5%AD%A6%E4%B9%A0/Android%E6%9D%83%E9%99%90%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="Android权限学习Android权限可以分为两大类：安装时权限、运行时权限和特殊权限，安装时权限包括普通权限和签名权限。 一般在应用商城上架的软件都可以看到对应的需要的权限，下面就是Android的王者荣誉当中展示的需要的权限   本文主要针对于Android6.0之后的介绍！！！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210918202325809.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210918202805326.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210918205745566.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210923204407573.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210923205400390.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927111601508.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927111714036.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927111813939.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927112331524.png">
+<meta property="article:published_time" content="2021-09-18T19:53:44.000Z">
+<meta property="article:modified_time" content="2024-10-20T13:34:26.724Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Andorid编程权威指南">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210918202325809.png">
+
+<link rel="canonical" href="https://bugcat.top/2021/09/18/Android%E5%AD%A6%E4%B9%A0/Android%E6%9D%83%E9%99%90%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Android权限学习 | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/09/18/Android%E5%AD%A6%E4%B9%A0/Android%E6%9D%83%E9%99%90%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android权限学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-18 19:53:44" itemprop="dateCreated datePublished" datetime="2021-09-18T19:53:44+00:00">2021-09-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-20 13:34:26" itemprop="dateModified" datetime="2024-10-20T13:34:26+00:00">2024-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Android权限学习"><a href="#Android权限学习" class="headerlink" title="Android权限学习"></a>Android权限学习</h1><p>Android权限可以分为两大类：安装时权限、运行时权限和特殊权限，安装时权限包括普通权限和签名权限。</p>
+<p>一般在应用商城上架的软件都可以看到对应的需要的权限，下面就是Android的王者荣誉当中展示的需要的权限</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210918202325809.png" alt="image-20210918202325809"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210918202805326.png" alt="image-20210918202805326"></p>
+<p><strong>本文主要针对于<code>Android6.0</code>之后的介绍！！！</strong></p>
+<span id="more"></span>
+<h2 id="权限介绍"><a href="#权限介绍" class="headerlink" title="权限介绍"></a>权限介绍</h2><h3 id="普通权限"><a href="#普通权限" class="headerlink" title="普通权限"></a>普通权限</h3><p>在官方文档当中，普通权限此类权限允许访问超出应用沙盒的数据和执行超出应用沙盒的操作。但是，这些数据和操作对用户隐私及对其他应用的操作带来的风险非常小。系统会为普通权限分配“normal”保护级别</p>
+<p>这类权限不太需要重点关注，申请这类权限只需要在<code>AndroidManifest</code>中声明即可</p>
+<h3 id="签名权限"><a href="#签名权限" class="headerlink" title="签名权限"></a>签名权限</h3><p>官方的介绍是当应用声明了其他应用已定义的签名权限时，如果两个应用使用同一证书进行签名，系统会在安装时向前者授予该权限。否则，系统无法向前者授予该权限。</p>
+<p>系统会为签名权限分配“signature”保护级别</p>
+<p>目前我并没有查找到和签名权限相关的较多资料暂且跳过。</p>
+<h3 id="运行时权限"><a href="#运行时权限" class="headerlink" title="运行时权限"></a>运行时权限</h3><p>运行时权限又成为危险权限，他是学习的重点，该权限在系统请求的时候，系统会显示运行时权限提示。</p>
+<p>比如我在市面上找到的一款小说软件，他就申请的电话权限。</p>
+<p>后面我们也会实现这样的功能</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210918205745566.png" alt="image-20210918205745566"></p>
+<p>系统会为运行时权限分配“dangerous”保护级别</p>
+<h3 id="特殊权限"><a href="#特殊权限" class="headerlink" title="特殊权限"></a>特殊权限</h3><p>特殊权限与特定的应用操作相对应。只有平台和原始设备制造商 (OEM) 可以定义特殊权限。此外，如果平台和 OEM 想要防止有人执行功能特别强大的操作（例如通过其他应用绘图），通常会定义特殊权限。</p>
+<p>系统设置中的<strong>特殊应用访问权限</strong>页面包含一组用户可切换的操作。其中的许多操作都以特殊权限的形式实现。</p>
+<p>每项特殊权限都有自己的实现细节。</p>
+<p>系统会为特殊权限分配“appop”保护级别。</p>
+<p>特殊权限不在本次学习的重点之内，基本可以忽略</p>
+<h2 id="声明应用权限"><a href="#声明应用权限" class="headerlink" title="声明应用权限"></a>声明应用权限</h2><p>声明权限比较简单只需要在<code>AndroidManifest</code>中加入对应的权限就行</p>
+<p>如申明网络权限：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>申明了权限之后如果该权限是安装时权限，系统会在安装您的应用时自动为其授予相应权限。</p>
+<p><strong>如果该权限时运行时权限，那么光声明权限还是不够的，还需要继续请求权限。</strong></p>
+<p>当然如果是运行时权限，直接不写声明，那么请求权限是发不出去的，一发出去就会被拒绝。</p>
+<h2 id="请求权限"><a href="#请求权限" class="headerlink" title="请求权限"></a>请求权限</h2><h3 id="检测权限"><a href="#检测权限" class="headerlink" title="检测权限"></a>检测权限</h3><p>请求的权限一般是危险权限也就是运行时权限，在请求权限之前我们可以检测一下权限，查看权限是否授予</p>
+<p>检查权限使用的函数是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">checkSelfPermission</span> <span class="params">(Context context, String permission)</span></span><br></pre></td></tr></table></figure>
+<p>此方法会返回 <a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/content/pm/PackageManager#PERMISSION_GRANTED"><code>PERMISSION_GRANTED</code></a> 或 <a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/content/pm/PackageManager#PERMISSION_DENIED"><code>PERMISSION_DENIED</code></a>。然后我们就可以知道是否获得了该权限</p>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_main);</span><br><span class="line">    <span class="type">int</span> <span class="variable">permissionCheck</span> <span class="operator">=</span> ContextCompat.checkSelfPermission(<span class="built_in">this</span>, Manifest.permission.CAMERA);</span><br><span class="line">    <span class="keyword">if</span> (permissionCheck == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;Manifest.permission.CAMERA is  granted&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;Manifest.permission.CAMERA is not granted&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="请求对应权限"><a href="#请求对应权限" class="headerlink" title="请求对应权限"></a>请求对应权限</h3><p>请求对应的权限的代码目前看来有两种方式，第一种方式是使用<code>ActivityResultLauncher</code>，第二种是使用函数<code>requestPermissions</code></p>
+<h4 id="使用ActivityResultLauncher"><a href="#使用ActivityResultLauncher" class="headerlink" title="使用ActivityResultLauncher"></a>使用<code>ActivityResultLauncher</code></h4><p>使用<code>ActivityResultLauncher</code>需要先指定<code>ActivityResultContract</code>类型的协议不过在Android当中已经有实现好的类，那就是<code>RequestPermission</code>类</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210923204407573.png" alt="image-20210923204407573"></p>
+<p>可以看到<code>RequestPermission</code>类是<code>ActivityResultContract&lt;String,Boolean&gt;</code>类型的，其中<code>String</code>代表权限的名字，而<code>Boolean</code>代表最后返回是否授予权限的结果，所以使用起来比较简单，类似有Activity的跳转</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注册权限回调，它处理用户对系统权限对话框的响应。</span></span><br><span class="line"><span class="comment">//将返回值(ActivityResultLauncher的一个实例)保存为实例变量。</span></span><br><span class="line"><span class="keyword">private</span> ActivityResultLauncher&lt;String&gt; requestPermissionLauncher =</span><br><span class="line">        registerForActivityResult(<span class="keyword">new</span> <span class="title class_">ActivityResultContracts</span>.RequestPermission(), isGranted -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (isGranted) &#123;</span><br><span class="line">                <span class="comment">// 权限被授予的情况</span></span><br><span class="line">                Toast.makeText(MainActivity.<span class="built_in">this</span>, <span class="string">&quot;第一种方式：权限被授予&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//向用户解释该功能不可用，因为该功能需要用户拒绝的权限。</span></span><br><span class="line">                <span class="comment">// 同时，尊重用户的决定。不要链接到系统设置，试图说服用户改变他们的决定。</span></span><br><span class="line">                Toast.makeText(MainActivity.<span class="built_in">this</span>, <span class="string">&quot;第一种方式：权限未授予&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>我们请求摄像头权限</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一种方式使用 ActivityResultLauncher</span></span><br><span class="line">requestPermissionLauncher.launch(Manifest.permission.CAMERA);</span><br></pre></td></tr></table></figure>
+<p>调用结果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210923205400390.png" alt="image-20210923205400390"></p>
+<h4 id="使用requestPermissions"><a href="#使用requestPermissions" class="headerlink" title="使用requestPermissions"></a>使用<code>requestPermissions</code></h4><p><code>requestPermissions</code>也可请求权限，并且可以请求多个权限</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">requestPermissions</span><span class="params">(<span class="meta">@NonNull</span> String[] permissions, <span class="type">int</span> requestCode)</span></span><br></pre></td></tr></table></figure>
+<p>使用<code>requestPermissions</code>请求权限之后，需要使用<code>onRequestPermissionsResult</code>函数作为回调函数</p>
+<p>eg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第二种方式</span></span><br><span class="line"><span class="comment">// You can directly ask for the permission.</span></span><br><span class="line">requestPermissions(<span class="keyword">new</span> <span class="title class_">String</span>[]&#123;Manifest.permission.CAMERA&#125;, PERMISSION_REQUEST_CODE);</span><br></pre></td></tr></table></figure>
+<p>回调后方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onRequestPermissionsResult</span><span class="params">(<span class="type">int</span> requestCode, String[] permissions, <span class="type">int</span>[] grantResults)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onRequestPermissionsResult(requestCode, permissions, grantResults);</span><br><span class="line">    <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">        <span class="keyword">case</span> PERMISSION_REQUEST_CODE:</span><br><span class="line">            <span class="comment">// If request is cancelled, the result arrays are empty.</span></span><br><span class="line">            <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">                    grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                <span class="comment">// Permission is granted. Continue the action or workflow</span></span><br><span class="line">                <span class="comment">// in your app.</span></span><br><span class="line">                Toast.makeText(MainActivity.<span class="built_in">this</span>, <span class="string">&quot;第二种方式：权限被授予&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// Explain to the user that the feature is unavailable because</span></span><br><span class="line">                <span class="comment">// the features requires a permission that the user has denied.</span></span><br><span class="line">                <span class="comment">// At the same time, respect the user&#x27;s decision. Don&#x27;t link to</span></span><br><span class="line">                <span class="comment">// system settings in an effort to convince the user to change</span></span><br><span class="line">                <span class="comment">// their decision.</span></span><br><span class="line">                Toast.makeText(MainActivity.<span class="built_in">this</span>, <span class="string">&quot;第二种方式：权限未被授予&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Other &#x27;case&#x27; lines to check for other</span></span><br><span class="line">    <span class="comment">// permissions this app might request.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用起来比较简单也比较方便</p>
+<h4 id="shouldShowRequestPermissionRationale函数理解"><a href="#shouldShowRequestPermissionRationale函数理解" class="headerlink" title="shouldShowRequestPermissionRationale函数理解"></a><code>shouldShowRequestPermissionRationale</code>函数理解</h4><p><code>shouldShowRequestPermissionRationale</code>向用户显示指导界面，在此界面中说明用户希望启用的功能为何需要特定权限。</p>
+<p><code>shouldShowRequestPermissionRationale</code>函数会返回true或者false。按照请求权限的流程可以这样区分</p>
+<p>①刚刚安装程序打开程序，<code>shouldShowRequestPermissionRationale</code>返回false，这个时候会弹出权限请求框，如果我们允许那么<code>shouldShowRequestPermissionRationale</code>会一直返回false</p>
+<p>②如果①里面拒绝了权限，再次进行程序<code>shouldShowRequestPermissionRationale</code>会返回true，这时候我们应该展示为啥需要权限</p>
+<p>③如果我们一直请求权限，然后用户不耐烦了，点击了不再询问，那么<code>shouldShowRequestPermissionRationale</code>会一直返回false</p>
+<p>举个例子，我们在第二个分支使用<code>shouldShowRequestPermissionRationale</code>，它会弹出一个对话框，说明权限的重要性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        mTextView = findViewById(R.id.textView);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="built_in">this</span>, Manifest.permission.CAMERA) ==</span><br><span class="line">                PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">            <span class="comment">// You can use the API that requires the permission.</span></span><br><span class="line">            Log.d(TAG, <span class="string">&quot;Manifest.permission.CAMERA is  granted&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) &#123;</span><br><span class="line">            <span class="comment">//说明权限重要性</span></span><br><span class="line">            showNormalDialog();</span><br><span class="line">            <span class="comment">//第一种方式使用 ActivityResultLauncher</span></span><br><span class="line">            requestPermissionLauncher.launch(Manifest.permission.CAMERA);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// You can directly ask for the permission.</span></span><br><span class="line">            <span class="comment">// The registered ActivityResultCallback gets the result of this request.</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">//第一种方式使用 ActivityResultLauncher</span></span><br><span class="line"><span class="comment">//            requestPermissionLauncher.launch(Manifest.permission.CAMERA);</span></span><br><span class="line">            <span class="comment">//第二种方式</span></span><br><span class="line">            <span class="comment">// You can directly ask for the permission.</span></span><br><span class="line">            requestPermissions(<span class="keyword">new</span> <span class="title class_">String</span>[]&#123;Manifest.permission.CAMERA&#125;, PERMISSION_REQUEST_CODE);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">showNormalDialog</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">/* @setIcon 设置对话框图标</span></span><br><span class="line"><span class="comment">         * @setTitle 设置对话框标题</span></span><br><span class="line"><span class="comment">         * @setMessage 设置对话框消息提示</span></span><br><span class="line"><span class="comment">         * setXXX方法返回Dialog对象，因此可以链式设置属性</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">normalDialog</span> <span class="operator">=</span></span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(MainActivity.<span class="built_in">this</span>);</span><br><span class="line">        normalDialog.setTitle(<span class="string">&quot;我是一个普通Dialog&quot;</span>);</span><br><span class="line">        normalDialog.setMessage(<span class="string">&quot;我需要摄像头权限，快给我！！！&quot;</span>);</span><br><span class="line">        normalDialog.setPositiveButton(<span class="string">&quot;确定&quot;</span>,</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line">                        <span class="comment">//...To-do</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">        <span class="comment">// 显示</span></span><br><span class="line">        normalDialog.show();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>我们一开始安装程序进入程序，<code>shouldShowRequestPermissionRationale</code>返回false，所以进入第三个分支，并且请求授予权限</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927111601508.png" alt="image-20210927111601508"></p>
+<p>我们点击拒绝后，关闭程序(后台杀死)，再次进入程序</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927111714036.png" alt="image-20210927111714036"></p>
+<p>点击拒绝后可以看到下图的内容，说明这个时候进入第二个分支，<code>shouldShowRequestPermissionRationale</code>返回true</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927111813939.png" alt="image-20210927111813939"></p>
+<p>关闭程序(后台杀死)，再次进入程序，这次我们点击拒绝并且不在询问，然后再关闭程序(后台杀死)，再进入</p>
+<p>这次直接跳转第三个分支，并且直接拒绝权限授予，说明<code>shouldShowRequestPermissionRationale</code>返回false</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/android/image-20210927112331524.png" alt="image-20210927112331524"></p>
+<h3 id="请求权限建议流程："><a href="#请求权限建议流程：" class="headerlink" title="请求权限建议流程："></a>请求权限建议流程：</h3><p>官方建议流程就是上面那种类似于三个分支的流程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ContextCompat.checkSelfPermission(</span><br><span class="line">        CONTEXT, Manifest.permission.REQUESTED_PERMISSION) ==</span><br><span class="line">        PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">    <span class="comment">// You can use the API that requires the permission.</span></span><br><span class="line">    performAction(...);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (shouldShowRequestPermissionRationale(...)) &#123;</span><br><span class="line">    <span class="comment">// In an educational UI, explain to the user why your app requires this</span></span><br><span class="line">    <span class="comment">// permission for a specific feature to behave as expected. In this UI,</span></span><br><span class="line">    <span class="comment">// include a &quot;cancel&quot; or &quot;no thanks&quot; button that allows the user to</span></span><br><span class="line">    <span class="comment">// continue using your app without granting the permission.</span></span><br><span class="line">    showInContextUI(...);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// You can directly ask for the permission.</span></span><br><span class="line">    <span class="comment">// The registered ActivityResultCallback gets the result of this request.</span></span><br><span class="line">    requestPermissionLauncher.launch(</span><br><span class="line">            Manifest.permission.REQUESTED_PERMISSION);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>三个分支，一个是获得了权限，一个是没有完全拒绝，可以说明权限的重要性，一个是请求权限。比较简单，可以看看上面的例子</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>请求权限总算是弄懂了不少，但是具体那个权限需要查那个目前还不清楚，等后续总结后再来讲讲。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
+              <a href="/tags/Andorid%E7%BC%96%E7%A8%8B%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/" rel="tag"><i class="fa fa-tag"></i> Andorid编程权威指南</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/11/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CoLA%20Weakly-Supervised%20Temporal%20Action%20Localization%20with%20Snippet%20Contrastive%20Learning/" rel="prev" title="CoLA Weakly-Supervised Temporal Action Localization with Snippet Contrastive Learning">
+      <i class="fa fa-chevron-left"></i> CoLA Weakly-Supervised Temporal Action Localization with Snippet Contrastive Learning
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/23/%E5%85%B6%E4%BB%96/%E4%BD%BF%E7%94%A8Github%20Action%E5%AE%9E%E7%8E%B0Android%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85/" rel="next" title="使用Github Action实现Android自动打包">
+      使用Github Action实现Android自动打包 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android%E6%9D%83%E9%99%90%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">Android权限学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">权限介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E6%9D%83%E9%99%90"><span class="nav-number">1.1.1.</span> <span class="nav-text">普通权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%BE%E5%90%8D%E6%9D%83%E9%99%90"><span class="nav-number">1.1.2.</span> <span class="nav-text">签名权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9D%83%E9%99%90"><span class="nav-number">1.1.3.</span> <span class="nav-text">运行时权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E6%9D%83%E9%99%90"><span class="nav-number">1.1.4.</span> <span class="nav-text">特殊权限</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A3%B0%E6%98%8E%E5%BA%94%E7%94%A8%E6%9D%83%E9%99%90"><span class="nav-number">1.2.</span> <span class="nav-text">声明应用权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E6%9D%83%E9%99%90"><span class="nav-number">1.3.</span> <span class="nav-text">请求权限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%B5%8B%E6%9D%83%E9%99%90"><span class="nav-number">1.3.1.</span> <span class="nav-text">检测权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E5%AF%B9%E5%BA%94%E6%9D%83%E9%99%90"><span class="nav-number">1.3.2.</span> <span class="nav-text">请求对应权限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ActivityResultLauncher"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">使用ActivityResultLauncher</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8requestPermissions"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">使用requestPermissions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shouldShowRequestPermissionRationale%E5%87%BD%E6%95%B0%E7%90%86%E8%A7%A3"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">shouldShowRequestPermissionRationale函数理解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E6%9D%83%E9%99%90%E5%BB%BA%E8%AE%AE%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="nav-number">1.3.3.</span> <span class="nav-text">请求权限建议流程：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">493k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : '2e6d17eb34833c55269b96b4647fa7d7',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

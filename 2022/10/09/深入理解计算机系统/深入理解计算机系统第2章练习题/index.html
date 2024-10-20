@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="深入理解计算机系统第2章练习题练习题2.1完成下面的数字转换:A.将0x39A7F8转换为二进制。  (39A7F8)_{16} &#x3D; (0011-1001-1010-0111-1111-1000)_2B.将二进制1100100101111011转换为十六进制。  (1100-1001-0111-1011)_2 &#x3D; (C97B)_{16}C.将0xD5E4C转换为二进制。  (D5E4C)_{16}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解计算机系统第2章练习题">
+<meta property="og:url" content="https://bugcat.top/2022/10/09/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%AC2%E7%AB%A0%E7%BB%83%E4%B9%A0%E9%A2%98/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="深入理解计算机系统第2章练习题练习题2.1完成下面的数字转换:A.将0x39A7F8转换为二进制。  (39A7F8)_{16} &#x3D; (0011-1001-1010-0111-1111-1000)_2B.将二进制1100100101111011转换为十六进制。  (1100-1001-0111-1011)_2 &#x3D; (C97B)_{16}C.将0xD5E4C转换为二进制。  (D5E4C)_{16}">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221010210405379.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221010212306528.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011112529883.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011142944151.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011193359526.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011194044827.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011194841837.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011195958415.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011201114181.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221013122941220.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221013124953580.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015120400005.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015122226429.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015132301591.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221019105712222.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221019110140819.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015134013727.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015213023031.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015213952945.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015220734092.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015222427723.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221016100641498.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221016115010661.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221016120202629.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221019110357157.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221016123931135.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221019110357157.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221016132814756.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221018111104045.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221018154232508.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221019191037787.png">
+<meta property="article:published_time" content="2022-10-09T16:38:43.000Z">
+<meta property="article:modified_time" content="2024-10-20T13:34:26.728Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="深入理解计算机系统第2章">
+<meta property="article:tag" content="CSAPP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221010210405379.png">
+
+<link rel="canonical" href="https://bugcat.top/2022/10/09/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%AC2%E7%AB%A0%E7%BB%83%E4%B9%A0%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>深入理解计算机系统第2章练习题 | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2022/10/09/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%AC2%E7%AB%A0%E7%BB%83%E4%B9%A0%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深入理解计算机系统第2章练习题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-09 16:38:43" itemprop="dateCreated datePublished" datetime="2022-10-09T16:38:43+00:00">2022-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-20 13:34:26" itemprop="dateModified" datetime="2024-10-20T13:34:26+00:00">2024-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">深入理解计算机系统</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>17k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>16 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="深入理解计算机系统第2章练习题"><a href="#深入理解计算机系统第2章练习题" class="headerlink" title="深入理解计算机系统第2章练习题"></a>深入理解计算机系统第2章练习题</h1><h2 id="练习题2-1完成下面的数字转换"><a href="#练习题2-1完成下面的数字转换" class="headerlink" title="练习题2.1完成下面的数字转换:"></a>练习题2.1完成下面的数字转换:</h2><p>A.将0x39A7F8转换为二进制。</p>
+<script type="math/tex; mode=display">
+(39A7F8)_{16} = (0011-1001-1010-0111-1111-1000)_2</script><p>B.将二进制1100100101111011转换为十六进制。</p>
+<script type="math/tex; mode=display">
+(1100-1001-0111-1011)_2 = (C97B)_{16}</script><p>C.将0xD5E4C转换为二进制。</p>
+<script type="math/tex; mode=display">
+(D5E4C)_{16} = (1101-0101-1110-0100-1100)_2</script><p>D.将二进制1001101110011110110101转换为十六进制。</p>
+<script type="math/tex; mode=display">
+(10-0110-1110-0111-1011-0101)_2 =(26E7B5)_{16}</script><span id="more"></span>
+<h2 id="练习题2-2-填写下表中的空白项-给出2的不同次幂的二进制和十六进制表示‥"><a href="#练习题2-2-填写下表中的空白项-给出2的不同次幂的二进制和十六进制表示‥" class="headerlink" title="练习题2.2 填写下表中的空白项,给出2的不同次幂的二进制和十六进制表示‥"></a>练习题2.2 填写下表中的空白项,给出2的不同次幂的二进制和十六进制表示‥</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221010210405379.png" alt="image-20221010210405379"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$n$</th>
+<th style="text-align:center">$2^n$(十进制)</th>
+<th style="text-align:center">$2^n$(十六进制)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">512</td>
+<td style="text-align:center">0x200</td>
+</tr>
+<tr>
+<td style="text-align:center">19</td>
+<td style="text-align:center">524288</td>
+<td style="text-align:center">0x80000</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td style="text-align:center">16384</td>
+<td style="text-align:center">0x4000</td>
+</tr>
+<tr>
+<td style="text-align:center">16</td>
+<td style="text-align:center">65536</td>
+<td style="text-align:center">0x10000</td>
+</tr>
+<tr>
+<td style="text-align:center">17</td>
+<td style="text-align:center">131072</td>
+<td style="text-align:center">0x20000</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">128</td>
+<td style="text-align:center">0x80</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-3-一个字节可以用两个十六进制数字来表示。填写下表中缺失的项-给出-不同字节模式的十进制、二进制和十六进制值"><a href="#练习题2-3-一个字节可以用两个十六进制数字来表示。填写下表中缺失的项-给出-不同字节模式的十进制、二进制和十六进制值" class="headerlink" title="练习题2.3 一个字节可以用两个十六进制数字来表示。填写下表中缺失的项,给出 不同字节模式的十进制、二进制和十六进制值:"></a>练习题2.3 一个字节可以用两个十六进制数字来表示。填写下表中缺失的项,给出 不同字节模式的十进制、二进制和十六进制值:</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221010212306528.png" alt="image-20221010212306528"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">十进制</th>
+<th style="text-align:center">二进制</th>
+<th style="text-align:center">十六进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0000 0000</td>
+<td style="text-align:center">0x00</td>
+</tr>
+<tr>
+<td style="text-align:center">167</td>
+<td style="text-align:center">1010 0111</td>
+<td style="text-align:center">0xA7</td>
+</tr>
+<tr>
+<td style="text-align:center">62</td>
+<td style="text-align:center">0011 1110</td>
+<td style="text-align:center">0x3E</td>
+</tr>
+<tr>
+<td style="text-align:center">188</td>
+<td style="text-align:center">1011 1100</td>
+<td style="text-align:center">0xBC</td>
+</tr>
+<tr>
+<td style="text-align:center">55</td>
+<td style="text-align:center">0011 0111</td>
+<td style="text-align:center">0x37</td>
+</tr>
+<tr>
+<td style="text-align:center">136</td>
+<td style="text-align:center">1000 1000</td>
+<td style="text-align:center">0x88</td>
+</tr>
+<tr>
+<td style="text-align:center">243</td>
+<td style="text-align:center">1111 0011</td>
+<td style="text-align:center">0xF3</td>
+</tr>
+<tr>
+<td style="text-align:center">82</td>
+<td style="text-align:center">0101 0010</td>
+<td style="text-align:center">0x52</td>
+</tr>
+<tr>
+<td style="text-align:center">172</td>
+<td style="text-align:center">1010 1100</td>
+<td style="text-align:center">0xAC</td>
+</tr>
+<tr>
+<td style="text-align:center">231</td>
+<td style="text-align:center">1110 0111</td>
+<td style="text-align:center">0xE7</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-4-不将数字转换为十进制或者二进制-试着解答下面的算术题-答案要用-十六进制表示。提示-只要将执行十进制加法和减法所使用的方法改成以16为基数。"><a href="#练习题2-4-不将数字转换为十进制或者二进制-试着解答下面的算术题-答案要用-十六进制表示。提示-只要将执行十进制加法和减法所使用的方法改成以16为基数。" class="headerlink" title="练习题2.4 不将数字转换为十进制或者二进制,试着解答下面的算术题,答案要用 十六进制表示。提示:只要将执行十进制加法和减法所使用的方法改成以16为基数。"></a>练习题2.4 不将数字转换为十进制或者二进制,试着解答下面的算术题,答案要用 十六进制表示。提示:只要将执行十进制加法和减法所使用的方法改成以16为基数。</h2><p>A. 0x503C + 0x8 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x503C + 0x8 = 0x5044</span><br></pre></td></tr></table></figure>
+<p>B. 0x503C - 0x40</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x503C - 0x40 = 0x4F9C</span><br></pre></td></tr></table></figure>
+<p>C. 0x503C + 64</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x503C + 64 = 0x507c</span><br></pre></td></tr></table></figure>
+<p>D. 0x50EA - 0x503C </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x50EA - 0x503C = 0xAF</span><br></pre></td></tr></table></figure>
+<h2 id="练习题2-5-思考下面对show上ytes的三次调用"><a href="#练习题2-5-思考下面对show上ytes的三次调用" class="headerlink" title="练习题2.5 思考下面对show上ytes的三次调用:"></a>练习题2.5 思考下面对show上ytes的三次调用:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">show_bytes</span><span class="params">(byte_pointer start, <span class="type">size_t</span> len)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">size_t</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">show_int</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    show_bytes((byte_pointer)&amp;x, <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">show_float</span><span class="params">(<span class="type">float</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    show_bytes((byte_pointer)&amp;x, <span class="keyword">sizeof</span>(<span class="type">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">show_pointer</span><span class="params">(<span class="type">void</span> *x)</span></span><br><span class="line">&#123;</span><br><span class="line">    show_bytes((byte_pointer)&amp;x, <span class="keyword">sizeof</span>(<span class="type">void</span> *));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> val = <span class="number">0x87654321</span>;</span><br><span class="line">byte_pointer valp = (byte_pointer) &amp;val;</span><br><span class="line">show_bytes(valp, <span class="number">1</span>);    <span class="comment">// A.</span></span><br><span class="line">show_bytes(valp, <span class="number">2</span>);    <span class="comment">// B.</span></span><br><span class="line">show_bytes(valp, <span class="number">3</span>);    <span class="comment">// C.</span></span><br></pre></td></tr></table></figure>
+<p>指出在小端法机器和大端法机器上,每次调用的输出值。</p>
+<p>在小端机上调用了一下，大端机只能使用模拟器目前不打算调用。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011112529883.png" alt="image-20221011112529883"></p>
+<h2 id="练习题2-6-使用show-int和show-float-我们确定整数3510593的十六进制表示为0x00359141-而浮点数3510593-0的十六进制表示为0x4A564504。"><a href="#练习题2-6-使用show-int和show-float-我们确定整数3510593的十六进制表示为0x00359141-而浮点数3510593-0的十六进制表示为0x4A564504。" class="headerlink" title="练习题2.6 使用show_int和show_float,我们确定整数3510593的十六进制表示为0x00359141,而浮点数3510593.0的十六进制表示为0x4A564504。"></a>练习题2.6 使用show_int和show_float,我们确定整数3510593的十六进制表示为0x00359141,而浮点数3510593.0的十六进制表示为0x4A564504。</h2><p>A.写出这两个十六进制值的二进制表示</p>
+<p>0x00359141    0000 0000 0011 0101 1001 0001 0100 0001</p>
+<p>0x4A564504    0100 1010 0101 0110 0100 0101 0000 0100</p>
+<p>B.移动这两个二进制串的相对位置,使得它们相匹配的位数最多。有多少位相匹配呢? </p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011142944151.png" alt="image-20221011142944151"></p>
+<p>可以看到移动两位后，最多11位相匹配。</p>
+<p>C.串中的什么部分不相匹配?</p>
+<p>这个跟浮点数的存储有关，后续应该会学习到。</p>
+<h2 id="练习题2-7-下面对show-bytes的调用将输出什么结果"><a href="#练习题2-7-下面对show-bytes的调用将输出什么结果" class="headerlink" title="练习题2.7 下面对show_bytes的调用将输出什么结果?"></a>练习题2.7 下面对show_bytes的调用将输出什么结果?</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">show_bytes((byte_pointer)s,<span class="built_in">strlen</span>(s));</span><br></pre></td></tr></table></figure>
+<p>注意字母<code>a</code>~<code>z</code>的ASCII码为 0x61~0x7A</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011193359526.png" alt="image-20221011193359526"></p>
+<h2 id="练习题2-8-填写下表-给出位向量的布尔运算的求值结果。"><a href="#练习题2-8-填写下表-给出位向量的布尔运算的求值结果。" class="headerlink" title="练习题2.8 填写下表,给出位向量的布尔运算的求值结果。"></a>练习题2.8 填写下表,给出位向量的布尔运算的求值结果。</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011194044827.png" alt="image-20221011194044827"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算</th>
+<th style="text-align:center">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">[01101001]</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">[01010101]</td>
+</tr>
+<tr>
+<td style="text-align:center">~a</td>
+<td style="text-align:center">[10010110]</td>
+</tr>
+<tr>
+<td style="text-align:center">~b</td>
+<td style="text-align:center">[10101010]</td>
+</tr>
+<tr>
+<td style="text-align:center">a&amp;b</td>
+<td style="text-align:center">[01000001]</td>
+</tr>
+<tr>
+<td style="text-align:center">a\</td>
+<td style="text-align:center">b</td>
+<td>[01111101]</td>
+</tr>
+<tr>
+<td style="text-align:center">a^b</td>
+<td style="text-align:center">[00111100]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-9"><a href="#练习题2-9" class="headerlink" title="练习题2.9"></a>练习题2.9</h2><p>通过混合三种不同颜色的光(红色、绿色和蓝色),计算机可以在视频屏 幕或者液晶显示器上产生彩色的画面。设想一种简单的方法,使用三种不同颜色的 光,每种光都能打开或关闭,投射到玻璃屏幕上,如图所示:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011194841837.png" alt="image-20221011194841837"></p>
+<p>那么基于光源R(红)、 G(绿)、 B(蓝)的关闭(0)或打开(1),我们就能够创建8 种不同的颜色:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011195958415.png" alt="image-20221011195958415"></p>
+<p>这些颜色中的每一种都能用一个长度为3的位向量来表示,我们可以对它们进行布尔运算。</p>
+<p>A.一种颜色的补是通过关掉打开的光源,且打开关闭的光源而形成的。那么上面列 出的8种颜色每一种的补是什么?</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">原颜色</th>
+<th style="text-align:center">代码</th>
+<th style="text-align:center">补码</th>
+<th style="text-align:center">补颜色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">黑色</td>
+<td style="text-align:center">000</td>
+<td style="text-align:center">111</td>
+<td style="text-align:center">白色</td>
+</tr>
+<tr>
+<td style="text-align:center">蓝色</td>
+<td style="text-align:center">001</td>
+<td style="text-align:center">110</td>
+<td style="text-align:center">黄色</td>
+</tr>
+<tr>
+<td style="text-align:center">绿色</td>
+<td style="text-align:center">010</td>
+<td style="text-align:center">101</td>
+<td style="text-align:center">红绿色</td>
+</tr>
+<tr>
+<td style="text-align:center">蓝绿色</td>
+<td style="text-align:center">011</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">红色</td>
+</tr>
+<tr>
+<td style="text-align:center">红色</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">111</td>
+<td style="text-align:center">蓝绿色</td>
+</tr>
+<tr>
+<td style="text-align:center">红紫色</td>
+<td style="text-align:center">101</td>
+<td style="text-align:center">010</td>
+<td style="text-align:center">绿色</td>
+</tr>
+<tr>
+<td style="text-align:center">黄色</td>
+<td style="text-align:center">110</td>
+<td style="text-align:center">001</td>
+<td style="text-align:center">蓝色</td>
+</tr>
+<tr>
+<td style="text-align:center">白色</td>
+<td style="text-align:center">111</td>
+<td style="text-align:center">000</td>
+<td style="text-align:center">黑色</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>B.描述下列颜色应用布尔运算的结果:</p>
+<p>蓝色 | 绿色 =  (001 | 010) = 011 = 蓝绿色</p>
+<p>黄色 &amp; 蓝绿色 =  (110 &amp; 011) = 010 = 绿色</p>
+<p>红色 ^ 红紫色 =  (100 ^ 101) = 001 = 蓝色</p>
+<h2 id="练习题2-10-对于任一位向量a-有a-a-0应用这一属性-考虑下面的程序"><a href="#练习题2-10-对于任一位向量a-有a-a-0应用这一属性-考虑下面的程序" class="headerlink" title="练习题2.10 对于任一位向量a,有a^a=0应用这一属性,考虑下面的程序:"></a>练习题2.10 对于任一位向量a,有a^a=0应用这一属性,考虑下面的程序:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inplace_swap</span><span class="params">(<span class="type">int</span> *x, <span class="type">int</span> *y)</span></span><br><span class="line">&#123;</span><br><span class="line">    *y = *x ^ *y; <span class="comment">/* Step 1 */</span></span><br><span class="line">    *x = *x ^ *y; <span class="comment">/* Step 2 */</span></span><br><span class="line">    *y = *x ^ *y; <span class="comment">/* Step 3 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>正如程序名字所暗示的那样,我们认为这个过程的效果是交换指针变量x和y所指向 的存储位置处存放的值。注意,与通常的交换两个数值的技术不一样,当移动一个值 时,我们不需要第三个位置来临时存储另一个值。这种交换方式并没有性能上的优 势,它仅仅是一个智力游残。</p>
+<p>以指针x和y指向的位置存储的值分别是α和6作为开始,填写下表,给出在程序的 每一步之后,存储在这两个位置中的值。利用^的属性证明达到了所希望的效果。回 想一下,每个元素就是它自身的加法逆元(a^a=0)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221011201114181.png" alt="image-20221011201114181"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">步骤</th>
+<th style="text-align:center">*x</th>
+<th style="text-align:center">*y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">初始</td>
+<td style="text-align:center">a</td>
+<td style="text-align:center">b</td>
+</tr>
+<tr>
+<td style="text-align:center">第1步</td>
+<td style="text-align:center">a</td>
+<td style="text-align:center">a^b</td>
+</tr>
+<tr>
+<td style="text-align:center">第2步</td>
+<td style="text-align:center">a\^a\^b=b</td>
+<td style="text-align:center">a^b</td>
+</tr>
+<tr>
+<td style="text-align:center">第3步</td>
+<td style="text-align:center">b</td>
+<td style="text-align:center">b\^a\^b=a</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-11在练习题2-10中的inplace-swap函数的基础上-你决定写一段代码-实现将一个数组中的元素头尾两端依次对调。你写出下面这个函数"><a href="#练习题2-11在练习题2-10中的inplace-swap函数的基础上-你决定写一段代码-实现将一个数组中的元素头尾两端依次对调。你写出下面这个函数" class="headerlink" title="练习题2.11在练习题2.10中的inplace_swap函数的基础上,你决定写一段代码, 实现将一个数组中的元素头尾两端依次对调。你写出下面这个函数:"></a>练习题2.11在练习题2.10中的inplace_swap函数的基础上,你决定写一段代码, 实现将一个数组中的元素头尾两端依次对调。你写出下面这个函数:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">reverse_array</span><span class="params">(<span class="type">int</span> a[], <span class="type">int</span> cnt)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first = <span class="number">0</span>, last = cnt - <span class="number">1</span>; first &lt;= last; first++, last--)</span><br><span class="line">    &#123;</span><br><span class="line">        inplace_swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当你对一个包含元素1、 2、 3和4的数纽使用这个函数时,正如预期的那样,现在数 纽的元素变成了4、3、2和1。不过,当你对一个包含元素1、2、3、4和5的数纽使 用这个函数时,你会很惊奇地看到得到数字的元素为5、 4、0、 2和1。实际上,你会 发现这段代码对所有偶数长度的数组都能正确地工作,但是当数组的长度为奇数时, 它就会把中间的元素设置成0。</p>
+<p>A.对于一个长度为奇数的数纽,长度cnt=2k+1,函数<code>reverse_array</code>最后一次循环中,变量first和Iast的值分别是什么?</p>
+<p>最后一次循环时，变量first = a[k]，last = a[k]。</p>
+<p>B.为什么这时调用函数<code>inplace_swap</code>会将数组元素设置为0?</p>
+<p>因为最后一次循环时，变量first = a[k]，last = a[k]。他们之间进行<code>inplace_swap</code></p>
+<p>第一步 <em>y = </em>x ^ *y; 替换之后a[k] = a[k] ^ a[k] =0;</p>
+<p>第二步<em>x = </em>x ^ *y; 替换之后a[k] = 0 ^ 0 =0;</p>
+<p>第二步<em>y = </em>x ^ *y; 替换之后a[k] = 0 ^ 0 =0;</p>
+<p>C.对<code>reverse_array</code>的代码做哪些筒单改动就能消除这个问题?</p>
+<p>只需要将<code>first &lt;= last</code>改为<code>first &lt; last</code>即可</p>
+<h2 id="练习题2-12-对于下面的值-写出变量x的C语言表达式。"><a href="#练习题2-12-对于下面的值-写出变量x的C语言表达式。" class="headerlink" title="练习题2.12 对于下面的值,写出变量x的C语言表达式。"></a>练习题2.12 对于下面的值,写出变量x的C语言表达式。</h2><p>你的代码应该对任何字 长$w\geq8$都能工作。我们给出了当x=0x87654321以及$w=32$时表达式求值的结果, 仅供参考。</p>
+<p>A. x的最低有效字节,其他位均置为0。[0x00000021]。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x &amp; 0xFF</span><br></pre></td></tr></table></figure>
+<p>B.除了x的最低有效字节外,其他的位都取补,最低有效字节保持不变。 [0x789ABC21]。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~(x ^ 0xFF)或者x ^ (~0xFF)</span><br></pre></td></tr></table></figure>
+<p>C.x的最低有效字节设置成全1，其他字节都保持不变。[0x876543FF]。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x | 0xFF</span><br></pre></td></tr></table></figure>
+<h2 id="练习题2-13"><a href="#练习题2-13" class="headerlink" title="练习题2.13"></a>练习题2.13</h2><p>从20世纪70年代末到80年代末，Digital Equipment的 VAX计算机是一种非常流行的机型。它没有布尔运算AND 和OR指令，只有bis(位设置)和bic(位清除)这两种指令。两种指令的输入都是一个数据字x和一个掩码字m。它们生成一个结果z，z是由根据掩码m的位来修改x的位得到的。使用bis 指令，这种修改就是在m为1的每个位置上，将z对应的位设置为1。使用bic指令，这种修改就是在m为1的每个位置，将z对应的位设置为0。</p>
+<p>为了看清楚这些运算与C语言位级运算的关系，假设我们有两个函数bis和 bic来实现位设置和位清除操作。只想用这两个函数，而不使用任何其他C语言运算，来实现按位|和~运算。填写下列代码中缺失的代码。提示:写出bis和 bic运算的C语言表达式。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">bis</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> m)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">bic</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> m)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">bool_or</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> result = bis(x, y);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">bool_xor</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> result = bis(bic(x, y), bic(y, x));</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="练习题2-14-假设x和y的字节值分别为0x66和0x39。填写下表，指明各个C表达式的字节值。"><a href="#练习题2-14-假设x和y的字节值分别为0x66和0x39。填写下表，指明各个C表达式的字节值。" class="headerlink" title="练习题2.14 假设x和y的字节值分别为0x66和0x39。填写下表，指明各个C表达式的字节值。"></a>练习题2.14 假设x和y的字节值分别为0x66和0x39。填写下表，指明各个C表达式的字节值。</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221013122941220.png" alt="image-20221013122941220"></p>
+<p>0x66 = 0110 0110</p>
+<p>0x39 = 0011 1001</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">x &amp; y</td>
+<td style="text-align:center">0110 0110 &amp; 0011 1001 = 0010 0000 = 0x20</td>
+</tr>
+<tr>
+<td style="text-align:center">x \</td>
+<td style="text-align:center">y</td>
+<td>0110 0110 \</td>
+<td>0011 1001 = 0111 1111 = 0x7F</td>
+</tr>
+<tr>
+<td style="text-align:center">~x \</td>
+<td style="text-align:center">~y</td>
+<td>~0110 0110 \</td>
+<td>~0011 1001 = 1001 1001 \</td>
+<td>1100 0110 = 1101 1111 = 0xDF</td>
+</tr>
+<tr>
+<td style="text-align:center">x &amp; !y</td>
+<td style="text-align:center">0110 0110 &amp; !0011 1001 = 0110 0110 &amp; 0000 0000 = 0x00</td>
+</tr>
+<tr>
+<td style="text-align:center">x &amp;&amp; y</td>
+<td style="text-align:center">0x01</td>
+</tr>
+<tr>
+<td style="text-align:center">x \</td>
+<td style="text-align:center">\</td>
+<td>y</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td style="text-align:center">!x \</td>
+<td style="text-align:center">\</td>
+<td>!y</td>
+<td>0x00</td>
+</tr>
+<tr>
+<td style="text-align:center">x &amp;&amp; ~y</td>
+<td style="text-align:center">0x01</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-15︰只使用位级和逻辑运算，编写一个C表达式，它等价于x-y。换句云说，当x和y相等时它将返回1，否则就返回0。"><a href="#练习题2-15︰只使用位级和逻辑运算，编写一个C表达式，它等价于x-y。换句云说，当x和y相等时它将返回1，否则就返回0。" class="headerlink" title="练习题2.15︰只使用位级和逻辑运算，编写一个C表达式，它等价于x= =y。换句云说，当x和y相等时它将返回1，否则就返回0。"></a>练习题2.15︰只使用位级和逻辑运算，编写一个C表达式，它等价于x= =y。换句云说，当x和y相等时它将返回1，否则就返回0。</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!(x^y)</span><br></pre></td></tr></table></figure>
+<h2 id="练习题2-16"><a href="#练习题2-16" class="headerlink" title="练习题2.16"></a>练习题2.16</h2><p>填写下表，展示不同移位运算对单字节数的影响。思考移位运算的最好方式是使用二进制表示。将最初的值转换为二进制，执行移位运算，然后再转换回十六进制。每个答案都应该是8个二进制数字或者2个十六进制数字。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221013124953580.png" alt="image-20221013124953580"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">x</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">x&lt;&lt;3</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">x&gt;&gt;2(逻辑)</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">x&gt;&gt;2(算术)</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">十六进制</td>
+<td style="text-align:center">二进制</td>
+<td style="text-align:center">二进制</td>
+<td style="text-align:center">十六进制</td>
+<td style="text-align:center">二进制</td>
+<td style="text-align:center">十六进制</td>
+<td style="text-align:center">二进制</td>
+<td style="text-align:center">十六进制</td>
+</tr>
+<tr>
+<td style="text-align:center">0xC3</td>
+<td style="text-align:center">1100 0011</td>
+<td style="text-align:center">0001 1000</td>
+<td style="text-align:center">0x18</td>
+<td style="text-align:center">0011 0000</td>
+<td style="text-align:center">0x30</td>
+<td style="text-align:center">1111 0000</td>
+<td style="text-align:center">0xF0</td>
+</tr>
+<tr>
+<td style="text-align:center">0x75</td>
+<td style="text-align:center">0111 0101</td>
+<td style="text-align:center">1010 1000</td>
+<td style="text-align:center">0xA8</td>
+<td style="text-align:center">0001 1101</td>
+<td style="text-align:center">0x1D</td>
+<td style="text-align:center">0001 1101</td>
+<td style="text-align:center">0x1D</td>
+</tr>
+<tr>
+<td style="text-align:center">0x87</td>
+<td style="text-align:center">1000 0111</td>
+<td style="text-align:center">0011 1000</td>
+<td style="text-align:center">0x38</td>
+<td style="text-align:center">0010 0001</td>
+<td style="text-align:center">0x21</td>
+<td style="text-align:center">1110 0001</td>
+<td style="text-align:center">0xE1</td>
+</tr>
+<tr>
+<td style="text-align:center">0x66</td>
+<td style="text-align:center">0110 0110</td>
+<td style="text-align:center">0011 0000</td>
+<td style="text-align:center">0x30</td>
+<td style="text-align:center">0001 1001</td>
+<td style="text-align:center">0x19</td>
+<td style="text-align:center">0001 1001</td>
+<td style="text-align:center">0x19</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-17"><a href="#练习题2-17" class="headerlink" title="练习题2.17"></a>练习题2.17</h2><p>假设w=4（字长为4），我们能给每个可能的十六进制数字赋予一个数值，假设用一个无符号或者补码表示。请根据这些表示，通过写出等式(2.1)和等式(2.3)所示的求和公式中的2的非零次幂，填写下表:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015120400005.png" alt="image-20221015120400005"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">x</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">无符号(B2U(x))</th>
+<th style="text-align:center">补码(B2T(x))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">十六进制</td>
+<td style="text-align:center">二进制</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">0xE</td>
+<td style="text-align:center">1110</td>
+<td style="text-align:center">14</td>
+<td style="text-align:center">-2</td>
+</tr>
+<tr>
+<td style="text-align:center">0x0</td>
+<td style="text-align:center">0000</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">0x5</td>
+<td style="text-align:center">0101</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+</tr>
+<tr>
+<td style="text-align:center">0x8</td>
+<td style="text-align:center">1000</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">-8</td>
+</tr>
+<tr>
+<td style="text-align:center">0xD</td>
+<td style="text-align:center">1101</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">-3</td>
+</tr>
+<tr>
+<td style="text-align:center">0xF</td>
+<td style="text-align:center">1111</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">-1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-18"><a href="#练习题2-18" class="headerlink" title="练习题2.18"></a>练习题2.18</h2><p>在第3章中，我们将看到由反汇编器生成的列表，反汇编器是一种将可执行程序文件转换回可读性更好的ASCII码形式的程序。这些文件包含许多十六进制数字，都是用典型的补码形式来表示这些值。能够认识这些数字并理解它们的意义(例如它们是正数还是负数)，是一项重要的技巧。</p>
+<p>在下面的列表中，对于标号为A～I(标记在右边)的那些行，将指令名(sub、mov和add)右边显示的(32位补码形式表示的)十六进制值转换为等价的十进制值。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015122226429.png" alt="image-20221015122226429"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">32位补码</th>
+<th style="text-align:center">十进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0x2e0</td>
+<td style="text-align:center">736</td>
+</tr>
+<tr>
+<td style="text-align:center">0x58</td>
+<td style="text-align:center">88</td>
+</tr>
+<tr>
+<td style="text-align:center">0x28</td>
+<td style="text-align:center">40</td>
+</tr>
+<tr>
+<td style="text-align:center">0x30</td>
+<td style="text-align:center">48</td>
+</tr>
+<tr>
+<td style="text-align:center">0x78</td>
+<td style="text-align:center">120</td>
+</tr>
+<tr>
+<td style="text-align:center">0x88</td>
+<td style="text-align:center">136</td>
+</tr>
+<tr>
+<td style="text-align:center">0x1f8</td>
+<td style="text-align:center">504</td>
+</tr>
+<tr>
+<td style="text-align:center">0x8</td>
+<td style="text-align:center">8</td>
+</tr>
+<tr>
+<td style="text-align:center">0xc0</td>
+<td style="text-align:center">192</td>
+</tr>
+<tr>
+<td style="text-align:center">0x48</td>
+<td style="text-align:center">72</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-19-利用你解答练习题2-17时填写的表格，填写下列描述函数T2U。的表格。"><a href="#练习题2-19-利用你解答练习题2-17时填写的表格，填写下列描述函数T2U。的表格。" class="headerlink" title="练习题2.19 利用你解答练习题2.17时填写的表格，填写下列描述函数T2U。的表格。"></a>练习题2.19 利用你解答练习题2.17时填写的表格，填写下列描述函数T2U。的表格。</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015132301591.png" alt="image-20221015132301591"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">x</th>
+<th style="text-align:center">T2U(x)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-8</td>
+<td style="text-align:center">8</td>
+</tr>
+<tr>
+<td style="text-align:center">-3</td>
+<td style="text-align:center">13</td>
+</tr>
+<tr>
+<td style="text-align:center">-2</td>
+<td style="text-align:center">14</td>
+</tr>
+<tr>
+<td style="text-align:center">-1</td>
+<td style="text-align:center">15</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-20"><a href="#练习题2-20" class="headerlink" title="练习题2.20"></a>练习题2.20</h2><p>请说明等式(2.5)是如何应用到解答练习题2.19时生成的表格中的各项的。反过来看，我们希望推导出一个无符号数$u$和与之对应的有符号数$U2T_w(u)$之间的关系:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221019105712222.png" alt="image-20221019105712222"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221019110140819.png" alt="image-20221019110140819"></p>
+<h2 id="练习题2-21-假设在采用补码运算的32位机器上对这些表达式求值，按照图2-19的格式填写下表，描述强制类型转换和关系运算的结果。"><a href="#练习题2-21-假设在采用补码运算的32位机器上对这些表达式求值，按照图2-19的格式填写下表，描述强制类型转换和关系运算的结果。" class="headerlink" title="练习题2.21 假设在采用补码运算的32位机器上对这些表达式求值，按照图2-19的格式填写下表，描述强制类型转换和关系运算的结果。"></a>练习题2.21 假设在采用补码运算的32位机器上对这些表达式求值，按照图2-19的格式填写下表，描述强制类型转换和关系运算的结果。</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015134013727.png" alt="image-20221015134013727"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">求值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-2147483647-1==2147483648U</td>
+<td style="text-align:center">无符号</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">-2147483647-1&lt;2147482647</td>
+<td style="text-align:center">有符号</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">-2147483647-1U &lt; 2147483647</td>
+<td style="text-align:center">无符号</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">-2147483647-1&lt;-2147482647</td>
+<td style="text-align:center">有符号</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">-2147483647-1U&lt;-2147482647</td>
+<td style="text-align:center">无符号</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-22-通过应用等式-2-3-，表明下面每个位向量都是-5的补码表示。"><a href="#练习题2-22-通过应用等式-2-3-，表明下面每个位向量都是-5的补码表示。" class="headerlink" title="练习题2.22 通过应用等式(2.3)，表明下面每个位向量都是-5的补码表示。"></a>练习题2.22 通过应用等式(2.3)，表明下面每个位向量都是-5的补码表示。</h2><p>A.[1011]</p>
+<p>1011 =  -2^3+2+1 = -5</p>
+<p>B.[11011]</p>
+<p>11011 = -2\^4+2\^3+2+1 = -5</p>
+<p>C.[111011]</p>
+<p>111011 = -2\^5+2\^4+2\^3+2+1 = -5</p>
+<h2 id="练习题2-23考虑下面的C函数"><a href="#练习题2-23考虑下面的C函数" class="headerlink" title="练习题2.23考虑下面的C函数"></a>练习题2.23考虑下面的C函数</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">funl</span><span class="params">(<span class="type">unsigned</span> word)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">int</span>)((word &lt;&lt; <span class="number">24</span>) &gt;&gt; <span class="number">24</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">fun2</span><span class="params">(<span class="type">unsigned</span> word)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">int</span>)word &lt;&lt; <span class="number">24</span>) &gt;&gt; <span class="number">24</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>假设在一个采用补码运算的机器上以32位程序来执行这些函数。还假设有符号数值的右移是算术右移，而无符号数值的右移是逻辑右移。</p>
+<p>A.填写下表，说明这些函数对几个示例参数的结果。你会发现用十六进制表示来做会更方便，只要记住十六进制数字8到F的最高有效位等于1。</p>
+<p>写下如下代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stdio.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">fun1</span><span class="params">(<span class="type">unsigned</span> word)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">int</span>)((word &lt;&lt; <span class="number">24</span>) &gt;&gt; <span class="number">24</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">fun2</span><span class="params">(<span class="type">unsigned</span> word)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">int</span>)(word &lt;&lt; <span class="number">24</span>)) &gt;&gt; <span class="number">24</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> a1 = <span class="number">0x00000076</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> a2 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> a3 = <span class="number">0x000000C9</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> a4 = <span class="number">0xEDCBA987</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun1(a1) %x,&quot;</span>, fun1(a1));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun2(a1) %x\n&quot;</span>, fun2(a1));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun1(a2) %x,&quot;</span>, fun1(a2));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun2(a2) %x\n&quot;</span>, fun2(a2));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun1(a3) %x,&quot;</span>, fun1(a3));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun2(a3) %x\n&quot;</span>, fun2(a3));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun1(a4) %x,&quot;</span>, fun1(a4));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun2(a4) %x\n&quot;</span>, fun2(a4));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015213023031.png" alt="image-20221015213023031"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">w</th>
+<th style="text-align:center">fun1(w)</th>
+<th style="text-align:center">fun2(w)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0x00000076</td>
+<td style="text-align:center">0x00000076</td>
+<td style="text-align:center">0x00000076</td>
+</tr>
+<tr>
+<td style="text-align:center">0x87654321</td>
+<td style="text-align:center">0x00000021</td>
+<td style="text-align:center">0x00000021</td>
+</tr>
+<tr>
+<td style="text-align:center">0x000000c9</td>
+<td style="text-align:center">0x000000C9</td>
+<td style="text-align:center">0xffffffC9</td>
+</tr>
+<tr>
+<td style="text-align:center">0xEDCBA987</td>
+<td style="text-align:center">0x00000087</td>
+<td style="text-align:center">0xffffff87</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>B.用语言来描述这些函数执行的有用的计算。</p>
+<h2 id="练习题2-24-假设将一个4位数值-用十六进制数字0～F表示-截断到一个3位数-用十六进制数字0～7表示-。填写下表，根据那些位模式的无符号和补码解释，明这种截断对某些情况的结果。"><a href="#练习题2-24-假设将一个4位数值-用十六进制数字0～F表示-截断到一个3位数-用十六进制数字0～7表示-。填写下表，根据那些位模式的无符号和补码解释，明这种截断对某些情况的结果。" class="headerlink" title="练习题2.24 假设将一个4位数值(用十六进制数字0～F表示)截断到一个3位数(用十六进制数字0～7表示)。填写下表，根据那些位模式的无符号和补码解释，明这种截断对某些情况的结果。"></a>练习题2.24 假设将一个4位数值(用十六进制数字0～F表示)截断到一个3位数(用十六进制数字0～7表示)。填写下表，根据那些位模式的无符号和补码解释，明这种截断对某些情况的结果。</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015213952945.png" alt="image-20221015213952945"></p>
+<p>解释如何将等式(2.9)和等式(2.10)应用到这些示例上。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">十六进制</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">无符号</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">补码</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">原始值</td>
+<td style="text-align:center">截断值</td>
+<td style="text-align:center">原始值</td>
+<td style="text-align:center">截断值</td>
+<td style="text-align:center">原始值</td>
+<td style="text-align:center">截断值</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">-7</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">B</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">11</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">-5</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">F</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">-1</td>
+<td style="text-align:center">-1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-25考虑下列代码，这段代码试图计算数组a中所有元素的和，其中元素的数量由参数length-给出。"><a href="#练习题2-25考虑下列代码，这段代码试图计算数组a中所有元素的和，其中元素的数量由参数length-给出。" class="headerlink" title="练习题2.25考虑下列代码，这段代码试图计算数组a中所有元素的和，其中元素的数量由参数length 给出。"></a>练习题2.25考虑下列代码，这段代码试图计算数组a中所有元素的和，其中元素的数量由参数length 给出。</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="title function_">sum_elements</span><span class="params">(<span class="type">float</span> a[], <span class="type">unsigned</span> length)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="type">float</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt;= length - <span class="number">1</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        result += a[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当参数length等于0时，运行这段代码应该返回0.0。但实际上，运行时会遇到一个内存错误。请解释为什么会发生这样的情况，并且说明如何修改代码。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015220734092.png" alt="image-20221015220734092"></p>
+<p>原因是length的类型是unsigned 但是1的类型是是int，所以计算转为无符号数计算，length - 1=length +（- 1），现在的问题是-1的无符号数是多少-1的十六进制无符号数为0xFFFFFFFF换算之后是4294967295,所以代码就出现了异常,for循环进去之后数组下标越界。只需要将unsigned 改为int即可。</p>
+<h2 id="练习题2-26现在给你一个任务，写一个函数用来判定一个字符串是否比另一个更长。前提是你要用字符串库函数strlen，它的声明如下"><a href="#练习题2-26现在给你一个任务，写一个函数用来判定一个字符串是否比另一个更长。前提是你要用字符串库函数strlen，它的声明如下" class="headerlink" title="练习题2.26现在给你一个任务，写一个函数用来判定一个字符串是否比另一个更长。前提是你要用字符串库函数strlen，它的声明如下:"></a>练习题2.26现在给你一个任务，写一个函数用来判定一个字符串是否比另一个更长。前提是你要用字符串库函数strlen，它的声明如下:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stdio.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">size_t</span> <span class="title function_">strlen</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *s)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">strlonger</span><span class="params">(<span class="type">char</span> *s, <span class="type">char</span> *t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strlen</span>(s) - <span class="built_in">strlen</span>(t) &gt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当你在一些示例上测试这个函数时，一切似乎都是正确的。进一步研究发现在头文件stdio.h中数据类型size_t是定义成unsigned int的。</p>
+<p>A.在什么情况下，这个函数会产生不正确的结果？</p>
+<p>当s字符串的长度strlen1小于t字符串的长度strlen2时。</p>
+<p>B.解释为什么会出现这样不正确的结果?</p>
+<p>当s字符串的长度strlen1小于t字符串的长度strlen2时，strlen1-strlen2应当是负数，但是size_t是无符号，根据无符号数的方式解释器补码，这个负数是一个很大的正数。然后正数是大于0，不等式成立，函数就会返回逻辑True。</p>
+<p>C.说明如何修改这段代码好让它能可靠地工作。</p>
+<p>修改后的表达式：return strlen(s)&gt;strlen(t);</p>
+<h2 id="练习题2-27-写出一个具有如下原型的函数"><a href="#练习题2-27-写出一个具有如下原型的函数" class="headerlink" title="练习题2.27 写出一个具有如下原型的函数:"></a>练习题2.27 写出一个具有如下原型的函数:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">uadd_ok</span><span class="params">(<span class="type">unsigned</span> x,<span class="type">unsigned</span> y)</span> </span><br></pre></td></tr></table></figure>
+<p>如果参数x和y相加不会产生溢出，这个函数就返回1。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">uadd_ok</span><span class="params">(<span class="type">unsigned</span> x,<span class="type">unsigned</span> y)</span> &#123;</span><br><span class="line">    <span class="type">unsigned</span> result = x + y;</span><br><span class="line">    <span class="keyword">return</span> result &gt;= x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="练习题2-28我们能用一个十六进制数字来表示长度w-4的位模式。对于这些数字的无符号解释，使用等式-2-12-填写下表，给出所示数字的无符号加法逆元的位表示-用十六进制形式-。"><a href="#练习题2-28我们能用一个十六进制数字来表示长度w-4的位模式。对于这些数字的无符号解释，使用等式-2-12-填写下表，给出所示数字的无符号加法逆元的位表示-用十六进制形式-。" class="headerlink" title="练习题2.28我们能用一个十六进制数字来表示长度w=4的位模式。对于这些数字的无符号解释，使用等式(2.12)填写下表，给出所示数字的无符号加法逆元的位表示(用十六进制形式)。"></a>练习题2.28我们能用一个十六进制数字来表示长度w=4的位模式。对于这些数字的无符号解释，使用等式(2.12)填写下表，给出所示数字的无符号加法逆元的位表示(用十六进制形式)。</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221015222427723.png" alt="image-20221015222427723"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$x$</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">$-^u_4x$</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">十六进制</td>
+<td style="text-align:center">十进制</td>
+<td style="text-align:center">十六进制</td>
+<td style="text-align:center">十进制</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">B</td>
+<td style="text-align:center">11</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">8</td>
+</tr>
+<tr>
+<td style="text-align:center">D</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">F</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-29按照图2-25的形式填写下表。分别列出5位参数的整数值、整数和与补码和的数值、补码和的位级表示，以及属于等式-2-13-推导中的哪种情况。"><a href="#练习题2-29按照图2-25的形式填写下表。分别列出5位参数的整数值、整数和与补码和的数值、补码和的位级表示，以及属于等式-2-13-推导中的哪种情况。" class="headerlink" title="练习题2.29按照图2-25的形式填写下表。分别列出5位参数的整数值、整数和与补码和的数值、补码和的位级表示，以及属于等式(2.13)推导中的哪种情况。"></a>练习题2.29按照图2-25的形式填写下表。分别列出5位参数的整数值、整数和与补码和的数值、补码和的位级表示，以及属于等式(2.13)推导中的哪种情况。</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221016100641498.png" alt="image-20221016100641498"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$x$</th>
+<th style="text-align:center">$y$</th>
+<th style="text-align:center">$x+y$</th>
+<th style="text-align:center">$x+^t_5y$</th>
+<th style="text-align:center">情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[10100] -12</td>
+<td style="text-align:center">[10001] -15</td>
+<td style="text-align:center">[100101] -27</td>
+<td style="text-align:center">[00101] 5</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">[11000] -8</td>
+<td style="text-align:center">[11000] -8</td>
+<td style="text-align:center">[110000] -16</td>
+<td style="text-align:center">[10000] -16</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">[10111] -9</td>
+<td style="text-align:center">[01000] 8</td>
+<td style="text-align:center">[11111] -1</td>
+<td style="text-align:center">[11111] -1</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">[00010] 2</td>
+<td style="text-align:center">[00101] 5</td>
+<td style="text-align:center">[00111] 7</td>
+<td style="text-align:center">[00111] 7</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">[01100] 12</td>
+<td style="text-align:center">[00100] 4</td>
+<td style="text-align:center">[10000] 16</td>
+<td style="text-align:center">[10000] -16</td>
+<td style="text-align:center">-16</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-30写出一个具有如下原型的函数"><a href="#练习题2-30写出一个具有如下原型的函数" class="headerlink" title="练习题2.30写出一个具有如下原型的函数:"></a>练习题2.30写出一个具有如下原型的函数:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Determine whether arguments can be added without overflow */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">tadd_ok</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>;</span><br></pre></td></tr></table></figure>
+<p>如果参数x和y相加不会产生溢出，这个函数就返回1。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">tadd_ok</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> s = x + y;</span><br><span class="line">    <span class="keyword">if</span> (x &gt; <span class="number">0</span> &amp;&amp; y &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> s &gt; <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (x &lt; <span class="number">0</span> &amp;&amp; y &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> s &lt; <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="练习题2-31你的同事对你补码加法溢出条件的分析有些不耐烦了，他给出了一个函数tadd-ok的实现，如下所示"><a href="#练习题2-31你的同事对你补码加法溢出条件的分析有些不耐烦了，他给出了一个函数tadd-ok的实现，如下所示" class="headerlink" title="练习题2.31你的同事对你补码加法溢出条件的分析有些不耐烦了，他给出了一个函数tadd_ok的实现，如下所示:"></a>练习题2.31你的同事对你补码加法溢出条件的分析有些不耐烦了，他给出了一个函数tadd_ok的实现，如下所示:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// determin whether arguments can be added without overflow</span></span><br><span class="line"><span class="comment">// WARNING: THIS code is buggy</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">tadd_ok</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> sum = x + y;</span><br><span class="line">    <span class="keyword">return</span> (sum - x == y) &amp;&amp; (sum - y == x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你看了代码以后笑了。解释一下为什么。</p>
+<p>因为sum-x与y是恒相等的。</p>
+<p>假设int的w是4，即字长为4，并且sum=x+y发生正溢出（x&gt;0,y&gt;0,sum&lt;=0）。那么sum = x+y-16。</p>
+<p>sum-x = x+y-16-x = y-16。因为字长是4，并且y&gt;0 ，所以y = y-16是恒等的。也就是说sum-x=y是永远成立的。</p>
+<p>同理可以得出负溢出的情况。所以就算一簇上述代码也不会返回0，代码是错误的。</p>
+<h2 id="练习题2-32你现在有个任务，编写函数tsub-ok-的代码，函数的参数是x和y，如果计算x-y不产生溢出，函数就返回1。假设你写的练习题2-30的代码如下所示"><a href="#练习题2-32你现在有个任务，编写函数tsub-ok-的代码，函数的参数是x和y，如果计算x-y不产生溢出，函数就返回1。假设你写的练习题2-30的代码如下所示" class="headerlink" title="练习题2.32你现在有个任务，编写函数tsub_ok 的代码，函数的参数是x和y，如果计算x-y不产生溢出，函数就返回1。假设你写的练习题2.30的代码如下所示:"></a>练习题2.32你现在有个任务，编写函数tsub_ok 的代码，函数的参数是x和y，如果计算x-y不产生溢出，函数就返回1。假设你写的练习题2.30的代码如下所示:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">tsub_ok</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> tadd_ok(x, -y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>x和y取什么值时，这个函数会产生错误的结果?写一个该函数的正确版本(家庭作业2.74)。</p>
+<p>当y = INT_MIN时会发生错误。</p>
+<p>在计算机当中，y = INT_MIN时，-y = INT_MIN（会发生溢出）。所以这时tadd_ok(x, -y)会判断错误。</p>
+<p>至于正确答案，如果-y = INT_MIN理解为也算溢出的话，答案应该如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">tsub_ok</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (y == INT_MIN) <span class="comment">//只要y为INT_MIN，就直接返回0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> tadd_ok(x, -y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="练习题2-33我们可以用一个十六进制数字来表示长度w-4的位模式。根据这些数字的补码的解释，填写下表，确定所示数字的加法逆元。"><a href="#练习题2-33我们可以用一个十六进制数字来表示长度w-4的位模式。根据这些数字的补码的解释，填写下表，确定所示数字的加法逆元。" class="headerlink" title="练习题2.33我们可以用一个十六进制数字来表示长度w=4的位模式。根据这些数字的补码的解释，填写下表，确定所示数字的加法逆元。"></a>练习题2.33我们可以用一个十六进制数字来表示长度w=4的位模式。根据这些数字的补码的解释，填写下表，确定所示数字的加法逆元。</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221016115010661.png" alt="image-20221016115010661"></p>
+<p>对于补码和无符号(练习题2.28)非(negation)产生的位模式，你观察到什么?</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$x$</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">$-^t_4x$</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">十六进制</td>
+<td style="text-align:center">十进制</td>
+<td style="text-align:center">十六进制</td>
+<td style="text-align:center">十进制</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">B</td>
+<td style="text-align:center">-5</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">-8</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">-8</td>
+</tr>
+<tr>
+<td style="text-align:center">D</td>
+<td style="text-align:center">-3</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">F</td>
+<td style="text-align:center">-1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-34-按照图2-27的风格填写下表，说明不同的3位数字乘法的结果。"><a href="#练习题2-34-按照图2-27的风格填写下表，说明不同的3位数字乘法的结果。" class="headerlink" title="练习题2.34 按照图2-27的风格填写下表，说明不同的3位数字乘法的结果。"></a>练习题2.34 按照图2-27的风格填写下表，说明不同的3位数字乘法的结果。</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221016120202629.png" alt="image-20221016120202629"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模式</th>
+<th style="text-align:center">x</th>
+<th style="text-align:center">y</th>
+<th style="text-align:center">x*y</th>
+<th style="text-align:center">截断的x*y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">无符号</td>
+<td style="text-align:center">[100] 4</td>
+<td style="text-align:center">[101] 5</td>
+<td style="text-align:center">[001 0100] 20</td>
+<td style="text-align:center">[100] 4</td>
+</tr>
+<tr>
+<td style="text-align:center">补码</td>
+<td style="text-align:center">[100] -4</td>
+<td style="text-align:center">[101] -3</td>
+<td style="text-align:center">[000 1100] 12</td>
+<td style="text-align:center">[100] -4</td>
+</tr>
+<tr>
+<td style="text-align:center">无符号</td>
+<td style="text-align:center">[010] 2</td>
+<td style="text-align:center">[111] 7</td>
+<td style="text-align:center">[000 1110] 14</td>
+<td style="text-align:center">[110] 6</td>
+</tr>
+<tr>
+<td style="text-align:center">补码</td>
+<td style="text-align:center">[010] 2</td>
+<td style="text-align:center">[111] -1</td>
+<td style="text-align:center">[111 1110] -2</td>
+<td style="text-align:center">[110] -2</td>
+</tr>
+<tr>
+<td style="text-align:center">无符号</td>
+<td style="text-align:center">[110] 6</td>
+<td style="text-align:center">[110] 6</td>
+<td style="text-align:center">[010 0100] 36</td>
+<td style="text-align:center">[100] 4</td>
+</tr>
+<tr>
+<td style="text-align:center">补码</td>
+<td style="text-align:center">[110] -2</td>
+<td style="text-align:center">[110] -2</td>
+<td style="text-align:center">[000 0100 ] 4</td>
+<td style="text-align:center">[100] -4</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-35﹐-给你一个任务，开发函数tmult-ok-的代码，该函数会判断两个参数相乘是否会产生溢出。下面是你的解决方案"><a href="#练习题2-35﹐-给你一个任务，开发函数tmult-ok-的代码，该函数会判断两个参数相乘是否会产生溢出。下面是你的解决方案" class="headerlink" title="练习题2.35﹐ 给你一个任务，开发函数tmult ok 的代码，该函数会判断两个参数相乘是否会产生溢出。下面是你的解决方案:"></a>练习题2.35﹐ 给你一个任务，开发函数tmult ok 的代码，该函数会判断两个参数相乘是否会产生溢出。下面是你的解决方案:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Determine whether arguments can be multiplied without overflow */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">tmult_ok</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> p = x * y;</span><br><span class="line">    <span class="comment">/*Either x is zero, or dividing p by x gives y */</span></span><br><span class="line">    <span class="keyword">return</span> !x || p / x == y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="练习题2-36对于数据类型int为32位的情况，设计一个版本的tmult-ok函数-练习题2-35-，使用64位精度的数据类型int64-t，而不使用除法。"><a href="#练习题2-36对于数据类型int为32位的情况，设计一个版本的tmult-ok函数-练习题2-35-，使用64位精度的数据类型int64-t，而不使用除法。" class="headerlink" title="练习题2.36对于数据类型int为32位的情况，设计一个版本的tmult_ok函数(练习题2.35)，使用64位精度的数据类型int64_t，而不使用除法。"></a>练习题2.36对于数据类型int为32位的情况，设计一个版本的tmult_ok函数(练习题2.35)，使用64位精度的数据类型int64_t，而不使用除法。</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">tmult_ok2</span><span class="params">(<span class="type">int32_t</span> x, <span class="type">int32_t</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int64_t</span> p = (<span class="type">int64_t</span>)x * y; <span class="comment">/*一定要先将右边手动转成 int64_t */</span></span><br><span class="line">	<span class="comment">/*printf(&quot;p=%&quot; PRId64 &quot;, q=%&quot; PRId32 &quot;\n&quot;, p,q);*/</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> p == (<span class="type">int32_t</span>)p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="练习题2-37现在你有一个任务，当数据类型int和size-t-都是32位的，修补上述旁注给出的XDR代码中的漏洞。你决定将待分配字节数设置为数据类型uint64-t，来消除乘法溢出的可能性。你把原来对malloc函数的调用-第9行-替换如下"><a href="#练习题2-37现在你有一个任务，当数据类型int和size-t-都是32位的，修补上述旁注给出的XDR代码中的漏洞。你决定将待分配字节数设置为数据类型uint64-t，来消除乘法溢出的可能性。你把原来对malloc函数的调用-第9行-替换如下" class="headerlink" title="练习题2.37现在你有一个任务，当数据类型int和size_t 都是32位的，修补上述旁注给出的XDR代码中的漏洞。你决定将待分配字节数设置为数据类型uint64_t，来消除乘法溢出的可能性。你把原来对malloc函数的调用(第9行)替换如下:"></a>练习题2.37现在你有一个任务，当数据类型int和size_t 都是32位的，修补上述旁注给出的XDR代码中的漏洞。你决定将待分配字节数设置为数据类型uint64_t，来消除乘法溢出的可能性。你把原来对malloc函数的调用(第9行)替换如下:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint64_t</span> asize = ele_cnt * (<span class="type">uint64_t</span>) ele_size;</span><br><span class="line"><span class="type">void</span> *result = <span class="built_in">malloc</span>(asize);</span><br></pre></td></tr></table></figure>
+<p>提醒一下，malloc 的参数类型是size_t。</p>
+<p><strong>A．这段代码对原始的代码有了哪些改进?</strong></p>
+<p>假设会溢出，那么虽然到了asize这步还不会溢出，因为在等式右边已经先把两个乘子强制类型转换为<code>uint64_t</code>了。<br>但是到了malloc函数时，由于此函数的原型设计，还是会被截断，传入malloc函数时发生溢出。</p>
+<p><strong>B.你该如何修改代码来消除这个漏洞?</strong></p>
+<h2 id="练习题2-38就像我们将在第3章中看到的那样，LEA指令能够执行形如-a-lt-lt-k-b的计算，这里k-等于0、1、2或3，而b等于0或者某个程序值。编译器常常用这条指令来执行常数因子乘法。例如，我们可以用-a-lt-lt-1-a来计算3-a。考虑b等于0或者等于a、k为任意可能的值的情况，用一条LEA指令可以计算a的哪些倍数"><a href="#练习题2-38就像我们将在第3章中看到的那样，LEA指令能够执行形如-a-lt-lt-k-b的计算，这里k-等于0、1、2或3，而b等于0或者某个程序值。编译器常常用这条指令来执行常数因子乘法。例如，我们可以用-a-lt-lt-1-a来计算3-a。考虑b等于0或者等于a、k为任意可能的值的情况，用一条LEA指令可以计算a的哪些倍数" class="headerlink" title="练习题2.38就像我们将在第3章中看到的那样，LEA指令能够执行形如(a&lt;&lt;k)+b的计算，这里k 等于0、1、2或3，而b等于0或者某个程序值。编译器常常用这条指令来执行常数因子乘法。例如，我们可以用(a&lt;&lt;1)+a来计算3*a。考虑b等于0或者等于a、k为任意可能的值的情况，用一条LEA指令可以计算a的哪些倍数?"></a>练习题2.38就像我们将在第3章中看到的那样，LEA指令能够执行形如(a&lt;&lt;k)+b的计算，这里k 等于0、1、2或3，而b等于0或者某个程序值。编译器常常用这条指令来执行常数因子乘法。例如，我们可以用(a&lt;&lt;1)+a来计算3*a。考虑b等于0或者等于a、k为任意可能的值的情况，用一条LEA指令可以计算a的哪些倍数?</h2><p>当b=0时，(a&lt;&lt;k)+b = a*2\^k，而k=0、1、2或3，所以结果为a，2a，4a，8a</p>
+<p>当b=a时，(a&lt;&lt;k)+a = a(2^k+1)，而k=0、1、2或3，所以结果为2a，3a，5a，9a</p>
+<p>综上：结果为a，2a，3a，4a，5a，8a，9a</p>
+<h2 id="练习题2-39对于位位置n为最高有效位的情况，我们要怎样修改形式B的表达式"><a href="#练习题2-39对于位位置n为最高有效位的情况，我们要怎样修改形式B的表达式" class="headerlink" title="练习题2.39对于位位置n为最高有效位的情况，我们要怎样修改形式B的表达式?"></a>练习题2.39对于位位置n为最高有效位的情况，我们要怎样修改形式B的表达式?</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221019110357157.png" alt="image-20221019110357157"></p>
+<p>这个表达式就变成了$-(x&lt;&lt;m)$。要看清这一点，设字长为$w$，$n=w—1$。形式B说我们要计算$(x&lt;&lt;w)-(x&lt;&lt;m)$，但是将x向左移动w位会得到值0。</p>
+<h2 id="练习题2-40对于下面每个K的值，找出只用指定数量的运算表达x-K-的方法﹐这里我们认为加法和减法的开销相当。除了我们已经考虑过的简单的形式A和B原则-你可能会需要使用一些技巧。"><a href="#练习题2-40对于下面每个K的值，找出只用指定数量的运算表达x-K-的方法﹐这里我们认为加法和减法的开销相当。除了我们已经考虑过的简单的形式A和B原则-你可能会需要使用一些技巧。" class="headerlink" title="练习题2.40对于下面每个K的值，找出只用指定数量的运算表达x* K 的方法﹐这里我们认为加法和减法的开销相当。除了我们已经考虑过的简单的形式A和B原则,你可能会需要使用一些技巧。"></a>练习题2.40对于下面每个K的值，找出只用指定数量的运算表达x* K 的方法﹐这里我们认为加法和减法的开销相当。除了我们已经考虑过的简单的形式A和B原则,你可能会需要使用一些技巧。</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221016123931135.png" alt="image-20221016123931135"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">K</th>
+<th style="text-align:center">移位</th>
+<th style="text-align:center">加法/减法</th>
+<th style="text-align:center">表达式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">(x &lt;&lt; 2) + (x&lt;&lt;1)</td>
+</tr>
+<tr>
+<td style="text-align:center">31</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">(x &lt;&lt;5 ) - x</td>
+</tr>
+<tr>
+<td style="text-align:center">-6</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">(x &lt;&lt; 1) - (x &lt;&lt; 3)</td>
+</tr>
+<tr>
+<td style="text-align:center">55</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">(x &lt;&lt; 6) - (x &lt;&lt;3) - x</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-41对于一组从位位置n开始到位位置m-的连续的1-n≥m-，我们看到可以产生两种形式的代码，A和B。编译器该如何决定使用哪一种呢"><a href="#练习题2-41对于一组从位位置n开始到位位置m-的连续的1-n≥m-，我们看到可以产生两种形式的代码，A和B。编译器该如何决定使用哪一种呢" class="headerlink" title="练习题2.41对于一组从位位置n开始到位位置m 的连续的1(n≥m)，我们看到可以产生两种形式的代码，A和B。编译器该如何决定使用哪一种呢?"></a>练习题2.41对于一组从位位置n开始到位位置m 的连续的1(n≥m)，我们看到可以产生两种形式的代码，A和B。编译器该如何决定使用哪一种呢?</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221019110357157.png" alt="image-20221019110357157"></p>
+<p>假设加法和减法有同样的性能，那么原则就是当n=m时，选择形式A，当n=m+1时，随便选哪种，而当n&gt;m＋1时，选择形式B。</p>
+<p>当 n=m 时，A:x&lt;&lt;n , B:(x&lt;&lt;n+1)-(x&lt;&lt;n) 形式A只需要1个移位,而形式B需要 2个移位和1个减法 ，所以选择A</p>
+<p>当n=m+1时，A:(x&lt;&lt;n)+(x&lt;&lt;m)，B:(x&lt;&lt;n+1)-(x&lt;&lt;n)形式A只需要2个移位一个加法，而形式B需要 2个移位和1个减法 ，所以随便选那种</p>
+<p>当n&gt;m+1时，就如同上图所展示，很显然选择B</p>
+<h2 id="练习题2-42写一个函数-div16，对于整数参数x返回x-16的值。你的函数不能使用除法、模运算、乘法、任何条件语句-if或者-、任何比较运算符（例如-lt-、-gt-或-或任何循环。你可以假设数据类型int是32位长，使用补码表示，而右移是算术右移。"><a href="#练习题2-42写一个函数-div16，对于整数参数x返回x-16的值。你的函数不能使用除法、模运算、乘法、任何条件语句-if或者-、任何比较运算符（例如-lt-、-gt-或-或任何循环。你可以假设数据类型int是32位长，使用补码表示，而右移是算术右移。" class="headerlink" title="练习题2.42写一个函数 div16，对于整数参数x返回x/16的值。你的函数不能使用除法、模运算、乘法、任何条件语句(if或者?:)、任何比较运算符（例如&lt;、&gt;或= =)或任何循环。你可以假设数据类型int是32位长，使用补码表示，而右移是算术右移。"></a>练习题2.42写一个函数 div16，对于整数参数x返回x/16的值。你的函数不能使用除法、模运算、乘法、任何条件语句(if或者?:)、任何比较运算符（例如&lt;、&gt;或= =)或任何循环。你可以假设数据类型int是32位长，使用补码表示，而右移是算术右移。</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">book_div16</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">        <span class="comment">/* Compute bias to be either 0 (x &gt;= 0) or 15 (x &lt; 0) */</span></span><br><span class="line">        <span class="type">int</span> bias = (x &gt;&gt; <span class="number">31</span>) &amp; <span class="number">0xF</span>;<span class="comment">//右移31位后，32位上面都是符号位的值</span></span><br><span class="line">        <span class="comment">//如果为非负数，符号位为0，bias变量为0</span></span><br><span class="line">        <span class="comment">//如果为负数，符号位为1，bias变量为0xF，即15</span></span><br><span class="line">        <span class="keyword">return</span> (x + bias) &gt;&gt; <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="练习题2-43在下面的代码中，我们省略了常数M和N的定义"><a href="#练习题2-43在下面的代码中，我们省略了常数M和N的定义" class="headerlink" title="练习题2.43在下面的代码中，我们省略了常数M和N的定义:"></a>练习题2.43在下面的代码中，我们省略了常数M和N的定义:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> M <span class="comment">/*Mystery number 1 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> N <span class="comment">/* Mystery number 2*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">arith</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> result = <span class="number">0</span>;</span><br><span class="line">    result = x * M + y / N; <span class="comment">/*Mand N are mystery numbers. */</span></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们以某个M和N的值编译这段代码。编译器用我们讨论过的方法优化乘法和除法。下面是将产生出的机器代码翻译回C语言的结果:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">optarith</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> t = x;</span><br><span class="line">    x &lt;&lt;= <span class="number">5</span>;</span><br><span class="line">    x -= t;</span><br><span class="line">    <span class="keyword">if</span> (y &lt; <span class="number">0</span>)</span><br><span class="line">        y += <span class="number">7</span>;</span><br><span class="line">    y &gt;&gt;= <span class="number">3</span>; <span class="comment">/* Arithmetic shift */</span></span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先看M:<br>代码等价于x = x <em> 32 -x = x </em> 31.所以M为31.</p>
+<p>再看N</p>
+<p>7=2\^3-1,最后的右移操作也是右移3位，所以N=8</p>
+<h2 id="练习题2-44假设我们在对有符号值使用补码运算的32位机器上运行代码。对于有符号值使用的是算术右移，而对于无符号值使用的是逻辑右移。变量的声明和初始化如下"><a href="#练习题2-44假设我们在对有符号值使用补码运算的32位机器上运行代码。对于有符号值使用的是算术右移，而对于无符号值使用的是逻辑右移。变量的声明和初始化如下" class="headerlink" title="练习题2.44假设我们在对有符号值使用补码运算的32位机器上运行代码。对于有符号值使用的是算术右移，而对于无符号值使用的是逻辑右移。变量的声明和初始化如下:"></a>练习题2.44假设我们在对有符号值使用补码运算的32位机器上运行代码。对于有符号值使用的是算术右移，而对于无符号值使用的是逻辑右移。变量的声明和初始化如下:</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x = foo();</span><br><span class="line"><span class="type">int</span> y = bar();</span><br><span class="line"><span class="type">unsigned</span> ux = x;</span><br><span class="line"><span class="type">unsigned</span> uy = y;</span><br></pre></td></tr></table></figure>
+<p>对于下面每个C表达式，1)证明对于所有的x和y值，它都为真(等于1);或者2)给出使得它为假(等于0)的x和y的值:</p>
+<p><strong>A. (x &gt; 0)||(x-1 &lt;0)</strong></p>
+<p>当x为TMIN时，左边不符合条件，为0；右边负溢出为TMAX，正数不小于0，为0；此时为false</p>
+<p><strong>B. (x &amp; 7) != 7 || (x&lt;&lt;29&lt; 0)</strong></p>
+<p>左边要求的是x的低3位不能都为1；右边要求第3位为1（先左移29位，所以有原始的低3位和29位个0组成，此时小于0，说明符号位为1，即原始的低3位的最高那个为1）；<br>低3位分两种情况：<br>1）除111外的所有情况：左边符合，必返回1，不用管右边。<br>2）111：左边不符合，但右边符合了，也返回1。<br>该表达式必为true。</p>
+<p><strong>C. (x* x) &gt;= 0</strong></p>
+<p>x = 182</p>
+<p>182*182-65536=33124-65536=-32412</p>
+<p><strong>D. x &lt;0 || -x &lt;=0</strong></p>
+<p>当x为0时，右边成立；<br>当x为[1,TMAX]，右边必成立；<br>当x为[TMIN+1,-1]，左边成立；<br>当x为TMIN，左右都成立；<br>综上，此表达式必为1.</p>
+<p><strong>E. x &gt; 0 || -x &gt;= 0</strong></p>
+<p>当x为0时，右边成立；<br>当x为[1,TMAX]，左边成立；<br>当x为[TMIN+1,-1]，右边成立；<br>当x为TMIN，左右理论上都不成立（实际上有问题）；</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221016132814756.png" alt="image-20221016132814756"></p>
+<p><strong>F. x+y == uy+ux</strong></p>
+<p>表达式中含有无符号数，所以左边也会转换为无符号数。等价于unsigned(x+y) == uy+ux.<br>在二进制上，无符号数和有符号数的加法是一样的，故都为真。</p>
+<p><strong>G.x*~y + uy*ux=-x</strong></p>
+<p>-y = ~y+1,故 ~y=-y-1, 左边= x*(-y-1)+uy*ux = uy*ux - x*y -x, 不管是无符号数还是有符号数，在二进制层面上相乘后截短后的结果都是相同的。故 uy*ux-x*y=0, 故结果都为真</p>
+<h2 id="练习题2-45填写下表中的缺失的信息"><a href="#练习题2-45填写下表中的缺失的信息" class="headerlink" title="练习题2.45填写下表中的缺失的信息:"></a>练习题2.45填写下表中的缺失的信息:</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221018111104045.png" alt="image-20221018111104045"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">小数值</th>
+<th style="text-align:center">二进制表示</th>
+<th style="text-align:center">十进制表示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$\frac{1}{8}$</td>
+<td style="text-align:center">0.001</td>
+<td style="text-align:center">0.125</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{3}{4}$</td>
+<td style="text-align:center">0.110</td>
+<td style="text-align:center">0.75</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{25}{16}$</td>
+<td style="text-align:center">1.1001</td>
+<td style="text-align:center">1.5625</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{43}{16}$</td>
+<td style="text-align:center">10.1011</td>
+<td style="text-align:center">2.6875</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{9}{8}$</td>
+<td style="text-align:center">1.001</td>
+<td style="text-align:center">1.125</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{47}{8}$</td>
+<td style="text-align:center">101.111</td>
+<td style="text-align:center">5.875</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{51}{16}$</td>
+<td style="text-align:center">11.0011</td>
+<td style="text-align:center">3.1875</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-46"><a href="#练习题2-46" class="headerlink" title="练习题2.46"></a>练习题2.46</h2><p>太长了，略。</p>
+<h2 id="练习题2-47︰假设一个基于IEEE浮点格式的5位浮点表示，有1个符号位、2个阶码位-k-2-和两个小数位-n-2-。阶码偏置量是-2-2-1-1-。"><a href="#练习题2-47︰假设一个基于IEEE浮点格式的5位浮点表示，有1个符号位、2个阶码位-k-2-和两个小数位-n-2-。阶码偏置量是-2-2-1-1-。" class="headerlink" title="练习题2.47︰假设一个基于IEEE浮点格式的5位浮点表示，有1个符号位、2个阶码位(k=2)和两个小数位(n=2)。阶码偏置量是$2^{2-1}=1$。"></a>练习题2.47︰假设一个基于IEEE浮点格式的5位浮点表示，有1个符号位、2个阶码位(k=2)和两个小数位(n=2)。阶码偏置量是$2^{2-1}=1$。</h2><p>下表中列举了这个5位浮点表示的全部非负取值范围。使用下面的条件，填写表格中的空白项:</p>
+<p>$e$:假定阶码字段是一个无符号整数所表示的值。</p>
+<p>$E$:偏置之后的阶码值。</p>
+<p>$2^E$:阶码的权重。</p>
+<p>$f$ :小数值。</p>
+<p>$M$:尾数的值。</p>
+<p>$2^E×M$:该数(未归约的)小数值。</p>
+<p>$V$:该数归约后的小数值。</p>
+<p>十进制:该数的十进制表示。</p>
+<p>写出$2^E$、f、M、$2^E\times M$和V的值，要么是整数(如果可能的话)，要么是形如$\frac{x}{y}$的小数，这里y是2的幂。标注为“—”的条目不用填。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221018154232508.png" alt="image-20221018154232508"></p>
+<p>偏置量是$2^{2-1}-1=1$</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">位</th>
+<th style="text-align:center">e</th>
+<th style="text-align:center">$E$</th>
+<th style="text-align:center">$2^E$</th>
+<th style="text-align:center">$f$</th>
+<th style="text-align:center">$M$</th>
+<th style="text-align:center">$2^E \times M$</th>
+<th style="text-align:center">$V$</th>
+<th style="text-align:center">十进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0 00 00</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\frac{0}{4}$</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0.0</td>
+</tr>
+<tr>
+<td style="text-align:center">0 00 01</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\frac{1}{4}$</td>
+<td style="text-align:center">$\frac{1}{4}$</td>
+<td style="text-align:center">$\frac{1}{4}$</td>
+<td style="text-align:center">$\frac{1}{4}$</td>
+<td style="text-align:center">0.25</td>
+</tr>
+<tr>
+<td style="text-align:center">0 00 10</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\frac{2}{4}$</td>
+<td style="text-align:center">$\frac{2}{4}$</td>
+<td style="text-align:center">$\frac{2}{4}$</td>
+<td style="text-align:center">$\frac{1}{2}$</td>
+<td style="text-align:center">0.5</td>
+</tr>
+<tr>
+<td style="text-align:center">0 00 11</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\frac{3}{4}$</td>
+<td style="text-align:center">$\frac{3}{4}$</td>
+<td style="text-align:center">$\frac{3}{4}$</td>
+<td style="text-align:center">$\frac{3}{4}$</td>
+<td style="text-align:center">0.75</td>
+</tr>
+<tr>
+<td style="text-align:center">0 01 00</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\frac{0}{4}$</td>
+<td style="text-align:center">$\frac{4}{4}$</td>
+<td style="text-align:center">$\frac{4}{4}$</td>
+<td style="text-align:center">$1$</td>
+<td style="text-align:center">1.0</td>
+</tr>
+<tr>
+<td style="text-align:center">0 01 01</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\frac{1}{4}$</td>
+<td style="text-align:center">$\frac{5}{4}$</td>
+<td style="text-align:center">$\frac{5}{4}$</td>
+<td style="text-align:center">$\frac{5}{4}$</td>
+<td style="text-align:center">1.25</td>
+</tr>
+<tr>
+<td style="text-align:center">0 01 11</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\frac{2}{4}$</td>
+<td style="text-align:center">$\frac{6}{4}$</td>
+<td style="text-align:center">$\frac{6}{4}$</td>
+<td style="text-align:center">$\frac{3}{2}$</td>
+<td style="text-align:center">1.5</td>
+</tr>
+<tr>
+<td style="text-align:center">0 10 00</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">$\frac{4}{4}$</td>
+<td style="text-align:center">$\frac{8}{4}$</td>
+<td style="text-align:center">$2$</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">0 10 01</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">$\frac{1}{4}$</td>
+<td style="text-align:center">$\frac{5}{4}$</td>
+<td style="text-align:center">$\frac{10}{4}$</td>
+<td style="text-align:center">$\frac{5}{2}$</td>
+<td style="text-align:center">2.5</td>
+</tr>
+<tr>
+<td style="text-align:center">0 10 11</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">$\frac{2}{4}$</td>
+<td style="text-align:center">$\frac{6}{4}$</td>
+<td style="text-align:center">$\frac{12}{4}$</td>
+<td style="text-align:center">$3$</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">0 11 00</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">$+\infty$</td>
+<td style="text-align:center">——</td>
+</tr>
+<tr>
+<td style="text-align:center">0 11 01</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">NAN</td>
+<td style="text-align:center">——</td>
+</tr>
+<tr>
+<td style="text-align:center">0 11 10</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">NAN</td>
+<td style="text-align:center">——</td>
+</tr>
+<tr>
+<td style="text-align:center">0 11 11</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">——</td>
+<td style="text-align:center">NAN</td>
+<td style="text-align:center">——</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-48正如在练习题2-6中提到的，整数3-510-593的十六进制表示为0x00359141，而单精度浮点数3510593-0的十六进制表示为0x42564504。推导出这个浮点表示，并解释整数和浮点数表示的位之间的关系。"><a href="#练习题2-48正如在练习题2-6中提到的，整数3-510-593的十六进制表示为0x00359141，而单精度浮点数3510593-0的十六进制表示为0x42564504。推导出这个浮点表示，并解释整数和浮点数表示的位之间的关系。" class="headerlink" title="练习题2.48正如在练习题2.6中提到的，整数3 510 593的十六进制表示为0x00359141，而单精度浮点数3510593.0的十六进制表示为0x42564504。推导出这个浮点表示，并解释整数和浮点数表示的位之间的关系。"></a>练习题2.48正如在练习题2.6中提到的，整数3 510 593的十六进制表示为0x00359141，而单精度浮点数3510593.0的十六进制表示为0x42564504。推导出这个浮点表示，并解释整数和浮点数表示的位之间的关系。</h2><p>整数 0x00359141 = 0000 0000 0011 0101 1001 0001 0100 0001</p>
+<p>转换成浮点表示时, 先将小数点放在值为 1 的最高有效位的右边, 得到 $1.1 0101 1001 0001 0100 0001_2\times 2^{21} $。</p>
+<p>因此尾数值为$1.101011001000101000001_2$，舍弃开头的1，末尾还需要增加两个0 （总共尾数23位），尾数部分为$101 0110 0100 0101 0000 0100$。</p>
+<p>对于阶码位数 k=8，$Bias =2^{k-1}-1=2^7-1=127$，指数值 E = 21, E = e-B, 从而 e= 21+127=148,148 = 1001 0100</p>
+<p>对于符号位，直接为0</p>
+<p>综上，3510593.0 的浮点表示为 0 10010100 10101100100010100000100</p>
+<p>而 0x4a564504 的位模式刚好为 010010100101 0110 0100 0101 0000 0100</p>
+<h2 id="练习题2-49"><a href="#练习题2-49" class="headerlink" title="练习题2.49"></a>练习题2.49</h2><p>A. 对于一种具有n位小数的浮点格式，给出不能准确描述的最小正整数的公式(因为要想准确表示它需要n＋1位小数)。假设阶码字段长度k足够大，可以表示的阶码范围不会限制这个问题。</p>
+<p>该练习有助于我们思考什么数不能用浮点数精确表示，因为阶码范围不限制, 故只需考虑小数部分最小能表示的数即可。</p>
+<p>小数最多 n 位, 故最小能表示的小数 f 是 n 个 0 后面再加一个 1, 这个小数需要 n+1 个位来表示, 那么尾数 $M = f+1 =1.0000⋯01_2$</p>
+<p>即要示的数的二进制表示为：1 后面跟 n 个 0, 再跟一个 1, 值为$2^{n+1}+1$</p>
+<p>B. 对于单精度格式(n=23)，这个整数的数字值是多少?</p>
+<p>对于单精度格式 n=23, 这个数为 $2^{24}+1=16777217$</p>
+<h2 id="练习题2-50根据舍入到偶数规则，说明如何将下列二进制小数值舍入到最接近的二分之一-二进制小数点右边1位-。对每种情况，给出舍入前后的数字值。"><a href="#练习题2-50根据舍入到偶数规则，说明如何将下列二进制小数值舍入到最接近的二分之一-二进制小数点右边1位-。对每种情况，给出舍入前后的数字值。" class="headerlink" title="练习题2.50根据舍入到偶数规则，说明如何将下列二进制小数值舍入到最接近的二分之一(二进制小数点右边1位)。对每种情况，给出舍入前后的数字值。"></a>练习题2.50根据舍入到偶数规则，说明如何将下列二进制小数值舍入到最接近的二分之一(二进制小数点右边1位)。对每种情况，给出舍入前后的数字值。</h2><p>A.$10.010_2 = 10.0$</p>
+<p>B.$10.011_2 = 10.1$</p>
+<p>C.$10.110_2 = 11.0$</p>
+<p>D.$11.001_2=11.0$</p>
+<h2 id="练习题2-51"><a href="#练习题2-51" class="headerlink" title="练习题2.51"></a>练习题2.51</h2><h2 id="练习题2-52考虑下列基于IEEE浮点格式的7位浮点表示。两个格式都没有符号位——它们只能表示非负的数字。"><a href="#练习题2-52考虑下列基于IEEE浮点格式的7位浮点表示。两个格式都没有符号位——它们只能表示非负的数字。" class="headerlink" title="练习题2.52考虑下列基于IEEE浮点格式的7位浮点表示。两个格式都没有符号位——它们只能表示非负的数字。"></a>练习题2.52考虑下列基于IEEE浮点格式的7位浮点表示。两个格式都没有符号位——它们只能表示非负的数字。</h2><p>1.格式A</p>
+<ul>
+<li>有k=3个阶码位。阶码的偏置值是3。</li>
+<li>有n=4个小数1。</li>
+</ul>
+<p>2.格式B</p>
+<ul>
+<li>有k=4个阶码位。阶码的偏置值是7。</li>
+<li>有n=3个小数位。</li>
+</ul>
+<p>下面给出了一些格式A表示的位模式，你的任务是将它们转换成格式B中最接近的值。如果需要，请使用舍入到偶数的舍入原则。另外，给出由格式A和格式B表示的位模式对应的数字的值。给出整数(例如17)或者小数(例如17/64)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/os/image-20221019191037787.png" alt="image-20221019191037787"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">格式A</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">格式B</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">位</td>
+<td style="text-align:center">值</td>
+<td style="text-align:center">位</td>
+<td style="text-align:center">值</td>
+</tr>
+<tr>
+<td style="text-align:center">011 0000</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0111 000</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">101 1110</td>
+<td style="text-align:center">$\frac{15}{2}$</td>
+<td style="text-align:center">1001 111</td>
+<td style="text-align:center">$\frac{15}{2}$</td>
+</tr>
+<tr>
+<td style="text-align:center">010 1001</td>
+<td style="text-align:center">$\frac{25}{32}$</td>
+<td style="text-align:center">0110 100</td>
+<td style="text-align:center">$\frac{3}{4}$</td>
+</tr>
+<tr>
+<td style="text-align:center">110 1111</td>
+<td style="text-align:center">$\frac{31}{2}$</td>
+<td style="text-align:center">1010 000</td>
+<td style="text-align:center">16</td>
+</tr>
+<tr>
+<td style="text-align:center">000 0001</td>
+<td style="text-align:center">$\frac{1}{64}$</td>
+<td style="text-align:center">0001 000</td>
+<td style="text-align:center">$\frac{1}{64}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="练习题2-53完成下列宏定义，生成双精度值-∞-−∞和-0"><a href="#练习题2-53完成下列宏定义，生成双精度值-∞-−∞和-0" class="headerlink" title="练习题2.53完成下列宏定义，生成双精度值+∞, −∞和 0:"></a>练习题2.53完成下列宏定义，生成双精度值+∞, −∞和 0:</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#define POS_INFINITY 1e400</span><br><span class="line">#define NEG_INFINITY (-POS_INFINITY)</span><br><span class="line">#define NEG_ZERO (-1.0/POS_INFINITY)</span><br></pre></td></tr></table></figure>
+<h2 id="练习题-2-54-假设变量-x-f-d-类型分别是-int-float-double-它们除了不是-∞-−∞-和-NaN-外-可以是任意值-对于下面的每个-C-表达式-证明它们总是真（也就是求值为1）-或者给出一个使其不为真的值（就是求值为0-。"><a href="#练习题-2-54-假设变量-x-f-d-类型分别是-int-float-double-它们除了不是-∞-−∞-和-NaN-外-可以是任意值-对于下面的每个-C-表达式-证明它们总是真（也就是求值为1）-或者给出一个使其不为真的值（就是求值为0-。" class="headerlink" title="练习题 2.54 假设变量 x, f, d 类型分别是 int, float, double, 它们除了不是 +∞, −∞ 和 NaN 外,可以是任意值, 对于下面的每个 C 表达式, 证明它们总是真（也就是求值为1）,或者给出一个使其不为真的值（就是求值为0)。"></a>练习题 2.54 假设变量 x, f, d 类型分别是 int, float, double, 它们除了不是 +∞, −∞ 和 NaN 外,可以是任意值, 对于下面的每个 C 表达式, 证明它们总是真（也就是求值为1）,或者给出一个使其不为真的值（就是求值为0)。</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">A.x == (<span class="type">int</span>)(<span class="type">double</span>) x</span><br><span class="line">B.x == (<span class="type">int</span>)(<span class="type">float</span>) x</span><br><span class="line">C.d == (<span class="type">double</span>)(<span class="type">float</span>) d</span><br><span class="line">D.f == (<span class="type">float</span>)(<span class="type">double</span>)f</span><br><span class="line">E.f == -(-f)</span><br><span class="line">F<span class="number">.1</span><span class="number">.0</span>/<span class="number">2</span> == <span class="number">1</span>/<span class="number">2.0</span></span><br><span class="line">G.d*d &gt;= <span class="number">0.0</span></span><br><span class="line">H. (f+d)-f == d</span><br></pre></td></tr></table></figure>
+<p>float 的最大规格化数是 3.4e38, 小于 1e40, double 的最大规格化数是 1.8e308, 小于 1e309.</p>
+<p>A.  x == (int)(double) x : int 转换到 double 时能精确转换, 故总为真</p>
+<p>B.x == (int)(float) x: int 到 float, 不溢出, 可能舍入, 根据练习题 2.49, 最小不能表示的正数是$2^{23}+1$，此时会舍入到$2^{23}$</p>
+<p>C. d == (double)(float) d: double 转换到 float 会溢出,也会舍入, d = 1e40 时右边会是正无穷</p>
+<p>D. f == (float)(double)f:　都为真</p>
+<p>E. f == -(-f): 都为真, 因为浮点数的正负转换只需转换符号位即可.</p>
+<p>F. 1.0/2 == 1/2.0:　都为真, 因为分子和分母在运算前都会先转换成浮点数．</p>
+<p>G. d*d &gt;= 0.0：实数乘法符合单调性, 故都为真, 不过可能溢出为 +∞</p>
+<p>H. (f+d)-f == d: 当 f+d 溢出时, 不为真, 例如 f=1e20, d=1.0 时, 左边会 0,右边 为 1.0</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%AC2%E7%AB%A0/" rel="tag"><i class="fa fa-tag"></i> 深入理解计算机系统第2章</a>
+              <a href="/tags/CSAPP/" rel="tag"><i class="fa fa-tag"></i> CSAPP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/29/Linux/%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%B5%8B%E5%B7%A5%E5%85%B7/" rel="prev" title="系统监测工具">
+      <i class="fa fa-chevron-left"></i> 系统监测工具
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/25/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%AC3%E7%AB%A0%E7%BB%83%E4%B9%A0%E9%A2%98/" rel="next" title="深入理解计算机系统第3章练习题">
+      深入理解计算机系统第3章练习题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%AC2%E7%AB%A0%E7%BB%83%E4%B9%A0%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">深入理解计算机系统第2章练习题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-1%E5%AE%8C%E6%88%90%E4%B8%8B%E9%9D%A2%E7%9A%84%E6%95%B0%E5%AD%97%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.1.</span> <span class="nav-text">练习题2.1完成下面的数字转换:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-2-%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8%E4%B8%AD%E7%9A%84%E7%A9%BA%E7%99%BD%E9%A1%B9-%E7%BB%99%E5%87%BA2%E7%9A%84%E4%B8%8D%E5%90%8C%E6%AC%A1%E5%B9%82%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%92%8C%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA%E2%80%A5"><span class="nav-number">1.2.</span> <span class="nav-text">练习题2.2 填写下表中的空白项,给出2的不同次幂的二进制和十六进制表示‥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-3-%E4%B8%80%E4%B8%AA%E5%AD%97%E8%8A%82%E5%8F%AF%E4%BB%A5%E7%94%A8%E4%B8%A4%E4%B8%AA%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%95%B0%E5%AD%97%E6%9D%A5%E8%A1%A8%E7%A4%BA%E3%80%82%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8%E4%B8%AD%E7%BC%BA%E5%A4%B1%E7%9A%84%E9%A1%B9-%E7%BB%99%E5%87%BA-%E4%B8%8D%E5%90%8C%E5%AD%97%E8%8A%82%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8D%81%E8%BF%9B%E5%88%B6%E3%80%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%92%8C%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E5%80%BC"><span class="nav-number">1.3.</span> <span class="nav-text">练习题2.3 一个字节可以用两个十六进制数字来表示。填写下表中缺失的项,给出 不同字节模式的十进制、二进制和十六进制值:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-4-%E4%B8%8D%E5%B0%86%E6%95%B0%E5%AD%97%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%8D%81%E8%BF%9B%E5%88%B6%E6%88%96%E8%80%85%E4%BA%8C%E8%BF%9B%E5%88%B6-%E8%AF%95%E7%9D%80%E8%A7%A3%E7%AD%94%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%AE%97%E6%9C%AF%E9%A2%98-%E7%AD%94%E6%A1%88%E8%A6%81%E7%94%A8-%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA%E3%80%82%E6%8F%90%E7%A4%BA-%E5%8F%AA%E8%A6%81%E5%B0%86%E6%89%A7%E8%A1%8C%E5%8D%81%E8%BF%9B%E5%88%B6%E5%8A%A0%E6%B3%95%E5%92%8C%E5%87%8F%E6%B3%95%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95%E6%94%B9%E6%88%90%E4%BB%A516%E4%B8%BA%E5%9F%BA%E6%95%B0%E3%80%82"><span class="nav-number">1.4.</span> <span class="nav-text">练习题2.4 不将数字转换为十进制或者二进制,试着解答下面的算术题,答案要用 十六进制表示。提示:只要将执行十进制加法和减法所使用的方法改成以16为基数。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-5-%E6%80%9D%E8%80%83%E4%B8%8B%E9%9D%A2%E5%AF%B9show%E4%B8%8Aytes%E7%9A%84%E4%B8%89%E6%AC%A1%E8%B0%83%E7%94%A8"><span class="nav-number">1.5.</span> <span class="nav-text">练习题2.5 思考下面对show上ytes的三次调用:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-6-%E4%BD%BF%E7%94%A8show-int%E5%92%8Cshow-float-%E6%88%91%E4%BB%AC%E7%A1%AE%E5%AE%9A%E6%95%B4%E6%95%B03510593%E7%9A%84%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA%E4%B8%BA0x00359141-%E8%80%8C%E6%B5%AE%E7%82%B9%E6%95%B03510593-0%E7%9A%84%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA%E4%B8%BA0x4A564504%E3%80%82"><span class="nav-number">1.6.</span> <span class="nav-text">练习题2.6 使用show_int和show_float,我们确定整数3510593的十六进制表示为0x00359141,而浮点数3510593.0的十六进制表示为0x4A564504。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-7-%E4%B8%8B%E9%9D%A2%E5%AF%B9show-bytes%E7%9A%84%E8%B0%83%E7%94%A8%E5%B0%86%E8%BE%93%E5%87%BA%E4%BB%80%E4%B9%88%E7%BB%93%E6%9E%9C"><span class="nav-number">1.7.</span> <span class="nav-text">练习题2.7 下面对show_bytes的调用将输出什么结果?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-8-%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8-%E7%BB%99%E5%87%BA%E4%BD%8D%E5%90%91%E9%87%8F%E7%9A%84%E5%B8%83%E5%B0%94%E8%BF%90%E7%AE%97%E7%9A%84%E6%B1%82%E5%80%BC%E7%BB%93%E6%9E%9C%E3%80%82"><span class="nav-number">1.8.</span> <span class="nav-text">练习题2.8 填写下表,给出位向量的布尔运算的求值结果。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-9"><span class="nav-number">1.9.</span> <span class="nav-text">练习题2.9</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-10-%E5%AF%B9%E4%BA%8E%E4%BB%BB%E4%B8%80%E4%BD%8D%E5%90%91%E9%87%8Fa-%E6%9C%89a-a-0%E5%BA%94%E7%94%A8%E8%BF%99%E4%B8%80%E5%B1%9E%E6%80%A7-%E8%80%83%E8%99%91%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.10.</span> <span class="nav-text">练习题2.10 对于任一位向量a,有a^a&#x3D;0应用这一属性,考虑下面的程序:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-11%E5%9C%A8%E7%BB%83%E4%B9%A0%E9%A2%982-10%E4%B8%AD%E7%9A%84inplace-swap%E5%87%BD%E6%95%B0%E7%9A%84%E5%9F%BA%E7%A1%80%E4%B8%8A-%E4%BD%A0%E5%86%B3%E5%AE%9A%E5%86%99%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81-%E5%AE%9E%E7%8E%B0%E5%B0%86%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0%E5%A4%B4%E5%B0%BE%E4%B8%A4%E7%AB%AF%E4%BE%9D%E6%AC%A1%E5%AF%B9%E8%B0%83%E3%80%82%E4%BD%A0%E5%86%99%E5%87%BA%E4%B8%8B%E9%9D%A2%E8%BF%99%E4%B8%AA%E5%87%BD%E6%95%B0"><span class="nav-number">1.11.</span> <span class="nav-text">练习题2.11在练习题2.10中的inplace_swap函数的基础上,你决定写一段代码, 实现将一个数组中的元素头尾两端依次对调。你写出下面这个函数:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-12-%E5%AF%B9%E4%BA%8E%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%80%BC-%E5%86%99%E5%87%BA%E5%8F%98%E9%87%8Fx%E7%9A%84C%E8%AF%AD%E8%A8%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E3%80%82"><span class="nav-number">1.12.</span> <span class="nav-text">练习题2.12 对于下面的值,写出变量x的C语言表达式。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-13"><span class="nav-number">1.13.</span> <span class="nav-text">练习题2.13</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-14-%E5%81%87%E8%AE%BEx%E5%92%8Cy%E7%9A%84%E5%AD%97%E8%8A%82%E5%80%BC%E5%88%86%E5%88%AB%E4%B8%BA0x66%E5%92%8C0x39%E3%80%82%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8%EF%BC%8C%E6%8C%87%E6%98%8E%E5%90%84%E4%B8%AAC%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%AD%97%E8%8A%82%E5%80%BC%E3%80%82"><span class="nav-number">1.14.</span> <span class="nav-text">练习题2.14 假设x和y的字节值分别为0x66和0x39。填写下表，指明各个C表达式的字节值。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-15%EF%B8%B0%E5%8F%AA%E4%BD%BF%E7%94%A8%E4%BD%8D%E7%BA%A7%E5%92%8C%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%EF%BC%8C%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AAC%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%8C%E5%AE%83%E7%AD%89%E4%BB%B7%E4%BA%8Ex-y%E3%80%82%E6%8D%A2%E5%8F%A5%E4%BA%91%E8%AF%B4%EF%BC%8C%E5%BD%93x%E5%92%8Cy%E7%9B%B8%E7%AD%89%E6%97%B6%E5%AE%83%E5%B0%86%E8%BF%94%E5%9B%9E1%EF%BC%8C%E5%90%A6%E5%88%99%E5%B0%B1%E8%BF%94%E5%9B%9E0%E3%80%82"><span class="nav-number">1.15.</span> <span class="nav-text">练习题2.15︰只使用位级和逻辑运算，编写一个C表达式，它等价于x&#x3D; &#x3D;y。换句云说，当x和y相等时它将返回1，否则就返回0。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-16"><span class="nav-number">1.16.</span> <span class="nav-text">练习题2.16</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-17"><span class="nav-number">1.17.</span> <span class="nav-text">练习题2.17</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-18"><span class="nav-number">1.18.</span> <span class="nav-text">练习题2.18</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-19-%E5%88%A9%E7%94%A8%E4%BD%A0%E8%A7%A3%E7%AD%94%E7%BB%83%E4%B9%A0%E9%A2%982-17%E6%97%B6%E5%A1%AB%E5%86%99%E7%9A%84%E8%A1%A8%E6%A0%BC%EF%BC%8C%E5%A1%AB%E5%86%99%E4%B8%8B%E5%88%97%E6%8F%8F%E8%BF%B0%E5%87%BD%E6%95%B0T2U%E3%80%82%E7%9A%84%E8%A1%A8%E6%A0%BC%E3%80%82"><span class="nav-number">1.19.</span> <span class="nav-text">练习题2.19 利用你解答练习题2.17时填写的表格，填写下列描述函数T2U。的表格。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-20"><span class="nav-number">1.20.</span> <span class="nav-text">练习题2.20</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-21-%E5%81%87%E8%AE%BE%E5%9C%A8%E9%87%87%E7%94%A8%E8%A1%A5%E7%A0%81%E8%BF%90%E7%AE%97%E7%9A%8432%E4%BD%8D%E6%9C%BA%E5%99%A8%E4%B8%8A%E5%AF%B9%E8%BF%99%E4%BA%9B%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC%EF%BC%8C%E6%8C%89%E7%85%A7%E5%9B%BE2-19%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8%EF%BC%8C%E6%8F%8F%E8%BF%B0%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8C%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%9A%84%E7%BB%93%E6%9E%9C%E3%80%82"><span class="nav-number">1.21.</span> <span class="nav-text">练习题2.21 假设在采用补码运算的32位机器上对这些表达式求值，按照图2-19的格式填写下表，描述强制类型转换和关系运算的结果。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-22-%E9%80%9A%E8%BF%87%E5%BA%94%E7%94%A8%E7%AD%89%E5%BC%8F-2-3-%EF%BC%8C%E8%A1%A8%E6%98%8E%E4%B8%8B%E9%9D%A2%E6%AF%8F%E4%B8%AA%E4%BD%8D%E5%90%91%E9%87%8F%E9%83%BD%E6%98%AF-5%E7%9A%84%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E3%80%82"><span class="nav-number">1.22.</span> <span class="nav-text">练习题2.22 通过应用等式(2.3)，表明下面每个位向量都是-5的补码表示。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-23%E8%80%83%E8%99%91%E4%B8%8B%E9%9D%A2%E7%9A%84C%E5%87%BD%E6%95%B0"><span class="nav-number">1.23.</span> <span class="nav-text">练习题2.23考虑下面的C函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-24-%E5%81%87%E8%AE%BE%E5%B0%86%E4%B8%80%E4%B8%AA4%E4%BD%8D%E6%95%B0%E5%80%BC-%E7%94%A8%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%95%B0%E5%AD%970%EF%BD%9EF%E8%A1%A8%E7%A4%BA-%E6%88%AA%E6%96%AD%E5%88%B0%E4%B8%80%E4%B8%AA3%E4%BD%8D%E6%95%B0-%E7%94%A8%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%95%B0%E5%AD%970%EF%BD%9E7%E8%A1%A8%E7%A4%BA-%E3%80%82%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8%EF%BC%8C%E6%A0%B9%E6%8D%AE%E9%82%A3%E4%BA%9B%E4%BD%8D%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%97%A0%E7%AC%A6%E5%8F%B7%E5%92%8C%E8%A1%A5%E7%A0%81%E8%A7%A3%E9%87%8A%EF%BC%8C%E6%98%8E%E8%BF%99%E7%A7%8D%E6%88%AA%E6%96%AD%E5%AF%B9%E6%9F%90%E4%BA%9B%E6%83%85%E5%86%B5%E7%9A%84%E7%BB%93%E6%9E%9C%E3%80%82"><span class="nav-number">1.24.</span> <span class="nav-text">练习题2.24 假设将一个4位数值(用十六进制数字0～F表示)截断到一个3位数(用十六进制数字0～7表示)。填写下表，根据那些位模式的无符号和补码解释，明这种截断对某些情况的结果。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-25%E8%80%83%E8%99%91%E4%B8%8B%E5%88%97%E4%BB%A3%E7%A0%81%EF%BC%8C%E8%BF%99%E6%AE%B5%E4%BB%A3%E7%A0%81%E8%AF%95%E5%9B%BE%E8%AE%A1%E7%AE%97%E6%95%B0%E7%BB%84a%E4%B8%AD%E6%89%80%E6%9C%89%E5%85%83%E7%B4%A0%E7%9A%84%E5%92%8C%EF%BC%8C%E5%85%B6%E4%B8%AD%E5%85%83%E7%B4%A0%E7%9A%84%E6%95%B0%E9%87%8F%E7%94%B1%E5%8F%82%E6%95%B0length-%E7%BB%99%E5%87%BA%E3%80%82"><span class="nav-number">1.25.</span> <span class="nav-text">练习题2.25考虑下列代码，这段代码试图计算数组a中所有元素的和，其中元素的数量由参数length 给出。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-26%E7%8E%B0%E5%9C%A8%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%86%99%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E7%94%A8%E6%9D%A5%E5%88%A4%E5%AE%9A%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%AF%E5%90%A6%E6%AF%94%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%9B%B4%E9%95%BF%E3%80%82%E5%89%8D%E6%8F%90%E6%98%AF%E4%BD%A0%E8%A6%81%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BA%93%E5%87%BD%E6%95%B0strlen%EF%BC%8C%E5%AE%83%E7%9A%84%E5%A3%B0%E6%98%8E%E5%A6%82%E4%B8%8B"><span class="nav-number">1.26.</span> <span class="nav-text">练习题2.26现在给你一个任务，写一个函数用来判定一个字符串是否比另一个更长。前提是你要用字符串库函数strlen，它的声明如下:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-27-%E5%86%99%E5%87%BA%E4%B8%80%E4%B8%AA%E5%85%B7%E6%9C%89%E5%A6%82%E4%B8%8B%E5%8E%9F%E5%9E%8B%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.27.</span> <span class="nav-text">练习题2.27 写出一个具有如下原型的函数:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-28%E6%88%91%E4%BB%AC%E8%83%BD%E7%94%A8%E4%B8%80%E4%B8%AA%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%95%B0%E5%AD%97%E6%9D%A5%E8%A1%A8%E7%A4%BA%E9%95%BF%E5%BA%A6w-4%E7%9A%84%E4%BD%8D%E6%A8%A1%E5%BC%8F%E3%80%82%E5%AF%B9%E4%BA%8E%E8%BF%99%E4%BA%9B%E6%95%B0%E5%AD%97%E7%9A%84%E6%97%A0%E7%AC%A6%E5%8F%B7%E8%A7%A3%E9%87%8A%EF%BC%8C%E4%BD%BF%E7%94%A8%E7%AD%89%E5%BC%8F-2-12-%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8%EF%BC%8C%E7%BB%99%E5%87%BA%E6%89%80%E7%A4%BA%E6%95%B0%E5%AD%97%E7%9A%84%E6%97%A0%E7%AC%A6%E5%8F%B7%E5%8A%A0%E6%B3%95%E9%80%86%E5%85%83%E7%9A%84%E4%BD%8D%E8%A1%A8%E7%A4%BA-%E7%94%A8%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E5%BD%A2%E5%BC%8F-%E3%80%82"><span class="nav-number">1.28.</span> <span class="nav-text">练习题2.28我们能用一个十六进制数字来表示长度w&#x3D;4的位模式。对于这些数字的无符号解释，使用等式(2.12)填写下表，给出所示数字的无符号加法逆元的位表示(用十六进制形式)。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-29%E6%8C%89%E7%85%A7%E5%9B%BE2-25%E7%9A%84%E5%BD%A2%E5%BC%8F%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8%E3%80%82%E5%88%86%E5%88%AB%E5%88%97%E5%87%BA5%E4%BD%8D%E5%8F%82%E6%95%B0%E7%9A%84%E6%95%B4%E6%95%B0%E5%80%BC%E3%80%81%E6%95%B4%E6%95%B0%E5%92%8C%E4%B8%8E%E8%A1%A5%E7%A0%81%E5%92%8C%E7%9A%84%E6%95%B0%E5%80%BC%E3%80%81%E8%A1%A5%E7%A0%81%E5%92%8C%E7%9A%84%E4%BD%8D%E7%BA%A7%E8%A1%A8%E7%A4%BA%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%B1%9E%E4%BA%8E%E7%AD%89%E5%BC%8F-2-13-%E6%8E%A8%E5%AF%BC%E4%B8%AD%E7%9A%84%E5%93%AA%E7%A7%8D%E6%83%85%E5%86%B5%E3%80%82"><span class="nav-number">1.29.</span> <span class="nav-text">练习题2.29按照图2-25的形式填写下表。分别列出5位参数的整数值、整数和与补码和的数值、补码和的位级表示，以及属于等式(2.13)推导中的哪种情况。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-30%E5%86%99%E5%87%BA%E4%B8%80%E4%B8%AA%E5%85%B7%E6%9C%89%E5%A6%82%E4%B8%8B%E5%8E%9F%E5%9E%8B%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.30.</span> <span class="nav-text">练习题2.30写出一个具有如下原型的函数:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-31%E4%BD%A0%E7%9A%84%E5%90%8C%E4%BA%8B%E5%AF%B9%E4%BD%A0%E8%A1%A5%E7%A0%81%E5%8A%A0%E6%B3%95%E6%BA%A2%E5%87%BA%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%88%86%E6%9E%90%E6%9C%89%E4%BA%9B%E4%B8%8D%E8%80%90%E7%83%A6%E4%BA%86%EF%BC%8C%E4%BB%96%E7%BB%99%E5%87%BA%E4%BA%86%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0tadd-ok%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%8C%E5%A6%82%E4%B8%8B%E6%89%80%E7%A4%BA"><span class="nav-number">1.31.</span> <span class="nav-text">练习题2.31你的同事对你补码加法溢出条件的分析有些不耐烦了，他给出了一个函数tadd_ok的实现，如下所示:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-32%E4%BD%A0%E7%8E%B0%E5%9C%A8%E6%9C%89%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E7%BC%96%E5%86%99%E5%87%BD%E6%95%B0tsub-ok-%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%8C%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E6%98%AFx%E5%92%8Cy%EF%BC%8C%E5%A6%82%E6%9E%9C%E8%AE%A1%E7%AE%97x-y%E4%B8%8D%E4%BA%A7%E7%94%9F%E6%BA%A2%E5%87%BA%EF%BC%8C%E5%87%BD%E6%95%B0%E5%B0%B1%E8%BF%94%E5%9B%9E1%E3%80%82%E5%81%87%E8%AE%BE%E4%BD%A0%E5%86%99%E7%9A%84%E7%BB%83%E4%B9%A0%E9%A2%982-30%E7%9A%84%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B%E6%89%80%E7%A4%BA"><span class="nav-number">1.32.</span> <span class="nav-text">练习题2.32你现在有个任务，编写函数tsub_ok 的代码，函数的参数是x和y，如果计算x-y不产生溢出，函数就返回1。假设你写的练习题2.30的代码如下所示:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-33%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E7%94%A8%E4%B8%80%E4%B8%AA%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%95%B0%E5%AD%97%E6%9D%A5%E8%A1%A8%E7%A4%BA%E9%95%BF%E5%BA%A6w-4%E7%9A%84%E4%BD%8D%E6%A8%A1%E5%BC%8F%E3%80%82%E6%A0%B9%E6%8D%AE%E8%BF%99%E4%BA%9B%E6%95%B0%E5%AD%97%E7%9A%84%E8%A1%A5%E7%A0%81%E7%9A%84%E8%A7%A3%E9%87%8A%EF%BC%8C%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8%EF%BC%8C%E7%A1%AE%E5%AE%9A%E6%89%80%E7%A4%BA%E6%95%B0%E5%AD%97%E7%9A%84%E5%8A%A0%E6%B3%95%E9%80%86%E5%85%83%E3%80%82"><span class="nav-number">1.33.</span> <span class="nav-text">练习题2.33我们可以用一个十六进制数字来表示长度w&#x3D;4的位模式。根据这些数字的补码的解释，填写下表，确定所示数字的加法逆元。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-34-%E6%8C%89%E7%85%A7%E5%9B%BE2-27%E7%9A%84%E9%A3%8E%E6%A0%BC%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8%EF%BC%8C%E8%AF%B4%E6%98%8E%E4%B8%8D%E5%90%8C%E7%9A%843%E4%BD%8D%E6%95%B0%E5%AD%97%E4%B9%98%E6%B3%95%E7%9A%84%E7%BB%93%E6%9E%9C%E3%80%82"><span class="nav-number">1.34.</span> <span class="nav-text">练习题2.34 按照图2-27的风格填写下表，说明不同的3位数字乘法的结果。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-35%EF%B9%90-%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BC%80%E5%8F%91%E5%87%BD%E6%95%B0tmult-ok-%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%8C%E8%AF%A5%E5%87%BD%E6%95%B0%E4%BC%9A%E5%88%A4%E6%96%AD%E4%B8%A4%E4%B8%AA%E5%8F%82%E6%95%B0%E7%9B%B8%E4%B9%98%E6%98%AF%E5%90%A6%E4%BC%9A%E4%BA%A7%E7%94%9F%E6%BA%A2%E5%87%BA%E3%80%82%E4%B8%8B%E9%9D%A2%E6%98%AF%E4%BD%A0%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.35.</span> <span class="nav-text">练习题2.35﹐ 给你一个任务，开发函数tmult ok 的代码，该函数会判断两个参数相乘是否会产生溢出。下面是你的解决方案:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-36%E5%AF%B9%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8Bint%E4%B8%BA32%E4%BD%8D%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%8C%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%89%88%E6%9C%AC%E7%9A%84tmult-ok%E5%87%BD%E6%95%B0-%E7%BB%83%E4%B9%A0%E9%A2%982-35-%EF%BC%8C%E4%BD%BF%E7%94%A864%E4%BD%8D%E7%B2%BE%E5%BA%A6%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8Bint64-t%EF%BC%8C%E8%80%8C%E4%B8%8D%E4%BD%BF%E7%94%A8%E9%99%A4%E6%B3%95%E3%80%82"><span class="nav-number">1.36.</span> <span class="nav-text">练习题2.36对于数据类型int为32位的情况，设计一个版本的tmult_ok函数(练习题2.35)，使用64位精度的数据类型int64_t，而不使用除法。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-37%E7%8E%B0%E5%9C%A8%E4%BD%A0%E6%9C%89%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BD%93%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8Bint%E5%92%8Csize-t-%E9%83%BD%E6%98%AF32%E4%BD%8D%E7%9A%84%EF%BC%8C%E4%BF%AE%E8%A1%A5%E4%B8%8A%E8%BF%B0%E6%97%81%E6%B3%A8%E7%BB%99%E5%87%BA%E7%9A%84XDR%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E6%BC%8F%E6%B4%9E%E3%80%82%E4%BD%A0%E5%86%B3%E5%AE%9A%E5%B0%86%E5%BE%85%E5%88%86%E9%85%8D%E5%AD%97%E8%8A%82%E6%95%B0%E8%AE%BE%E7%BD%AE%E4%B8%BA%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8Buint64-t%EF%BC%8C%E6%9D%A5%E6%B6%88%E9%99%A4%E4%B9%98%E6%B3%95%E6%BA%A2%E5%87%BA%E7%9A%84%E5%8F%AF%E8%83%BD%E6%80%A7%E3%80%82%E4%BD%A0%E6%8A%8A%E5%8E%9F%E6%9D%A5%E5%AF%B9malloc%E5%87%BD%E6%95%B0%E7%9A%84%E8%B0%83%E7%94%A8-%E7%AC%AC9%E8%A1%8C-%E6%9B%BF%E6%8D%A2%E5%A6%82%E4%B8%8B"><span class="nav-number">1.37.</span> <span class="nav-text">练习题2.37现在你有一个任务，当数据类型int和size_t 都是32位的，修补上述旁注给出的XDR代码中的漏洞。你决定将待分配字节数设置为数据类型uint64_t，来消除乘法溢出的可能性。你把原来对malloc函数的调用(第9行)替换如下:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-38%E5%B0%B1%E5%83%8F%E6%88%91%E4%BB%AC%E5%B0%86%E5%9C%A8%E7%AC%AC3%E7%AB%A0%E4%B8%AD%E7%9C%8B%E5%88%B0%E7%9A%84%E9%82%A3%E6%A0%B7%EF%BC%8CLEA%E6%8C%87%E4%BB%A4%E8%83%BD%E5%A4%9F%E6%89%A7%E8%A1%8C%E5%BD%A2%E5%A6%82-a-lt-lt-k-b%E7%9A%84%E8%AE%A1%E7%AE%97%EF%BC%8C%E8%BF%99%E9%87%8Ck-%E7%AD%89%E4%BA%8E0%E3%80%811%E3%80%812%E6%88%963%EF%BC%8C%E8%80%8Cb%E7%AD%89%E4%BA%8E0%E6%88%96%E8%80%85%E6%9F%90%E4%B8%AA%E7%A8%8B%E5%BA%8F%E5%80%BC%E3%80%82%E7%BC%96%E8%AF%91%E5%99%A8%E5%B8%B8%E5%B8%B8%E7%94%A8%E8%BF%99%E6%9D%A1%E6%8C%87%E4%BB%A4%E6%9D%A5%E6%89%A7%E8%A1%8C%E5%B8%B8%E6%95%B0%E5%9B%A0%E5%AD%90%E4%B9%98%E6%B3%95%E3%80%82%E4%BE%8B%E5%A6%82%EF%BC%8C%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E7%94%A8-a-lt-lt-1-a%E6%9D%A5%E8%AE%A1%E7%AE%973-a%E3%80%82%E8%80%83%E8%99%91b%E7%AD%89%E4%BA%8E0%E6%88%96%E8%80%85%E7%AD%89%E4%BA%8Ea%E3%80%81k%E4%B8%BA%E4%BB%BB%E6%84%8F%E5%8F%AF%E8%83%BD%E7%9A%84%E5%80%BC%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%8C%E7%94%A8%E4%B8%80%E6%9D%A1LEA%E6%8C%87%E4%BB%A4%E5%8F%AF%E4%BB%A5%E8%AE%A1%E7%AE%97a%E7%9A%84%E5%93%AA%E4%BA%9B%E5%80%8D%E6%95%B0"><span class="nav-number">1.38.</span> <span class="nav-text">练习题2.38就像我们将在第3章中看到的那样，LEA指令能够执行形如(a&lt;&lt;k)+b的计算，这里k 等于0、1、2或3，而b等于0或者某个程序值。编译器常常用这条指令来执行常数因子乘法。例如，我们可以用(a&lt;&lt;1)+a来计算3*a。考虑b等于0或者等于a、k为任意可能的值的情况，用一条LEA指令可以计算a的哪些倍数?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-39%E5%AF%B9%E4%BA%8E%E4%BD%8D%E4%BD%8D%E7%BD%AEn%E4%B8%BA%E6%9C%80%E9%AB%98%E6%9C%89%E6%95%88%E4%BD%8D%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%8C%E6%88%91%E4%BB%AC%E8%A6%81%E6%80%8E%E6%A0%B7%E4%BF%AE%E6%94%B9%E5%BD%A2%E5%BC%8FB%E7%9A%84%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.39.</span> <span class="nav-text">练习题2.39对于位位置n为最高有效位的情况，我们要怎样修改形式B的表达式?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-40%E5%AF%B9%E4%BA%8E%E4%B8%8B%E9%9D%A2%E6%AF%8F%E4%B8%AAK%E7%9A%84%E5%80%BC%EF%BC%8C%E6%89%BE%E5%87%BA%E5%8F%AA%E7%94%A8%E6%8C%87%E5%AE%9A%E6%95%B0%E9%87%8F%E7%9A%84%E8%BF%90%E7%AE%97%E8%A1%A8%E8%BE%BEx-K-%E7%9A%84%E6%96%B9%E6%B3%95%EF%B9%90%E8%BF%99%E9%87%8C%E6%88%91%E4%BB%AC%E8%AE%A4%E4%B8%BA%E5%8A%A0%E6%B3%95%E5%92%8C%E5%87%8F%E6%B3%95%E7%9A%84%E5%BC%80%E9%94%80%E7%9B%B8%E5%BD%93%E3%80%82%E9%99%A4%E4%BA%86%E6%88%91%E4%BB%AC%E5%B7%B2%E7%BB%8F%E8%80%83%E8%99%91%E8%BF%87%E7%9A%84%E7%AE%80%E5%8D%95%E7%9A%84%E5%BD%A2%E5%BC%8FA%E5%92%8CB%E5%8E%9F%E5%88%99-%E4%BD%A0%E5%8F%AF%E8%83%BD%E4%BC%9A%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E4%B8%80%E4%BA%9B%E6%8A%80%E5%B7%A7%E3%80%82"><span class="nav-number">1.40.</span> <span class="nav-text">练习题2.40对于下面每个K的值，找出只用指定数量的运算表达x* K 的方法﹐这里我们认为加法和减法的开销相当。除了我们已经考虑过的简单的形式A和B原则,你可能会需要使用一些技巧。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-41%E5%AF%B9%E4%BA%8E%E4%B8%80%E7%BB%84%E4%BB%8E%E4%BD%8D%E4%BD%8D%E7%BD%AEn%E5%BC%80%E5%A7%8B%E5%88%B0%E4%BD%8D%E4%BD%8D%E7%BD%AEm-%E7%9A%84%E8%BF%9E%E7%BB%AD%E7%9A%841-n%E2%89%A5m-%EF%BC%8C%E6%88%91%E4%BB%AC%E7%9C%8B%E5%88%B0%E5%8F%AF%E4%BB%A5%E4%BA%A7%E7%94%9F%E4%B8%A4%E7%A7%8D%E5%BD%A2%E5%BC%8F%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%8CA%E5%92%8CB%E3%80%82%E7%BC%96%E8%AF%91%E5%99%A8%E8%AF%A5%E5%A6%82%E4%BD%95%E5%86%B3%E5%AE%9A%E4%BD%BF%E7%94%A8%E5%93%AA%E4%B8%80%E7%A7%8D%E5%91%A2"><span class="nav-number">1.41.</span> <span class="nav-text">练习题2.41对于一组从位位置n开始到位位置m 的连续的1(n≥m)，我们看到可以产生两种形式的代码，A和B。编译器该如何决定使用哪一种呢?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-42%E5%86%99%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0-div16%EF%BC%8C%E5%AF%B9%E4%BA%8E%E6%95%B4%E6%95%B0%E5%8F%82%E6%95%B0x%E8%BF%94%E5%9B%9Ex-16%E7%9A%84%E5%80%BC%E3%80%82%E4%BD%A0%E7%9A%84%E5%87%BD%E6%95%B0%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E9%99%A4%E6%B3%95%E3%80%81%E6%A8%A1%E8%BF%90%E7%AE%97%E3%80%81%E4%B9%98%E6%B3%95%E3%80%81%E4%BB%BB%E4%BD%95%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5-if%E6%88%96%E8%80%85-%E3%80%81%E4%BB%BB%E4%BD%95%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%88%E4%BE%8B%E5%A6%82-lt-%E3%80%81-gt-%E6%88%96-%E6%88%96%E4%BB%BB%E4%BD%95%E5%BE%AA%E7%8E%AF%E3%80%82%E4%BD%A0%E5%8F%AF%E4%BB%A5%E5%81%87%E8%AE%BE%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8Bint%E6%98%AF32%E4%BD%8D%E9%95%BF%EF%BC%8C%E4%BD%BF%E7%94%A8%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%EF%BC%8C%E8%80%8C%E5%8F%B3%E7%A7%BB%E6%98%AF%E7%AE%97%E6%9C%AF%E5%8F%B3%E7%A7%BB%E3%80%82"><span class="nav-number">1.42.</span> <span class="nav-text">练习题2.42写一个函数 div16，对于整数参数x返回x&#x2F;16的值。你的函数不能使用除法、模运算、乘法、任何条件语句(if或者?:)、任何比较运算符（例如&lt;、&gt;或&#x3D; &#x3D;)或任何循环。你可以假设数据类型int是32位长，使用补码表示，而右移是算术右移。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-43%E5%9C%A8%E4%B8%8B%E9%9D%A2%E7%9A%84%E4%BB%A3%E7%A0%81%E4%B8%AD%EF%BC%8C%E6%88%91%E4%BB%AC%E7%9C%81%E7%95%A5%E4%BA%86%E5%B8%B8%E6%95%B0M%E5%92%8CN%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.43.</span> <span class="nav-text">练习题2.43在下面的代码中，我们省略了常数M和N的定义:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-44%E5%81%87%E8%AE%BE%E6%88%91%E4%BB%AC%E5%9C%A8%E5%AF%B9%E6%9C%89%E7%AC%A6%E5%8F%B7%E5%80%BC%E4%BD%BF%E7%94%A8%E8%A1%A5%E7%A0%81%E8%BF%90%E7%AE%97%E7%9A%8432%E4%BD%8D%E6%9C%BA%E5%99%A8%E4%B8%8A%E8%BF%90%E8%A1%8C%E4%BB%A3%E7%A0%81%E3%80%82%E5%AF%B9%E4%BA%8E%E6%9C%89%E7%AC%A6%E5%8F%B7%E5%80%BC%E4%BD%BF%E7%94%A8%E7%9A%84%E6%98%AF%E7%AE%97%E6%9C%AF%E5%8F%B3%E7%A7%BB%EF%BC%8C%E8%80%8C%E5%AF%B9%E4%BA%8E%E6%97%A0%E7%AC%A6%E5%8F%B7%E5%80%BC%E4%BD%BF%E7%94%A8%E7%9A%84%E6%98%AF%E9%80%BB%E8%BE%91%E5%8F%B3%E7%A7%BB%E3%80%82%E5%8F%98%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96%E5%A6%82%E4%B8%8B"><span class="nav-number">1.44.</span> <span class="nav-text">练习题2.44假设我们在对有符号值使用补码运算的32位机器上运行代码。对于有符号值使用的是算术右移，而对于无符号值使用的是逻辑右移。变量的声明和初始化如下:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-45%E5%A1%AB%E5%86%99%E4%B8%8B%E8%A1%A8%E4%B8%AD%E7%9A%84%E7%BC%BA%E5%A4%B1%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="nav-number">1.45.</span> <span class="nav-text">练习题2.45填写下表中的缺失的信息:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-46"><span class="nav-number">1.46.</span> <span class="nav-text">练习题2.46</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-47%EF%B8%B0%E5%81%87%E8%AE%BE%E4%B8%80%E4%B8%AA%E5%9F%BA%E4%BA%8EIEEE%E6%B5%AE%E7%82%B9%E6%A0%BC%E5%BC%8F%E7%9A%845%E4%BD%8D%E6%B5%AE%E7%82%B9%E8%A1%A8%E7%A4%BA%EF%BC%8C%E6%9C%891%E4%B8%AA%E7%AC%A6%E5%8F%B7%E4%BD%8D%E3%80%812%E4%B8%AA%E9%98%B6%E7%A0%81%E4%BD%8D-k-2-%E5%92%8C%E4%B8%A4%E4%B8%AA%E5%B0%8F%E6%95%B0%E4%BD%8D-n-2-%E3%80%82%E9%98%B6%E7%A0%81%E5%81%8F%E7%BD%AE%E9%87%8F%E6%98%AF-2-2-1-1-%E3%80%82"><span class="nav-number">1.47.</span> <span class="nav-text">练习题2.47︰假设一个基于IEEE浮点格式的5位浮点表示，有1个符号位、2个阶码位(k&#x3D;2)和两个小数位(n&#x3D;2)。阶码偏置量是$2^{2-1}&#x3D;1$。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-48%E6%AD%A3%E5%A6%82%E5%9C%A8%E7%BB%83%E4%B9%A0%E9%A2%982-6%E4%B8%AD%E6%8F%90%E5%88%B0%E7%9A%84%EF%BC%8C%E6%95%B4%E6%95%B03-510-593%E7%9A%84%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA%E4%B8%BA0x00359141%EF%BC%8C%E8%80%8C%E5%8D%95%E7%B2%BE%E5%BA%A6%E6%B5%AE%E7%82%B9%E6%95%B03510593-0%E7%9A%84%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA%E4%B8%BA0x42564504%E3%80%82%E6%8E%A8%E5%AF%BC%E5%87%BA%E8%BF%99%E4%B8%AA%E6%B5%AE%E7%82%B9%E8%A1%A8%E7%A4%BA%EF%BC%8C%E5%B9%B6%E8%A7%A3%E9%87%8A%E6%95%B4%E6%95%B0%E5%92%8C%E6%B5%AE%E7%82%B9%E6%95%B0%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%BD%8D%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E3%80%82"><span class="nav-number">1.48.</span> <span class="nav-text">练习题2.48正如在练习题2.6中提到的，整数3 510 593的十六进制表示为0x00359141，而单精度浮点数3510593.0的十六进制表示为0x42564504。推导出这个浮点表示，并解释整数和浮点数表示的位之间的关系。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-49"><span class="nav-number">1.49.</span> <span class="nav-text">练习题2.49</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-50%E6%A0%B9%E6%8D%AE%E8%88%8D%E5%85%A5%E5%88%B0%E5%81%B6%E6%95%B0%E8%A7%84%E5%88%99%EF%BC%8C%E8%AF%B4%E6%98%8E%E5%A6%82%E4%BD%95%E5%B0%86%E4%B8%8B%E5%88%97%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%B0%8F%E6%95%B0%E5%80%BC%E8%88%8D%E5%85%A5%E5%88%B0%E6%9C%80%E6%8E%A5%E8%BF%91%E7%9A%84%E4%BA%8C%E5%88%86%E4%B9%8B%E4%B8%80-%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%B0%8F%E6%95%B0%E7%82%B9%E5%8F%B3%E8%BE%B91%E4%BD%8D-%E3%80%82%E5%AF%B9%E6%AF%8F%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%8C%E7%BB%99%E5%87%BA%E8%88%8D%E5%85%A5%E5%89%8D%E5%90%8E%E7%9A%84%E6%95%B0%E5%AD%97%E5%80%BC%E3%80%82"><span class="nav-number">1.50.</span> <span class="nav-text">练习题2.50根据舍入到偶数规则，说明如何将下列二进制小数值舍入到最接近的二分之一(二进制小数点右边1位)。对每种情况，给出舍入前后的数字值。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-51"><span class="nav-number">1.51.</span> <span class="nav-text">练习题2.51</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-52%E8%80%83%E8%99%91%E4%B8%8B%E5%88%97%E5%9F%BA%E4%BA%8EIEEE%E6%B5%AE%E7%82%B9%E6%A0%BC%E5%BC%8F%E7%9A%847%E4%BD%8D%E6%B5%AE%E7%82%B9%E8%A1%A8%E7%A4%BA%E3%80%82%E4%B8%A4%E4%B8%AA%E6%A0%BC%E5%BC%8F%E9%83%BD%E6%B2%A1%E6%9C%89%E7%AC%A6%E5%8F%B7%E4%BD%8D%E2%80%94%E2%80%94%E5%AE%83%E4%BB%AC%E5%8F%AA%E8%83%BD%E8%A1%A8%E7%A4%BA%E9%9D%9E%E8%B4%9F%E7%9A%84%E6%95%B0%E5%AD%97%E3%80%82"><span class="nav-number">1.52.</span> <span class="nav-text">练习题2.52考虑下列基于IEEE浮点格式的7位浮点表示。两个格式都没有符号位——它们只能表示非负的数字。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%982-53%E5%AE%8C%E6%88%90%E4%B8%8B%E5%88%97%E5%AE%8F%E5%AE%9A%E4%B9%89%EF%BC%8C%E7%94%9F%E6%88%90%E5%8F%8C%E7%B2%BE%E5%BA%A6%E5%80%BC-%E2%88%9E-%E2%88%92%E2%88%9E%E5%92%8C-0"><span class="nav-number">1.53.</span> <span class="nav-text">练习题2.53完成下列宏定义，生成双精度值+∞, −∞和 0:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%98-2-54-%E5%81%87%E8%AE%BE%E5%8F%98%E9%87%8F-x-f-d-%E7%B1%BB%E5%9E%8B%E5%88%86%E5%88%AB%E6%98%AF-int-float-double-%E5%AE%83%E4%BB%AC%E9%99%A4%E4%BA%86%E4%B8%8D%E6%98%AF-%E2%88%9E-%E2%88%92%E2%88%9E-%E5%92%8C-NaN-%E5%A4%96-%E5%8F%AF%E4%BB%A5%E6%98%AF%E4%BB%BB%E6%84%8F%E5%80%BC-%E5%AF%B9%E4%BA%8E%E4%B8%8B%E9%9D%A2%E7%9A%84%E6%AF%8F%E4%B8%AA-C-%E8%A1%A8%E8%BE%BE%E5%BC%8F-%E8%AF%81%E6%98%8E%E5%AE%83%E4%BB%AC%E6%80%BB%E6%98%AF%E7%9C%9F%EF%BC%88%E4%B9%9F%E5%B0%B1%E6%98%AF%E6%B1%82%E5%80%BC%E4%B8%BA1%EF%BC%89-%E6%88%96%E8%80%85%E7%BB%99%E5%87%BA%E4%B8%80%E4%B8%AA%E4%BD%BF%E5%85%B6%E4%B8%8D%E4%B8%BA%E7%9C%9F%E7%9A%84%E5%80%BC%EF%BC%88%E5%B0%B1%E6%98%AF%E6%B1%82%E5%80%BC%E4%B8%BA0-%E3%80%82"><span class="nav-number">1.54.</span> <span class="nav-text">练习题 2.54 假设变量 x, f, d 类型分别是 int, float, double, 它们除了不是 +∞, −∞ 和 NaN 外,可以是任意值, 对于下面的每个 C 表达式, 证明它们总是真（也就是求值为1）,或者给出一个使其不为真的值（就是求值为0)。</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">493k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : '1b26ff20782d8cfe181f96c88ec83d2d',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

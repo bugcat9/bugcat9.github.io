@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Background Suppression Network for Weakly-supervised Temporal Action Localization提出问题：弱监督视频动作定位中，先前的方法聚合帧级别的类分数，以产生视频级别的预测并从视频级别的动作中学习。此方法无法完全模拟问题，因为背景帧被迫错误地分类为行动类别，无法准确预测视频级标签。 做了什么：设计了背景抑制网络（BaSNet）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Background Suppression Network for Weakly-supervised Temporal Action Localization">
+<meta property="og:url" content="https://bugcat.top/2021/06/15/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Background%20Suppression%20Network/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="Background Suppression Network for Weakly-supervised Temporal Action Localization提出问题：弱监督视频动作定位中，先前的方法聚合帧级别的类分数，以产生视频级别的预测并从视频级别的动作中学习。此方法无法完全模拟问题，因为背景帧被迫错误地分类为行动类别，无法准确预测视频级标签。 做了什么：设计了背景抑制网络（BaSNet）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411104708142.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151544441.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151640191.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151931573.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411153148668.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103100493.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103610515.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103127374.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103139512.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411154052601.png">
+<meta property="article:published_time" content="2021-06-15T22:00:00.000Z">
+<meta property="article:modified_time" content="2024-10-20T13:34:26.732Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="时序动作定位">
+<meta property="article:tag" content="弱监督">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411104708142.png">
+
+<link rel="canonical" href="https://bugcat.top/2021/06/15/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Background%20Suppression%20Network/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Background Suppression Network for Weakly-supervised Temporal Action Localization | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/06/15/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Background%20Suppression%20Network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Background Suppression Network for Weakly-supervised Temporal Action Localization
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-15 22:00:00" itemprop="dateCreated datePublished" datetime="2021-06-15T22:00:00+00:00">2021-06-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-20 13:34:26" itemprop="dateModified" datetime="2024-10-20T13:34:26+00:00">2024-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">论文学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Background-Suppression-Network-for-Weakly-supervised-Temporal-Action-Localization"><a href="#Background-Suppression-Network-for-Weakly-supervised-Temporal-Action-Localization" class="headerlink" title="Background Suppression Network for Weakly-supervised Temporal Action Localization"></a>Background Suppression Network for Weakly-supervised Temporal Action Localization</h1><h2 id="提出问题："><a href="#提出问题：" class="headerlink" title="提出问题："></a>提出问题：</h2><p>弱监督视频动作定位中，先前的方法聚合帧级别的类分数，以产生视频级别的预测并从视频级别的动作中学习。此方法无法完全模拟问题，因为背景帧被迫错误地分类为行动类别，无法准确预测视频级标签。</p>
+<h2 id="做了什么："><a href="#做了什么：" class="headerlink" title="做了什么："></a>做了什么：</h2><p>设计了背景抑制网络（BaSNet），该网络引入了背景的辅助类，并具有带有非对称度量训练策略的两分支权重共享体系结构。这使BaSNet可以抑制来自背景帧的激活，从而提高定位性能。广泛的实验证明了BaSNet的效率及其在最流行的基准THUMOS14和ActivityNet上优于最新方法的优越性</p>
+<p>BaSNet：有两条分支Base branch and Suppression branch<br><span id="more"></span></p>
+<h2 id="怎么做的："><a href="#怎么做的：" class="headerlink" title="怎么做的："></a>怎么做的：</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411104708142.png" alt="image-20210411104708142"></p>
+<ol>
+<li>Suppression分支包含一个过滤模块，该模块学习过滤出背景帧以最终抑制CAS中来自它们的激活</li>
+<li>他们的培训目标是不同的。 Base分支的目的是将插入视频分类为其原始动作类和背景类的样本。另一方面，训练带有过滤模块的Suppression分支以最小化背景类得分，而背景类得分与原始动作类的目标相同。权重共享策略可以防止分支在给出相同输入时同时满足其两个目标。因此，过滤模块是解决背景的唯一关键，并且经过培训可以抑制来自背景框架的激活，从而同时实现两个目标。这减少了背景帧的干扰并提高了动作定位性能</li>
+</ol>
+<h3 id="特征提取："><a href="#特征提取：" class="headerlink" title="特征提取："></a>特征提取：</h3><p>由于存储器限制，我们首先将每个输入视频$v<em>n$分成16帧不重叠的$L_n$段，即$v_n = {S</em>{n,l} }^{Ln}<em>{l = 1}$。为了应对视频长度的较大变化，我们从每个视频中采样了固定数量的T段。然后，我们将采样的RGB和flow分段输入到预训练的特征提取器中，以分别生成$F$维的特征向量$x</em>{n,t}^{RGB}$和$x<em>{n,t}^{flow}$。然后，将RGB和flow特征连接起来以构建完整的特征$x</em>{n,t}$，然后将它们沿着时间维度堆叠以形成长度为T的特征图,即$X<em>n=[x</em>{n,1},…,x_{n,T}]$</p>
+<p><strong>小结：</strong>这一步就是普通的特征提取，提取RGB和flow光流特征，然后将它们连接一下比较简单。</p>
+<h3 id="Base-branch"><a href="#Base-branch" class="headerlink" title="Base branch"></a>Base branch</h3><p>为了预测线段级别的类别得分，我们通过将特征图馈送到时间一维卷积层中来生成CAS （类激活序列），其中每个线段都有其类别得分，反应了对应类别的概率。对于视频$v_n$，可以将其形式化如下:</p>
+<script type="math/tex; mode=display">
+A_n=f_{conv}(X_n,\phi)</script><p>其中$\phi$表示卷积层中的可训练参数，$A_n\in R^{(C+1)\times T}$。一个$C+1$尺寸是因为我们使用C动作类和一个辅助类作为背景。</p>
+<p>接着使用top-k均值技术，可以如下得出视频vn的c类的视频级类评分：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151544441.png" alt="image-20210411151544441"></p>
+<p>然后，通过沿类别维度应用softmax函数，将视频级别的类别得分用于预测每个类别的样本的概率：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151640191.png" alt="image-20210411151640191"></p>
+<p>为了训练网络，我们为每个类别定义一个具有二进制交叉熵损失的损失函数$L_{base}$</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411151931573.png" alt="image-20210411151931573"></p>
+<p>其中$y^{base}<em>n=[y</em>{n;1},…,y_{n;C},1]^T\in \mathbb R^{C+1}$,其中最后一个1是背景类，因为基础分支没有去除背景所以设置为1这和后面的抑制分支想对应。</p>
+<p><strong>小结：</strong>可以知道Base branch只是简单的进行训练，默认是有背景类的。</p>
+<h3 id="Suppression-branch"><a href="#Suppression-branch" class="headerlink" title="Suppression branch"></a>Suppression branch</h3><p>与Base分支不同，Suppression分支在其前面包含一个过滤模块，该模块被针对背景类的相反的训练目标训练为抑制背景帧。过滤模块由两个时间一维卷积层和随后的S型函数组成。过滤模块的输出是前景权重$W_n∈R^T$，范围从0到1。来自过滤模块的前景权重在时间维度上与特征图相乘以过滤出背景帧。此步骤可以表示如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411153148668.png" alt="image-20210411153148668"></p>
+<p>接着的话和前面Base 分支的训练类似，只是将$\acute{X}_n$ 代替$X_n$</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103100493.png" alt="image-20210413103100493"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103610515.png" alt="image-20210413103610515"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103127374.png" alt="image-20210413103127374"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210413103139512.png" alt="image-20210413103139512"></p>
+<p>其中$y^{supp}<em>n=[y</em>{n;1},…,y_{n;C},0]^T\in \mathbb R^{C+1}$,其中最后一个1是背景类，因为基础分支没有去除背景所以设置为0，因为抑制分支经过了前面的过滤模块，默认是过滤掉背景。</p>
+<p><strong>小结：</strong>抑制分支设置背景类为0，目的就是训练过滤模块，他们俩共享了前面的一维权重，但是最终一个有背景一个没有背景，两个分支的区别就在于过滤模块，这也是所谓的非对称共享权重训练。</p>
+<h3 id="Joint-training"><a href="#Joint-training" class="headerlink" title="Joint training"></a>Joint training</h3><p>我们联合训练base分支和Suppression 分支。我们需要优化的总体损失函数如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/Background Suppression Network for Weakly-supervised Temporal Action Localization/image-20210411154052601.png" alt="image-20210411154052601"></p>
+<p>前两个在上面已经介绍了，而$L_{norm}$:</p>
+<script type="math/tex; mode=display">
+L_{norm}=\frac{1}{N}\sum_{n=1}^N|w_n|</script><p>这个其实对训练的过滤模块权重进行$L_1$正则，目的是使得权重更加偏向0或者1，简单理解就是背景帧就是0进行抑制，动作帧就是1不受影响。术语就是更好的识别关键帧</p>
+<p><strong>小结：</strong>这个$L_{norm}$的设计还是比较巧妙，可能也是我接触比较少</p>
+<h3 id="Classification-and-Localization"><a href="#Classification-and-Localization" class="headerlink" title="Classification and Localization"></a>Classification and Localization</h3><p>在描述了我们的模型是如何配置和训练的之后，我们转向讨论它在测试时如何工作。由于我们使用过滤模块阻止来自背景框架的激活，因此使用Suppression分支的输出进行推理是合理的。对于分类，我们丢弃在概率低于阈值$\theta<em>{class}$的类。然后，对于其余类别，我们使用阈值$\theta</em>{act}$对CAS进行阈值选择候选片段。然后，每组连续的候选段将成为一个建议。我们根据最近的工作，使用内部和外部区域之间的对比来计算每个建议的置信度得分。</p>
+<p><strong>小结：</strong>这个分类和定位比较平常 ，不多介绍</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>这篇<code>Background Suppression Network for Weakly-supervised Temporal Action Localization</code>还真的在设计上就十分巧妙，两个分支一个训练有背景，一个训练却没有背景，两个分支的不同之处就只有过滤模块，所以说明了过滤模块的作用。最终的话使用过滤分支输出的概率和CAS来进行定位也是比较合理。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%97%B6%E5%BA%8F%E5%8A%A8%E4%BD%9C%E5%AE%9A%E4%BD%8D/" rel="tag"><i class="fa fa-tag"></i> 时序动作定位</a>
+              <a href="/tags/%E5%BC%B1%E7%9B%91%E7%9D%A3/" rel="tag"><i class="fa fa-tag"></i> 弱监督</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/06/15/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Learning%20Temporal%20Co-Attention%20Models%20for%20Unsupervised%20Video%20Action/" rel="prev" title="Learning Temporal Co-Attention Models for Unsupervised Video Action Localization">
+      <i class="fa fa-chevron-left"></i> Learning Temporal Co-Attention Models for Unsupervised Video Action Localization
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/17/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/matplotlib%E7%94%BB%E5%9B%BE%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="next" title="matplotlib画图(一)基本操作">
+      matplotlib画图(一)基本操作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Background-Suppression-Network-for-Weakly-supervised-Temporal-Action-Localization"><span class="nav-number">1.</span> <span class="nav-text">Background Suppression Network for Weakly-supervised Temporal Action Localization</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">提出问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">做了什么：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">怎么做的：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%EF%BC%9A"><span class="nav-number">1.3.1.</span> <span class="nav-text">特征提取：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Base-branch"><span class="nav-number">1.3.2.</span> <span class="nav-text">Base branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Suppression-branch"><span class="nav-number">1.3.3.</span> <span class="nav-text">Suppression branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Joint-training"><span class="nav-number">1.3.4.</span> <span class="nav-text">Joint training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Classification-and-Localization"><span class="nav-number">1.3.5.</span> <span class="nav-text">Classification and Localization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">1.4.</span> <span class="nav-text">结束语</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">493k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : 'bc22a86f8173e606e8e2f2ebf323c98e',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

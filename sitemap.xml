@@ -1,0 +1,1298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://bugcat.top/2023/08/06/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/5.%E4%BD%8D%E8%BF%90%E7%AE%97/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/08/06/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/7.%E5%8C%BA%E9%97%B4%E5%92%8C/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/08/06/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/6.%E5%8F%8C%E6%8C%87%E9%92%88/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/09/03/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/9.%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/08/06/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/8.%E5%8C%BA%E9%97%B4%E5%90%88%E5%B9%B6/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/06/15/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Background%20Suppression%20Network/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/04/29/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Background-Click%20Supervision%20for%20Temporal%20Action%20Localization/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/09/11/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CoLA%20Weakly-Supervised%20Temporal%20Action%20Localization%20with%20Snippet%20Contrastive%20Learning/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/11/05/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CvT%20Introducing%20Convolutions%20to%20Vision%20Transformers/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/09/29/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/End-to-End%20Object%20Detection%20with%20Transformers/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/06/15/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Learning%20Temporal%20Co-Attention%20Models%20for%20Unsupervised%20Video%20Action/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/07/22/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Fine-grained%20Temporal%20Contrastive%20Learning%20for%20Weakly-supervised%20Temporal%20Action%20Localization/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/10/24/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/OadTR%20Online%20Action%20Detection%20with%20Transformers/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/09/11/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/RefineLoc%20Iterative%20Refinement%20for%20Weakly-Supervised%20Action%20Localization/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/07/19/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Two-Stream%20Consensus%20Network%20for%20Weakly-Supervised%20Temporal/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/10/24/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Self-Supervised%20Learning%20for%20Semi-Supervised%20Temporal%20Action%20Proposal/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/07/30/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Weakly%20Supervised%20Temporal%20Action%20Localization%20via%20Representative%20Snippet%20Knowledge%20Propagation/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/12/02/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Weakly-supervised%20Temporal%20Action%20Localization%20by%20Uncertainty%20Modeling/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/06/15/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/A%20Survey%20on%20Temporal%20Action%20Localization/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/about/index.html</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/index.html</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/index.html</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/19/Linux/dup%E5%92%8Cdup2%E5%87%BD%E6%95%B0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/21/Linux/UID%E3%80%81EUID%E3%80%81GID%E5%92%8CEGID/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/19/Linux/fcntl%E5%87%BD%E6%95%B0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/19/Linux/sendfile%E5%87%BD%E6%95%B0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/19/Linux/readv%E5%87%BD%E6%95%B0%E5%92%8Cwritev%E5%87%BD%E6%95%B0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/19/Linux/splice%E5%87%BD%E6%95%B0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/05/Linux/tcpdump%E8%BF%9B%E8%A1%8CARP%E6%8A%93%E5%8C%85/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/05/Linux/tcpdump%E8%BF%9B%E8%A1%8CDNS%E6%8A%93%E5%8C%85/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/05/Linux/tcpdump%E8%BF%9B%E8%A1%8CIP%E6%8A%93%E5%8C%85/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/19/Linux/tee%E5%87%BD%E6%95%B0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/22/Linux/%E4%BF%A1%E5%8F%B7/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/21/Linux/%E6%94%B9%E5%8F%98%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95%E5%92%8C%E6%A0%B9%E7%9B%AE%E5%BD%95/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/21/Linux/%E8%BF%9B%E7%A8%8B%E9%97%B4%E5%85%B3%E7%B3%BB/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/09/29/Linux/%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%B5%8B%E5%B7%A5%E5%85%B7/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/05/22/%E5%85%B6%E4%BB%96/next%E7%BE%8E%E5%8C%96/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/07/22/%E5%85%B6%E4%BB%96/python%E4%BD%BF%E7%94%A8opencv%E6%8F%90%E5%8F%96%E5%85%89%E6%B5%81/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/05/30/%E5%85%B6%E4%BB%96/hexo%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/09/23/%E5%85%B6%E4%BB%96/%E4%BD%BF%E7%94%A8Github%20Action%E5%AE%9E%E7%8E%B0Android%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/26/%E5%85%B6%E4%BB%96/%E7%94%B5%E8%84%91%E4%B8%8A%E7%8E%A9GBA%E6%B8%B8%E6%88%8F/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/05/20/%E5%85%B6%E4%BB%96/%E7%AC%AC15%E8%AE%B2%EF%BC%9ASCRUM%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/10/26/%E5%85%B6%E4%BB%96/%E7%94%B5%E8%84%91%E6%8E%A8%E8%8D%90%E8%BD%AF%E4%BB%B6/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/07/23/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/matplotlib%E7%94%BB%E5%90%84%E7%A7%8D%E7%B1%BB%E5%9E%8B%E5%9B%BE/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/07/17/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/matplotlib%E7%94%BB%E5%9B%BE%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/07/24/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/numpy%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/05/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/QTbinarytree/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/05/20/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/05/20/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/VScode-Introduction/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/05/20/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/android%20studio%E5%AE%89%E8%A3%85/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/05/20/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/eclipse%E4%B8%ADandroid%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/05/22/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/%E6%9B%B4%E6%94%B9%E9%95%9C%E5%83%8F/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/07/01/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/1.%E6%8E%92%E5%BA%8F/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/08/22/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/%E5%AE%9E%E7%94%A8%E5%B0%8F%E8%BD%AF%E4%BB%B6/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/07/01/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/2.%E6%95%B4%E6%95%B0%E4%BA%8C%E5%88%86/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/07/03/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/3.%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/07/03/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/4.%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/07/14/Linux/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/select%E5%B0%8F%E4%BE%8B%E5%AD%90/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/14/Linux/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E5%9C%B0%E5%9D%80%E4%BF%A1%E6%81%AF%E5%87%BD%E6%95%B0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/14/Linux/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/14/Linux/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/14/Linux/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E9%80%89%E9%A1%B9/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/14/Linux/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2API/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/01/03/Linux/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BAmuduo/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BAmuduo%EF%BC%88%E4%B8%80%EF%BC%89/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/02/03/Linux/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BAmuduo/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BAmuduo%EF%BC%88%E4%B8%89%EF%BC%89/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/02/03/Linux/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BAmuduo/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BAmuduo%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/09/18/Linux/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/15/Linux/%E9%AB%98%E7%BA%A7IO%E5%87%BD%E6%95%B0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/07/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/python%E8%88%9E%E8%B9%88%E9%93%BE%E6%95%B0%E7%8B%AC%E6%B8%B8%E6%88%8F/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/02/13/Linux/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BAmuduo/%E4%BD%BF%E7%94%A8muduo%E7%BC%96%E5%86%99webserver/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/31/Linux/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/10/09/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%AC2%E7%AB%A0%E7%BB%83%E4%B9%A0%E9%A2%98/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/10/25/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%AC3%E7%AB%A0%E7%BB%83%E4%B9%A0%E9%A2%98/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/08/18/Android%E5%AD%A6%E4%B9%A0/Activity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/08/20/Android%E5%AD%A6%E4%B9%A0/Activity%E4%B9%8B%E9%97%B4%E9%80%9A%E8%AE%AF/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/09/18/Android%E5%AD%A6%E4%B9%A0/Android%E6%9D%83%E9%99%90%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/08/19/Android%E5%AD%A6%E4%B9%A0/Android%E7%9A%84%E8%AE%BE%E5%A4%87%E9%85%8D%E7%BD%AE%E5%92%8C%E5%A4%87%E9%80%89%E8%B5%84%E6%BA%90/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/08/19/Android%E5%AD%A6%E4%B9%A0/Android%E7%BC%96%E7%A8%8B%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%E7%AC%AC1%E7%AB%A0%E6%8C%91%E6%88%98%E7%BB%83%E4%B9%A0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/08/21/Android%E5%AD%A6%E4%B9%A0/ConstraintLayout%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/08/25/Android%E5%AD%A6%E4%B9%A0/%E9%9A%90%E5%BC%8Fintent/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2024/09/20/C++/C++%E7%B1%BB%E4%B8%AD%E7%9A%84%E7%89%B9%E6%AE%8A%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2024/09/01/C++/decltype%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2024/08/26/C++/auto%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2024/10/20/C++/forward/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2024/10/20/C++/move/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2024/10/20/C++/push-back%E5%92%8Cemplace-back/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2023/08/05/C++/static%E3%80%81extern%E5%92%8Cinline/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2024/10/03/C++/%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8enum%20class/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2024/08/10/C++/%E6%A8%A1%E6%9D%BF%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/29/Linux/Linux%E5%AE%9A%E6%97%B6%E5%99%A8/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/21/Linux/Linux%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97rsyslogd/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/05/Linux/Linux%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/08/23/Android%E5%AD%A6%E4%B9%A0/SQLite%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2021/08/29/Android%E5%AD%A6%E4%B9%A0/Volley%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/18/Linux/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A7%84%E8%8C%83/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/11/Linux/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/Linux%E4%B8%ADsocket%E5%9C%B0%E5%9D%80API/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2024/10/07/C++/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/2022/08/09/Linux/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80API/</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/404.html</loc>
+    
+    <lastmod>2024-10-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+
+  <url>
+    <loc>https://bugcat.top/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  
+  <url>
+    <loc>https://bugcat.top/tags/Android/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/Andorid%E7%BC%96%E7%A8%8B%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/Linux/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/hexo/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/next/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/python/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/github-action/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E5%85%B6%E4%BB%96/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/matlpotlib/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/numpy/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E6%8E%92%E5%BA%8F/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/acwing%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E4%BA%8C%E5%88%86/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%8A%A0%E6%B3%95%E3%80%81%E5%87%8F%E6%B3%95%E3%80%81%E4%B9%98%E6%B3%95%E3%80%81%E9%99%A4%E6%B3%95/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E5%8C%BA%E9%97%B4%E5%92%8C/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E5%8F%8C%E6%8C%87%E9%92%88/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E5%8C%BA%E9%97%B4%E5%90%88%E5%B9%B6/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E6%97%B6%E5%BA%8F%E5%8A%A8%E4%BD%9C%E5%AE%9A%E4%BD%8D/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E5%BC%B1%E7%9B%91%E7%9D%A3/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/transformer/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E5%8A%A8%E4%BD%9C%E6%A3%80%E6%B5%8B/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E5%9C%A8%E7%BA%BF%E5%8A%A8%E4%BD%9C%E6%A3%80%E6%B5%8B/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E8%87%AA%E7%9B%91%E7%9D%A3/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/select/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/muduo/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E8%88%9E%E8%B9%88%E9%93%BE/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E6%95%B0%E7%8B%AC/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%AC2%E7%AB%A0/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/CSAPP/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/tags/%E7%BB%BC%E8%BF%B0/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+
+  
+  <url>
+    <loc>https://bugcat.top/categories/Android/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/C/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/Linux/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/%E5%85%B6%E4%BB%96/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/GBA%E6%B8%B8%E6%88%8F/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bugcat.top/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</loc>
+    <lastmod>2024-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+</urlset>

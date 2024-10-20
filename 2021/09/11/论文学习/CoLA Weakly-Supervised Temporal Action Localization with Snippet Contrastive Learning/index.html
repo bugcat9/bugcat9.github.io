@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="CoLA Weakly-Supervised Temporal Action Localization with Snippet Contrastive Learning提出问题：弱监督时间动作定位（WSTAL）的目的是只通过视频级别的标签，对未裁剪的视频进行动作定位。目前存在的模型大都是遵循“localization by classification”的过程，定位对视频级别分类贡献最大的时间区">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoLA Weakly-Supervised Temporal Action Localization with Snippet Contrastive Learning">
+<meta property="og:url" content="https://bugcat.top/2021/09/11/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CoLA%20Weakly-Supervised%20Temporal%20Action%20Localization%20with%20Snippet%20Contrastive%20Learning/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="CoLA Weakly-Supervised Temporal Action Localization with Snippet Contrastive Learning提出问题：弱监督时间动作定位（WSTAL）的目的是只通过视频级别的标签，对未裁剪的视频进行动作定位。目前存在的模型大都是遵循“localization by classification”的过程，定位对视频级别分类贡献最大的时间区">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220414193438015.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210912195346687.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913192458877.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913192542486.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913192823389.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913193042814.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913193628164.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913194552618.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913195927059.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913201417966.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210914204708488.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210914205334459.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210914210005061.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915151007435.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915111910708.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915113148418.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915161615227.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915161743980.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915162133500.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915162339793.png">
+<meta property="article:published_time" content="2021-09-11T19:01:46.000Z">
+<meta property="article:modified_time" content="2024-10-20T13:34:26.732Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="时序动作定位">
+<meta property="article:tag" content="对比学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220414193438015.png">
+
+<link rel="canonical" href="https://bugcat.top/2021/09/11/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CoLA%20Weakly-Supervised%20Temporal%20Action%20Localization%20with%20Snippet%20Contrastive%20Learning/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CoLA Weakly-Supervised Temporal Action Localization with Snippet Contrastive Learning | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/09/11/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CoLA%20Weakly-Supervised%20Temporal%20Action%20Localization%20with%20Snippet%20Contrastive%20Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CoLA Weakly-Supervised Temporal Action Localization with Snippet Contrastive Learning
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-11 19:01:46" itemprop="dateCreated datePublished" datetime="2021-09-11T19:01:46+00:00">2021-09-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-20 13:34:26" itemprop="dateModified" datetime="2024-10-20T13:34:26+00:00">2024-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">论文学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="CoLA-Weakly-Supervised-Temporal-Action-Localization-with-Snippet-Contrastive-Learning"><a href="#CoLA-Weakly-Supervised-Temporal-Action-Localization-with-Snippet-Contrastive-Learning" class="headerlink" title="CoLA Weakly-Supervised Temporal Action Localization with Snippet Contrastive Learning"></a>CoLA Weakly-Supervised Temporal Action Localization with Snippet Contrastive Learning</h1><h2 id="提出问题："><a href="#提出问题：" class="headerlink" title="提出问题："></a>提出问题：</h2><p>弱监督时间动作定位（WSTAL）的目的是只通过视频级别的标签，对未裁剪的视频进行动作定位。目前存在的模型大都是遵循“localization by classification”的过程，定位对视频级别分类贡献最大的时间区域，一般来说，它们单独处理每个片段(或帧)，因此忽略了有效的时间上下文关系</p>
+<h2 id="做了什么"><a href="#做了什么" class="headerlink" title="做了什么"></a>做了什么</h2><ul>
+<li>提出利用视频片段对比学习来实现动作定位</li>
+<li>提出了一个Snippet Contrast (SniCo) Loss来从特征空间中hard snippet的表示，它指导网络感知精确的时间边界，避免时间间隔中断。</li>
+<li>由于没有办法访问帧级别的注释，引入了一种hard snippet挖掘算法，来定位潜在的hard snippet（这里的hard snippet可以理解为在背景和动作过渡区域的snippet，具有比较强的欺骗性）。</li>
+</ul>
+<span id="more"></span>
+<h2 id="怎么做"><a href="#怎么做" class="headerlink" title="怎么做"></a>怎么做</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220414193438015.png" alt="image-20220414193438015"></p>
+<p>论文的动机可以从图中看出，由于缺乏帧级别的标签，上图中<strong>#2</strong>和<strong>#3</strong>这两个片段很难进行分类，如果只是使用baseline，我们会发现<strong>#2</strong>被识别为背景，而<strong>#3</strong>被识别为动作，这和GT是相违背。但是我们发现在这些片段中<strong>#1</strong>是很容易分类成动作（论文称这很容易识别的动作片段为easy action），而<strong>#4</strong>很容易分类背景（论文里面称为easy bkg），我们将<strong>#2</strong>和<strong>#1</strong>进行对比很容易发现<strong>#2</strong>是个动作，<strong>#3</strong>和<strong>#4</strong>对比很容易发现是背景，通过这种对比的思想就提出了这篇论文的模型。论文中将类型<strong>#2</strong>和<strong>#3</strong>的片段成为hard snippets，因为他们都是“cheating”的</p>
+<p>论文的模型如下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210912195346687.png" alt="image-20210912195346687"></p>
+<h3 id="Feature-Extraction-and-Embedding"><a href="#Feature-Extraction-and-Embedding" class="headerlink" title="Feature Extraction and Embedding"></a>Feature Extraction and Embedding</h3><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913192458877.png" alt="image-20210913192458877"></p>
+<p>给定$N$个未裁剪的视频$\lbrace{V<em>n}\rbrace^N</em>{n=1}$和它们视频级别的标签 $\lbrace y<em>n\rbrace^N</em>{n=1}$ ，其中 $y_n\in \mathbb R^C $ ，$C$是动作类别的数量</p>
+<p>对于每个视频$V<em>n$，我们把它分成多帧不重叠的$L_n$片段，其中$V_n=\lbrace S</em>{n,l}\rbrace^{L<em>n}</em>{l=1}$，由于视频长度的变化，利用采样，固定视频为数量$T$的片段$\lbrace S<em>{n,t}\rbrace^T</em>{t=1}$（采样的方法很常见，也是正常的方法）。</p>
+<p>接着提取RGB特征$X<em>n^R=\lbrace x_t^R \rbrace^T</em>{t=1}$和flow特征$X<em>n^O=\lbrace x_t^O \rbrace^T</em>{t=1}$，其中$x^R_t \in \mathbb R^d$和$x^O_t \in \mathbb R^d$,$d$是每个片段的特性维度。</p>
+<p>我们使用函数$f_{embed}$，将$X_n^R$和$X_n^O$连接起来，获取我们所提取的特征$X_n^E \in \mathbb R^{T \times 2d}$</p>
+<p>$f_{embed}$通过时间卷积和ReLU激活函数实现。</p>
+<h3 id="Actionness-Modeling"><a href="#Actionness-Modeling" class="headerlink" title="Actionness Modeling"></a>Actionness Modeling</h3><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913192542486.png" alt="image-20210913192542486"></p>
+<p>给定特征$X<em>n^E$  ,利用   $f</em>{cls}$获得类激活序列即CAS（在论文当中叫T-CAS，其实概念是相同的）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913192823389.png" alt="image-20210913192823389"></p>
+<p>我们简单地沿着通道维度(fsum)加上Sigmoid函数对CAS进行求和，以获得一个类不可知的聚合，并使用它来表示动作</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913193042814.png" alt="image-20210913193042814"></p>
+<p>其中$A_n^{ness}\in\mathbb R^T$</p>
+<h3 id="Hard-amp-Easy-Snippet-Mining"><a href="#Hard-amp-Easy-Snippet-Mining" class="headerlink" title="Hard &amp; Easy Snippet Mining"></a>Hard &amp; Easy Snippet Mining</h3><p>这一块是论文的创新点，主要挖掘论文当中Hard和Easy片段</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913193628164.png" alt="image-20210913193628164"></p>
+<h4 id="Hard-Snippet-Mining"><a href="#Hard-Snippet-Mining" class="headerlink" title="Hard Snippet Mining"></a>Hard Snippet Mining</h4><p>hard Snippet 指那种边界相邻的片段，由于它们位于动作和背景之间的过渡区域，因此可靠性较差，从而导致检测模糊。所以hard snippet是可以进行挖掘，以得到更好的判决。在论文中构建了一种新的硬片段挖掘算法来挖掘边界区域的硬片段。</p>
+<p>首先，我们对动作评分进行阈值，以生成一个二进制序列(1或0分别表示动作或背景位置):</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913194552618.png" alt="image-20210913194552618"></p>
+<p>其中$\epsilon(\cdot )$是一个heaviside跃阶函数，其中$\theta_b$是阈值，如果$A_n^{ness}\geq\theta_b$，则$A_n^{bin}=1$,反之则为0</p>
+<p>接着我们采取两种级联的扩张或者变窄操作（这个操作在语义分割动作有所使用），来扩大或缩小动作间隔的时间范围，将扩张和变窄程度不同的不同区域定义为硬背景（hard background）或者硬动作（hard action）区域。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913195927059.png" alt="image-20210913195927059"></p>
+<p>其中(·;∗)+和(·;∗)−分别表示mask∗下的二元扩张和变窄操作。这个些个操作类似卷积，作用是挖掘出hard的片段。</p>
+<p>内部区域$R_n^{inner}$定义为mask较小m和mask较大的M变窄序列之间的不同片段的差值，如图3左边部分(绿色部分)所示。</p>
+<p>同样，外部的$R_n^{outer}$计算为mask大掩码M和小掩码m之间的差值，如图3右侧部分(粉红色)所示。</p>
+<p>经验上，我们考虑内部区域硬动作片段集，因为这些区域是$A_n^{bin}$= 1。同理外部区域被认为是硬背景代码片段集。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210913201417966.png" alt="image-20210913201417966"></p>
+<p>接着定义hard action snippets，$X_n^{HA}\in \mathbb R^{k^{hard}\times 2d}$，从$R_n^{inner}$中挑选出来</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210914204708488.png" alt="image-20210914204708488"></p>
+<p>其中$I_n^{inner}$是$R_n^{inner}$内的代码片段的索引集，$I_n^{act}$是$I_n^{inner}$中大小为$k^{hard}$的子集，即$\lvert I_n^{act} \rvert=k^{hard}$。其中$k^{hard}$是一个超参，简单理解就是找了$k^{hard}$个hard action片段</p>
+<p>同理可以得到 hard background snippets</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210914205334459.png" alt="image-20210914205334459"></p>
+<p>我们可以这样理解图3，对于左侧的图，我们先拿卷积核为3的神经元去移动，当3个位置都为1时（都为动作时），才把中心位置标为1，然后卷积核为6的神经元去移动，当6个位置都为1时才把中心位置标为1，显然卷积核为6的神经元比较严格看的更远，他减去卷积为3移动完的数据剩下的就是不是那么严格的位置，所以把这些位置作为hard snippet。</p>
+<h4 id="Easy-Snippet-Mining"><a href="#Easy-Snippet-Mining" class="headerlink" title="Easy Snippet Mining"></a>Easy Snippet Mining</h4><p>为了形成对比对，我们仍然需要挖掘具有区别性的简单片段</p>
+<p>我们假设动作度得分为top-k和bottom-k的视频片段恰好是easy action 片段($X_n^{EA}\in \mathbb R^{k^{easy}\times 2d}$)和easy background  片段 ($X_n^{EB}\in \mathbb R^{k^{easy}\times 2d}$)，可以理解为选取了k个容易区分的片段</p>
+<p>我们基于前面计算的动作评分$A_n^{ness}$进行简单的代码片段挖掘。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210914210005061.png" alt="image-20210914210005061"></p>
+<p>其中$S_n^{DESC}$和$S_n^{ASC}$分别为$A_n^{ness}$按照降序和升序排列的索引。基本理解和前面一样。</p>
+<h3 id="Network-Training"><a href="#Network-Training" class="headerlink" title="Network Training"></a>Network Training</h3><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915151007435.png" alt="image-20210915151007435"></p>
+<p>在挖掘hard和easy片段的基础上，我们的CoLA引入了额外的片段对比(SniCo)损失($L_s$)，与基线模型相比取得了相当大的改进。全损可以表示为:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915111910708.png" alt="image-20210915111910708"></p>
+<p>其中$L_a$和$L_s$分别表示动作损失和SniCo损失。$\lambda$是平衡因子。我们将对这两个术语作如下阐述。</p>
+<h4 id="Action-Loss"><a href="#Action-Loss" class="headerlink" title="Action Loss"></a>Action Loss</h4><p>Action Loss（$L_a$）预测的视频类别与真实值之间的分类损失。为了获得视频级预测，我们聚合片段级别的类别分数(CAS)，即$A_n$</p>
+<p>然后采取top-k均值方法，对于每个类别$c$，我们取具有最大的类特定CAS值的$K^{easy}$项，并计算它们的平均值$a<em>{n;c}$，即video $V_n$的class $c$的视频级类得分。在获得所有类的$a</em>{n;c}$之后，我们在类维上应用Softmax函数得到视频级类的概率$p_n \in \mathbb R^C$</p>
+<p>Action Loss（$L_a$）使用交叉熵损失</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915113148418.png" alt="image-20210915113148418"></p>
+<h4 id="Snippet-Contrast-SniCo-Loss"><a href="#Snippet-Contrast-SniCo-Loss" class="headerlink" title="Snippet Contrast (SniCo) Loss"></a>Snippet Contrast (SniCo) Loss</h4><p>对比学习已经被用于图像或者补丁级别。对于本次论文，给定特征$X_n^E$，对比学习应用于代码片段级别。在论文中将这种命名为snippet Contrast (SniCo)Loss ($L_s$)，目的是细化hard 片段，因为有hard action和hard background两个对比，所以我们分为“HA refinement” and “HB refinement”</p>
+<p>查询$x\in \mathbb R^{1\times2d}$，positive $x^+ \in \mathbb R^{1\times 2d}$和$S$消极$x^-\in \mathbb R^{S\times 2d}$均从预挖掘片段中选取</p>
+<p>对于“HA refinement”</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915161615227.png" alt="image-20210915161615227"></p>
+<p>对于“HB refinement”</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915161743980.png" alt="image-20210915161743980"></p>
+<p>我们将它们投射到一个标准化的单位球体上，以防止空间坍塌或膨胀(没怎么看懂)，不过这其实是一个简单对比学习。</p>
+<p>建立了一个(S+ 1)分类问题，利用交叉熵损失来表示正例比负例被选择的概率</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915162133500.png" alt="image-20210915162133500"></p>
+<p>其中$\tau$是一个超参，而$x^T$为$x$的转置，建议SniCo损失如下:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20210915162339793.png" alt="image-20210915162339793"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文思路不错，直接从以前WTAL中使用比较多的度量学习直接进入到对比学习，算是一种进步。</p>
+<p>图像的 eroded和dilated操作可以看：</p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000004048075">https://segmentfault.com/a/1190000004048075</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%97%B6%E5%BA%8F%E5%8A%A8%E4%BD%9C%E5%AE%9A%E4%BD%8D/" rel="tag"><i class="fa fa-tag"></i> 时序动作定位</a>
+              <a href="/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 对比学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/11/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/RefineLoc%20Iterative%20Refinement%20for%20Weakly-Supervised%20Action%20Localization/" rel="prev" title="RefineLoc Iterative Refinement for Weakly-Supervised Action Localization">
+      <i class="fa fa-chevron-left"></i> RefineLoc Iterative Refinement for Weakly-Supervised Action Localization
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/18/Android%E5%AD%A6%E4%B9%A0/Android%E6%9D%83%E9%99%90%E5%AD%A6%E4%B9%A0/" rel="next" title="Android权限学习">
+      Android权限学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CoLA-Weakly-Supervised-Temporal-Action-Localization-with-Snippet-Contrastive-Learning"><span class="nav-number">1.</span> <span class="nav-text">CoLA Weakly-Supervised Temporal Action Localization with Snippet Contrastive Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">提出问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">1.2.</span> <span class="nav-text">做了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E5%81%9A"><span class="nav-number">1.3.</span> <span class="nav-text">怎么做</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Feature-Extraction-and-Embedding"><span class="nav-number">1.3.1.</span> <span class="nav-text">Feature Extraction and Embedding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Actionness-Modeling"><span class="nav-number">1.3.2.</span> <span class="nav-text">Actionness Modeling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hard-amp-Easy-Snippet-Mining"><span class="nav-number">1.3.3.</span> <span class="nav-text">Hard &amp; Easy Snippet Mining</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Hard-Snippet-Mining"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">Hard Snippet Mining</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Easy-Snippet-Mining"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">Easy Snippet Mining</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Network-Training"><span class="nav-number">1.3.4.</span> <span class="nav-text">Network Training</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Action-Loss"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">Action Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Snippet-Contrast-SniCo-Loss"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">Snippet Contrast (SniCo) Loss</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">493k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : 'b0208c976917ac00daeb31951e256fdb',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

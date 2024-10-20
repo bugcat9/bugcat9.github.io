@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="matplotlib画图（二）matplotlib是最流行的Python底层绘图库，主要做数据可视化图表,名字取材于MATLAB，模仿MATLAB进行构建。 👉官网地址：https:&#x2F;&#x2F;matplotlib.org&#x2F; matplotlib能画的图有折线图、散点图、柱状图、直方图、饼状图等，所以本次主要讲解这几张图，注意本次代码主要使用官方文档上的面向对象风格，当然使用pyplot风格也是同样可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="matplotlib画图(二)各种类型图">
+<meta property="og:url" content="https://bugcat.top/2021/07/23/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/matplotlib%E7%94%BB%E5%90%84%E7%A7%8D%E7%B1%BB%E5%9E%8B%E5%9B%BE/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="matplotlib画图（二）matplotlib是最流行的Python底层绘图库，主要做数据可视化图表,名字取材于MATLAB，模仿MATLAB进行构建。 👉官网地址：https:&#x2F;&#x2F;matplotlib.org&#x2F; matplotlib能画的图有折线图、散点图、柱状图、直方图、饼状图等，所以本次主要讲解这几张图，注意本次代码主要使用官方文档上的面向对象风格，当然使用pyplot风格也是同样可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724091951456.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210723213104165.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724090632449.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724092623279.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724094320817.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724095404058.png">
+<meta property="article:published_time" content="2021-07-23T21:05:00.000Z">
+<meta property="article:modified_time" content="2024-10-20T13:34:26.728Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="matlpotlib">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724091951456.png">
+
+<link rel="canonical" href="https://bugcat.top/2021/07/23/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/matplotlib%E7%94%BB%E5%90%84%E7%A7%8D%E7%B1%BB%E5%9E%8B%E5%9B%BE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>matplotlib画图(二)各种类型图 | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/07/23/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/matplotlib%E7%94%BB%E5%90%84%E7%A7%8D%E7%B1%BB%E5%9E%8B%E5%9B%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          matplotlib画图(二)各种类型图
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-23 21:05:00" itemprop="dateCreated datePublished" datetime="2021-07-23T21:05:00+00:00">2021-07-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-20 13:34:26" itemprop="dateModified" datetime="2024-10-20T13:34:26+00:00">2024-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">数据分析</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="matplotlib画图（二）"><a href="#matplotlib画图（二）" class="headerlink" title="matplotlib画图（二）"></a>matplotlib画图（二）</h1><p>matplotlib是最流行的Python底层绘图库，主要做数据可视化图表,名字取材于MATLAB，模仿MATLAB进行构建。</p>
+<p>👉官网地址：<a target="_blank" rel="noopener" href="https://matplotlib.org/">https://matplotlib.org/</a></p>
+<p>matplotlib能画的图有折线图、散点图、柱状图、直方图、饼状图等，所以本次主要讲解这几张图，注意本次代码主要使用官方文档上的<strong>面向对象</strong>风格，当然使用pyplot风格也是同样可以实现的</p>
+<span id="more"></span>
+<h2 id="折线图"><a href="#折线图" class="headerlink" title="折线图"></a>折线图</h2><p>折线图是默认的图像，直接使用plot就可以画出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">x = np.linspace(<span class="number">0</span>, <span class="number">2</span>, <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Note that even in the OO-style, we use `.pyplot.figure` to create the figure.</span></span><br><span class="line">fig, ax = plt.subplots()  <span class="comment"># Create a figure and an axes.</span></span><br><span class="line">ax.plot(x, x, label=<span class="string">&#x27;linear&#x27;</span>)  <span class="comment"># Plot some data on the axes.</span></span><br><span class="line">ax.plot(x, x**<span class="number">2</span>, label=<span class="string">&#x27;quadratic&#x27;</span>)  <span class="comment"># Plot more data on the axes...</span></span><br><span class="line">ax.plot(x, x**<span class="number">3</span>, label=<span class="string">&#x27;cubic&#x27;</span>)  <span class="comment"># ... and some more.</span></span><br><span class="line">ax.set_xlabel(<span class="string">&#x27;x label&#x27;</span>)  <span class="comment"># Add an x-label to the axes.</span></span><br><span class="line">ax.set_ylabel(<span class="string">&#x27;y label&#x27;</span>)  <span class="comment"># Add a y-label to the axes.</span></span><br><span class="line">ax.set_title(<span class="string">&quot;Simple Plot&quot;</span>)  <span class="comment"># Add a title to the axes.</span></span><br><span class="line">ax.legend()  <span class="comment"># Add a legend.</span></span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724091951456.png" alt="image-20210724091951456"></p>
+<h2 id="散点图"><a href="#散点图" class="headerlink" title="散点图"></a>散点图</h2><p>散点图主要使用函数Scatter，然后输入点的x坐标列表和y坐标列表即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">np.random.seed(<span class="number">19680801</span>)</span><br><span class="line">fig, ax = plt.subplots()</span><br><span class="line"><span class="keyword">for</span> color <span class="keyword">in</span> [<span class="string">&#x27;tab:blue&#x27;</span>, <span class="string">&#x27;tab:orange&#x27;</span>, <span class="string">&#x27;tab:green&#x27;</span>]:</span><br><span class="line">    n = <span class="number">750</span></span><br><span class="line">    x, y = np.random.rand(<span class="number">2</span>, n)</span><br><span class="line">    scale = <span class="number">200.0</span> * np.random.rand(n)</span><br><span class="line">    ax.scatter(x, y, c=color, s=scale, label=color,</span><br><span class="line">               alpha=<span class="number">0.3</span>, edgecolors=<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line"></span><br><span class="line">ax.legend()</span><br><span class="line">ax.grid(<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210723213104165.png" alt="image-20210723213104165"></p>
+<h2 id="柱状图"><a href="#柱状图" class="headerlink" title="柱状图"></a>柱状图</h2><p>条形图也就是我们所说的柱状图，有横着和竖着的这两种，一般使用的函数是<code>bar</code>和<code>barh</code></p>
+<p>先展示竖着的条形图，这种条形图使用较多，展示效果不错</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">labels = [<span class="string">&#x27;G1&#x27;</span>, <span class="string">&#x27;G2&#x27;</span>, <span class="string">&#x27;G3&#x27;</span>, <span class="string">&#x27;G4&#x27;</span>, <span class="string">&#x27;G5&#x27;</span>]</span><br><span class="line">men_means = [<span class="number">20</span>, <span class="number">34</span>, <span class="number">30</span>, <span class="number">35</span>, <span class="number">27</span>]</span><br><span class="line">women_means = [<span class="number">25</span>, <span class="number">32</span>, <span class="number">34</span>, <span class="number">20</span>, <span class="number">25</span>]</span><br><span class="line"></span><br><span class="line">x = np.arange(<span class="built_in">len</span>(labels))  <span class="comment"># the label locations</span></span><br><span class="line">width = <span class="number">0.35</span>  <span class="comment"># the width of the bars</span></span><br><span class="line"></span><br><span class="line">fig, ax = plt.subplots()</span><br><span class="line">rects1 = ax.bar(x - width/<span class="number">2</span>, men_means, width, label=<span class="string">&#x27;Men&#x27;</span>)</span><br><span class="line">rects2 = ax.bar(x + width/<span class="number">2</span>, women_means, width, label=<span class="string">&#x27;Women&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add some text for labels, title and custom x-axis tick labels, etc.</span></span><br><span class="line">ax.set_ylabel(<span class="string">&#x27;Scores&#x27;</span>)</span><br><span class="line">ax.set_title(<span class="string">&#x27;Scores by group and gender&#x27;</span>)</span><br><span class="line">ax.set_xticks(x)</span><br><span class="line">ax.set_xticklabels(labels)</span><br><span class="line">ax.legend()</span><br><span class="line"></span><br><span class="line">ax.bar_label(rects1, padding=<span class="number">3</span>)</span><br><span class="line">ax.bar_label(rects2, padding=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">fig.tight_layout()</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724090632449.png" alt="image-20210724090632449"></p>
+<p>使用横着展示的条形图，直接使用barh就可以实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># Fixing random state for reproducibility</span></span><br><span class="line">np.random.seed(<span class="number">19680801</span>)</span><br><span class="line"></span><br><span class="line">plt.rcdefaults()</span><br><span class="line">fig, ax = plt.subplots()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Example data</span></span><br><span class="line">people = (<span class="string">&#x27;Tom&#x27;</span>, <span class="string">&#x27;Dick&#x27;</span>, <span class="string">&#x27;Harry&#x27;</span>, <span class="string">&#x27;Slim&#x27;</span>, <span class="string">&#x27;Jim&#x27;</span>)</span><br><span class="line">y_pos = np.arange(<span class="built_in">len</span>(people))</span><br><span class="line">performance = <span class="number">3</span> + <span class="number">10</span> * np.random.rand(<span class="built_in">len</span>(people))</span><br><span class="line">error = np.random.rand(<span class="built_in">len</span>(people))</span><br><span class="line"></span><br><span class="line">rects1 = ax.barh(y_pos, performance, align=<span class="string">&#x27;center&#x27;</span>)</span><br><span class="line">ax.set_yticks(y_pos)</span><br><span class="line">ax.set_yticklabels(people)</span><br><span class="line">ax.invert_yaxis()  <span class="comment"># labels read top-to-bottom</span></span><br><span class="line">ax.set_xlabel(<span class="string">&#x27;Performance&#x27;</span>)</span><br><span class="line">ax.set_title(<span class="string">&#x27;How fast do you want to go today?&#x27;</span>)</span><br><span class="line">ax.bar_label(rects1, padding=<span class="number">3</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724092623279.png" alt="image-20210724092623279"></p>
+<h2 id="直方图"><a href="#直方图" class="headerlink" title="直方图"></a>直方图</h2><p>直方图跟柱状图有点类似，看起来很像柱状图链接的很紧密，不过感觉这个说法不严谨，我更趋向于是直方图展示连续但是分段的数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># Fixing random state for reproducibility</span></span><br><span class="line">np.random.seed(<span class="number">19680801</span>)</span><br><span class="line"></span><br><span class="line">N_points = <span class="number">100000</span></span><br><span class="line">n_bins = <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Generate a normal distribution, center at x=0 and y=5</span></span><br><span class="line">x = np.random.randn(N_points)</span><br><span class="line"></span><br><span class="line">fig, axs = plt.subplots(sharey=<span class="literal">True</span>, tight_layout=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># We can set the number of bins with the `bins` kwarg</span></span><br><span class="line">axs.hist(x, bins=n_bins)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724094320817.png" alt="image-20210724094320817"></p>
+<p><code>hist</code>参数中<code>bins</code>是指条形的个数像这个图里面就是20个条形</p>
+<h2 id="饼状图"><a href="#饼状图" class="headerlink" title="饼状图"></a>饼状图</h2><p>饼状图可以看清一个分布，也就是一堆数据当中各种类别的分布。画饼状图主要使用pie函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># Pie chart, where the slices will be ordered and plotted counter-clockwise:</span></span><br><span class="line">labels = <span class="string">&#x27;Frogs&#x27;</span>, <span class="string">&#x27;Hogs&#x27;</span>, <span class="string">&#x27;Dogs&#x27;</span>, <span class="string">&#x27;Logs&#x27;</span></span><br><span class="line">sizes = [<span class="number">15</span>, <span class="number">30</span>, <span class="number">45</span>, <span class="number">10</span>]</span><br><span class="line">explode = (<span class="number">0</span>, <span class="number">0.1</span>, <span class="number">0</span>, <span class="number">0</span>)  <span class="comment"># only &quot;explode&quot; the 2nd slice (i.e. &#x27;Hogs&#x27;)</span></span><br><span class="line"></span><br><span class="line">fig1, ax1 = plt.subplots()</span><br><span class="line">ax1.pie(sizes, explode=explode, labels=labels, autopct=<span class="string">&#x27;%1.1f%%&#x27;</span>,</span><br><span class="line">        shadow=<span class="literal">True</span>, startangle=<span class="number">90</span>)</span><br><span class="line">ax1.axis(<span class="string">&#x27;equal&#x27;</span>)  <span class="comment"># Equal aspect ratio ensures that pie is drawn as a circle.</span></span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/数据分析/image-20210724095404058.png" alt="image-20210724095404058"></p>
+<p>需要注意的是<code>pie</code>函数中的<code>autopct</code>是用来显示百分比的，<code>shadow</code>用来控制阴影，<code>startangle</code>用来控制选择角度，而这个突出显示则是使用<code>explode</code>进行</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+              <a href="/tags/matlpotlib/" rel="tag"><i class="fa fa-tag"></i> matlpotlib</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/17/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/matplotlib%E7%94%BB%E5%9B%BE%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="prev" title="matplotlib画图(一)基本操作">
+      <i class="fa fa-chevron-left"></i> matplotlib画图(一)基本操作
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/24/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/numpy%E5%AD%A6%E4%B9%A0/" rel="next" title="numpy基础学习">
+      numpy基础学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#matplotlib%E7%94%BB%E5%9B%BE%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">matplotlib画图（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%98%E7%BA%BF%E5%9B%BE"><span class="nav-number">1.1.</span> <span class="nav-text">折线图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%A3%E7%82%B9%E5%9B%BE"><span class="nav-number">1.2.</span> <span class="nav-text">散点图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%B1%E7%8A%B6%E5%9B%BE"><span class="nav-number">1.3.</span> <span class="nav-text">柱状图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E6%96%B9%E5%9B%BE"><span class="nav-number">1.4.</span> <span class="nav-text">直方图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A5%BC%E7%8A%B6%E5%9B%BE"><span class="nav-number">1.5.</span> <span class="nav-text">饼状图</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">493k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : 'd94f3eeda42f12f4be64f2f28be0d937',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

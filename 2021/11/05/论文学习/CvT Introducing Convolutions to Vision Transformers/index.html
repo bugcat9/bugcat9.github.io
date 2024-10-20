@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="CvT:Introducing Convolutions to Vision Transformers论文简介CvT是发表在ICCV上的一篇文章，主要团队是来自麦吉尔大学, 微软云+AI。论文的主要工作是将卷积CNN模型引入Transformer模型中来产生两种设计的最佳效果，从而提高了视觉Transformer（ViT）的性能和效率 下面图展示的是团队成员：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CvT:Introducing Convolutions to Vision Transformers">
+<meta property="og:url" content="https://bugcat.top/2021/11/05/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CvT%20Introducing%20Convolutions%20to%20Vision%20Transformers/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="CvT:Introducing Convolutions to Vision Transformers论文简介CvT是发表在ICCV上的一篇文章，主要团队是来自麦吉尔大学, 微软云+AI。论文的主要工作是将卷积CNN模型引入Transformer模型中来产生两种设计的最佳效果，从而提高了视觉Transformer（ViT）的性能和效率 下面图展示的是团队成员：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211121210127584.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121210228422.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121210310100.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121210447006.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211053382.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211100484.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211243532.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211357005.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211426548.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211432397.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211452115.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211524088.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211540006.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211606550.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211952118.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212018071.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212042974.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212108045.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212140269.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212219380.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212257789.png">
+<meta property="og:image" content="https://bugcat.top/2021/11/05/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CvT%20Introducing%20Convolutions%20to%20Vision%20Transformers/新建文件夹/image-20211121212305909.png">
+<meta property="article:published_time" content="2021-11-05T19:41:37.000Z">
+<meta property="article:modified_time" content="2024-10-20T13:34:26.732Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="transformer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211121210127584.png">
+
+<link rel="canonical" href="https://bugcat.top/2021/11/05/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CvT%20Introducing%20Convolutions%20to%20Vision%20Transformers/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CvT:Introducing Convolutions to Vision Transformers | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/11/05/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CvT%20Introducing%20Convolutions%20to%20Vision%20Transformers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CvT:Introducing Convolutions to Vision Transformers
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-05 19:41:37" itemprop="dateCreated datePublished" datetime="2021-11-05T19:41:37+00:00">2021-11-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-20 13:34:26" itemprop="dateModified" datetime="2024-10-20T13:34:26+00:00">2024-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">论文学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="CvT-Introducing-Convolutions-to-Vision-Transformers"><a href="#CvT-Introducing-Convolutions-to-Vision-Transformers" class="headerlink" title="CvT:Introducing Convolutions to Vision Transformers"></a>CvT:Introducing Convolutions to Vision Transformers</h1><h2 id="论文简介"><a href="#论文简介" class="headerlink" title="论文简介"></a>论文简介</h2><p>CvT是发表在ICCV上的一篇文章，主要团队是来自麦吉尔大学, 微软云+AI。论文的主要工作是将卷积<strong>CNN</strong>模型引入<strong>Transformer模型</strong>中来产生两种设计的最佳效果，从而提高了视觉Transformer（ViT）的性能和效率</p>
+<p>下面图展示的是团队成员：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211121210127584.png" alt="image-20211121210127584"></p>
+<span id="more"></span>
+<h2 id="思路和研究方法"><a href="#思路和研究方法" class="headerlink" title="思路和研究方法"></a>思路和研究方法</h2><h3 id="ViT模型"><a href="#ViT模型" class="headerlink" title="ViT模型"></a>ViT模型</h3><p>ViT模型通过将图片进行分块和降维，然后再送入到transformer中，实现了对图像进行分类。</p>
+<p><strong>缺点：</strong>ViT在小样本上，性能低于类似规模的CNN网络</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121210228422.png" alt="image-20211121210228422"></p>
+<h3 id="Convolutional-vision-Transformer"><a href="#Convolutional-vision-Transformer" class="headerlink" title="Convolutional vision Transformer"></a>Convolutional vision Transformer</h3><p>本文提出了卷积视觉Transformer（CvT），设计了两个操作：<strong>Convolutional Token Embedding</strong>和<strong>Convolutional Projection</strong>，使得整个网络结构同时具备了卷积和Transformer的特点，去除了位置编码embedding，简化了网络设计。</p>
+<p>论文比较了一下CvT、ViT、BiT的参数，相同参数量下CvT模型准确度最高，如下图展示</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121210310100.png" alt="image-20211121210310100"></p>
+<p>本文的网络模型如下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121210447006.png" alt="image-20211121210447006"></p>
+<h3 id="Convolutional-Token-Embedding"><a href="#Convolutional-Token-Embedding" class="headerlink" title="Convolutional Token Embedding"></a>Convolutional Token Embedding</h3><p>给定一个2D的image或者一个来自上一层的2D-reshaped输出$x<em>i\in \mathbb R^{H</em>{i-1}\times W<em>{i_1}\times C</em>{i-1}}$作为输入，学习一个函数$f(*)$，把输入$x<em>{i-1}$映射到一个新的token$f(x</em>{i-1}\in \mathbb R^{H_i\times W_i \times C_i})$，它的高和宽如下（其中卷积核大大小为$s\times s$，步长为$s-o$，padding为$p$）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211053382.png" alt="image-20211121211053382"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211100484.png" alt="image-20211121211100484"></p>
+<p>之后得到的$f(x_{i-1} )$会被<strong>flatten</strong>到$H_i W_i×C_i$ ，并进行Layer Normalization操作，得到的结果会进入下面的的第i个stage的Transformer Block的操作。</p>
+<p>Convolutional Token Embedding允许我们通过使用不同的卷积参数，调整token feature dimension 和每一阶段的token数量。以该方式，我们渐渐减少token sequence length，同时增加token feature dimension。这使得token能够以增加更大的空间，去表征增加的复杂视觉模式。</p>
+<h3 id="Convolutional-Projection-for-Attention"><a href="#Convolutional-Projection-for-Attention" class="headerlink" title="Convolutional Projection for Attention"></a><strong>Convolutional Projection for Attention</strong></h3><p>Convolutional Projection 层主要目标是实现额外的局部上下文建模，和提供高效的K，V矩阵采样方式。</p>
+<p>从根本上来说，本文提出的带有Convolutional Projection 的Transformer block是原始Transformer block的一般化表示。因为先前的工作都是尝试在Transformer block 上添加额外的卷积模块，这增加了额外的计算代价。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211243532.png" alt="image-20211121211243532"></p>
+<p>简单理解就是把普通Transformer的Block中的Linear Projection操作换成了Convolutional Projection操作，我们提出用深度可分卷积代替多头自注意(MHSA)的位置线性投影，形成卷积投影层。如下图所示为ViT中使用的Linear projection操作，采用的是线性的映射</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211357005.png" alt="image-20211121211357005"></p>
+<p>如下图所示为CvT中使用的Convolutional Projection操作，采用的是卷积变换。</p>
+<p>具体来讲，token首先reshape成2D的token map，再分别通过3个Depthwise-separable Convolution(kernel=s×s)变成query，key和value值。最后再把这些query，key和value值通过flatten操作得到真正的query，key和value值。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211426548.png" alt="image-20211121211426548"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211432397.png" alt="image-20211121211432397"></p>
+<p>其中的<strong>Conv2d</strong>是个Depthwise-separable Convolution的复合操作</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211452115.png" alt="image-20211121211452115"></p>
+<h4 id="Depthwise-Separable-Convolution"><a href="#Depthwise-Separable-Convolution" class="headerlink" title="Depthwise Separable Convolution"></a><strong>Depthwise</strong> <strong>Separable Convolution</strong></h4><p><strong>常规卷积运算：</strong>假设输入层为一个大小为64×64像素、三通道彩色图片。经过一个包含4个Filter的卷积层，最终输出4个Feature Map，且尺寸与输入层相同。整个过程可以用下图来概括。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211524088.png" alt="image-20211121211524088"></p>
+<p><strong>Depthwise</strong> <strong>Convolution</strong>：一个大小为64×64像素、三通道彩色图片首先经过第一次卷积运算，不同之处在于此次的卷积完全是在二维平面内进行，且Filter的数量与上一层的Depth相同。</p>
+<p><strong>缺点：</strong>运算对输入层的每个channel独立进行卷积运算后就结束，没有有效的利用不同map在相同空间位置上的信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211540006.png" alt="image-20211121211540006"></p>
+<p><strong>Pointwise Convolution</strong>：Pointwise Convolution的运算与常规卷积运算非常相似，不同之处在于卷积核的尺寸为 1×1×M，M为上一层的depth。所以这里的卷积运算会将上一步的map在深度方向上进行加权组合，生成新的Feature map。有几个Filter就有几个Feature map。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211606550.png" alt="image-20211121211606550"></p>
+<p><strong>参数对比：</strong></p>
+<p>常规卷积的参数个数为：</p>
+<script type="math/tex; mode=display">
+N_{std} = 4 × 3 × 3 × 3 = 108</script><p>Separable Convolution的参数由两部分相加得到：</p>
+<script type="math/tex; mode=display">
+N_{depthwise}=3×3×3=27</script><script type="math/tex; mode=display">
+N_{pointwise}=1×1×3×4=12</script><script type="math/tex; mode=display">
+N_{separable}=N_{depthwise}+N_{pointwise}=39</script><p>相同的输入，同样是得到4张Feature map，Separable Convolution的参数个数是常规卷积的约1/3。因此，在参数量相同的前提下，采用Separable Convolution的神经网络层数可以做的更深。</p>
+<h3 id="Efficiency-Considerations"><a href="#Efficiency-Considerations" class="headerlink" title="Efficiency Considerations"></a><strong>Efficiency Considerations</strong></h3><p>对于常规的Convolution所需的参数量和计算量分别是 $s^2 C^2$和$o(s^2 C^2 T)$，</p>
+<p>如果是Depthwise-separable Convolution所需的参数量和计算量分别是$s^2 C$和$o(s^2 CT)$</p>
+<p>其中C是token的channel dimension，T是token的数量。</p>
+<p>除此之外，为了使得模型进一步简化，作者又提出了如图所示的Squeezed convolutional projection操作。</p>
+<p>作者在计算query时，采用的Depthwise-separable Convolution的stride值为1。在计算key和value时，采用的Depthwise-separable Convolution的stride值为2。如下图所示。按照这种方式，token的数量对于key和value来说可以减少4倍，性能只有很少的下降。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121211952118.png" alt="image-20211121211952118"></p>
+<h2 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><p><strong>数据集：</strong>ImageNet-1k (1.3M images)，ImageNet (14M images，22k类)，CIFAR-10/100，Oxford-IIIT-Pet，Oxford-IIIT-Flower。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212018071.png" alt="image-20211121212018071"></p>
+<p>CvT模型可以以较低的参数量和计算量达到更好的性能，比如21层的CvT在ImageNet上可以达到82.5%的高性能，比DeiT-B的性能还要好，而参数量和计算量都有大幅地下降。</p>
+<p>CvT系列最大的模型：CvT-W24可以在ImageNet上达到87.7%的性能，不需要JFT-300预训练，超过了ViT-L模型。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212042974.png" alt="image-20211121212042974"></p>
+<h3 id="迁移学习性能"><a href="#迁移学习性能" class="headerlink" title="迁移学习性能"></a><strong>迁移学习性能</strong></h3><p>CvT在小数据集上的结果如图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212108045.png" alt="image-20211121212108045"></p>
+<h3 id="对比实验1：位置编码的影响"><a href="#对比实验1：位置编码的影响" class="headerlink" title="对比实验1：位置编码的影响"></a><strong>对比实验</strong>1：位置编码的影响</h3><p>作者在CvT中没有使用位置编码，为了探究这么做到底会不会影响性能，作者设计了以下6个实验，发现DeiT在不使用位置编码时会掉点，但是CvT不使用位置编码则不会影响性能。根本原因还是CvT中的卷积操作自带了暗位置信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212140269.png" alt="image-20211121212140269"></p>
+<h3 id="对比实验2：Convolutional-Token-Embedding的影响"><a href="#对比实验2：Convolutional-Token-Embedding的影响" class="headerlink" title="对比实验2：Convolutional Token Embedding的影响"></a><strong>对比实验</strong>2：Convolutional Token Embedding的影响</h3><p>为了说明Convolutional Token Embedding的作用，作者把它替换成了Patch embedding并做了如下4组实验。结果表明，当使用Convolutional Token Embedding并不使用位置编码时效果最佳，当使用Patch embedding并同时使用位置编码时效果次之。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212219380.png" alt="image-20211121212219380"></p>
+<h3 id="对比实验3：Convolutional-Projection对比实验"><a href="#对比实验3：Convolutional-Projection对比实验" class="headerlink" title="对比实验3：Convolutional Projection对比实验"></a><strong>对比实验</strong>3：Convolutional Projection对比实验</h3><p>作者首先对比了Convolutional Projection的stride的影响，当把stride=1换成stride=2之后，计算量会有下降，但是精度也有相应的下降。</p>
+<p>作者对比了把 Convolutional Projection 替换成传统的Position-wise 的 Linear Projection之后的性能变化。结果发现在3个stage中都使用 Convolutional Projection 时的性能是最优的，证明 Convolutional Projection 是一种很有效的建模策略。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper//image-20211121212257789.png" alt="image-20211121212257789"></p>
+<p><img src="新建文件夹/image-20211121212305909.png" alt="image-20211121212305909"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>首先embedding的方式变成了卷积操作，在每个Multi-head self-attention之前都进行Convolutional Token Embedding。</p>
+<p>其次在 Self-attention的Projection操作不再使用传统的Linear Projection，而是使用Convolutional Projection。</p>
+<p>最后取消位置编码，因为卷积操作包含了暗位置信息。</p>
+<p><strong>参考：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://ishero.net/CvT%20%20Introducing%20Convolutions%20to%20Vision%20Transformers.html">http://ishero.net/CvT%20%20Introducing%20Convolutions%20to%20Vision%20Transformers.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/361112935">https://zhuanlan.zhihu.com/p/361112935</a></li>
+<li><a target="_blank" rel="noopener" href="https://yinguobing.com/separable-convolution/">https://yinguobing.com/separable-convolution/</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/transformer/" rel="tag"><i class="fa fa-tag"></i> transformer</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/24/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/OadTR%20Online%20Action%20Detection%20with%20Transformers/" rel="prev" title="OadTR Online Action Detection with Transformers">
+      <i class="fa fa-chevron-left"></i> OadTR Online Action Detection with Transformers
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/02/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Weakly-supervised%20Temporal%20Action%20Localization%20by%20Uncertainty%20Modeling/" rel="next" title="Weakly-supervised Temporal Action Localization by Uncertainty Modeling">
+      Weakly-supervised Temporal Action Localization by Uncertainty Modeling <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CvT-Introducing-Convolutions-to-Vision-Transformers"><span class="nav-number">1.</span> <span class="nav-text">CvT:Introducing Convolutions to Vision Transformers</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">论文简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E5%92%8C%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">思路和研究方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ViT%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">ViT模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Convolutional-vision-Transformer"><span class="nav-number">1.2.2.</span> <span class="nav-text">Convolutional vision Transformer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Convolutional-Token-Embedding"><span class="nav-number">1.2.3.</span> <span class="nav-text">Convolutional Token Embedding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Convolutional-Projection-for-Attention"><span class="nav-number">1.2.4.</span> <span class="nav-text">Convolutional Projection for Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Depthwise-Separable-Convolution"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">Depthwise Separable Convolution</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Efficiency-Considerations"><span class="nav-number">1.2.5.</span> <span class="nav-text">Efficiency Considerations</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">1.3.</span> <span class="nav-text">实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E6%80%A7%E8%83%BD"><span class="nav-number">1.3.1.</span> <span class="nav-text">迁移学习性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94%E5%AE%9E%E9%AA%8C1%EF%BC%9A%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">1.3.2.</span> <span class="nav-text">对比实验1：位置编码的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94%E5%AE%9E%E9%AA%8C2%EF%BC%9AConvolutional-Token-Embedding%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">1.3.3.</span> <span class="nav-text">对比实验2：Convolutional Token Embedding的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94%E5%AE%9E%E9%AA%8C3%EF%BC%9AConvolutional-Projection%E5%AF%B9%E6%AF%94%E5%AE%9E%E9%AA%8C"><span class="nav-number">1.3.4.</span> <span class="nav-text">对比实验3：Convolutional Projection对比实验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">493k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : 'e91dec0868ce31006dc909a59ffc387b',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

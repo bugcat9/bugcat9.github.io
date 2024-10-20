@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Weakly-supervised Temporal Action Localization by Uncertainty Modeling提出问题现有的Weakly-supervised Temporal Action Localization处理背景的方法存在很多问题，要不将静态帧合并合成伪背景视频，但忽略了动态背景帧，要不将背景框架划分为一个单独的类别。然而，强制所有的背景帧属于一个特定的类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Weakly-supervised Temporal Action Localization by Uncertainty Modeling">
+<meta property="og:url" content="https://bugcat.top/2021/12/02/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Weakly-supervised%20Temporal%20Action%20Localization%20by%20Uncertainty%20Modeling/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="Weakly-supervised Temporal Action Localization by Uncertainty Modeling提出问题现有的Weakly-supervised Temporal Action Localization处理背景的方法存在很多问题，要不将静态帧合并合成伪背景视频，但忽略了动态背景帧，要不将背景框架划分为一个单独的类别。然而，强制所有的背景帧属于一个特定的类">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202113108293.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202113647997.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202113830606.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202151403440.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202151949445.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202152829191.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202153204454.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202155527868.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202161510271.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202161833408.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202163725110.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202163806830.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164237878.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164312359.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164646695.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164356143.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164432247.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164712103.png">
+<meta property="article:published_time" content="2021-12-02T11:09:14.000Z">
+<meta property="article:modified_time" content="2024-10-20T13:34:26.732Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="时序动作定位">
+<meta property="article:tag" content="弱监督">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202113108293.png">
+
+<link rel="canonical" href="https://bugcat.top/2021/12/02/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Weakly-supervised%20Temporal%20Action%20Localization%20by%20Uncertainty%20Modeling/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Weakly-supervised Temporal Action Localization by Uncertainty Modeling | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/12/02/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Weakly-supervised%20Temporal%20Action%20Localization%20by%20Uncertainty%20Modeling/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Weakly-supervised Temporal Action Localization by Uncertainty Modeling
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-02 11:09:14" itemprop="dateCreated datePublished" datetime="2021-12-02T11:09:14+00:00">2021-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-20 13:34:26" itemprop="dateModified" datetime="2024-10-20T13:34:26+00:00">2024-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">论文学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Weakly-supervised-Temporal-Action-Localization-by-Uncertainty-Modeling"><a href="#Weakly-supervised-Temporal-Action-Localization-by-Uncertainty-Modeling" class="headerlink" title="Weakly-supervised Temporal Action Localization by Uncertainty Modeling"></a>Weakly-supervised Temporal Action Localization by Uncertainty Modeling</h1><h2 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h2><p>现有的Weakly-supervised Temporal Action Localization处理背景的方法存在很多问题，要不将静态帧合并合成伪背景视频，但忽略了动态背景帧，要不将背景框架划分为一个单独的类别。然而，强制所有的背景帧属于一个特定的类（背景类别其实也是不同的，因为它们不共享任何共同的语义）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202113108293.png" alt="image-20211202113108293"></p>
+<p>如图a中背景其实是非常动态的（理解为摄像机在动，其中的人也是在动的），图b中展现出来的一个视频中的背景是不相同的。</p>
+<span id="more"></span>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>论文的作者接受背景帧不一致的观察。一般来说，动作帧的特征比背景帧的特征有更大的幅度，如图a所示。这是因为动作帧需要为基本事实的动作类生成高对数。虽然特征量显示了背景和动作帧之间的识别相关性，但由于动作和背景的分布比较接近，直接使用特征量进行识别是不够的。因此，为了进一步鼓励特征幅度上的差异，作者建议通过增大动作特征的幅度和减小接近于零的背景特征的幅度来分离分布(图b)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202113647997.png" alt="image-20211202113647997"></p>
+<p>基于上面提出的思想提出了一个不确定性建模的方法。</p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202113830606.png" alt="image-20211202113830606"></p>
+<h3 id="Main-pipeline"><a href="#Main-pipeline" class="headerlink" title="Main pipeline"></a>Main pipeline</h3><h4 id="Feature-extraction"><a href="#Feature-extraction" class="headerlink" title="Feature extraction"></a>Feature extraction</h4><p>将视频分割成多个段，$v<em>n=\lbrace s</em>{n,l}\rbrace^{L<em>n}</em>{l=1}$，然后进行采样使得$v<em>n=\lbrace \tilde{s}</em>{n,t} \rbrace^T<em>{t=1}$。然后提取RGB特征$x^{RGB}</em>{n,t}\in \mathbb R^D$和flow光流特征$x^{flow}<em>{n,t}\in \mathbb R^D$,再拼接在一起$X_n=[x</em>{n,1},…,x_{n,T}]\in \mathbb R^{2d\times T}$</p>
+<p>特征提取这一步很简单和大多数的WTAL的方法相同</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202151403440.png" alt="image-20211202151403440"></p>
+<h4 id="Feature-embedding"><a href="#Feature-embedding" class="headerlink" title="Feature embedding"></a>Feature embedding</h4><p>为了将提取的特征嵌入到特定于任务的空间中，作者使用一个一维卷积层，然后使用一个ReLU函数。</p>
+<script type="math/tex; mode=display">
+F_n=g_{embed}(X_n;\phi_{embed})</script><p>最终得到的$F<em>n=[f</em>{n,1},…,f_{n,T}]\in\mathbb R^{2D\times T}$</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202151949445.png" alt="image-20211202151949445"></p>
+<h4 id="Segment-level-classification"><a href="#Segment-level-classification" class="headerlink" title="Segment-level classification"></a>Segment-level classification</h4><p>这一步需要得到类激活序列，使用一个分类器</p>
+<script type="math/tex; mode=display">
+A_n=g_{cls}(F_n;\phi_{cls})</script><p>其中$g_{cls}$表示线性分类器，最终得到的$A_n\in\mathbb R^{C\times T}$</p>
+<h4 id="Action-score-aggregation"><a href="#Action-score-aggregation" class="headerlink" title="Action score aggregation"></a>Action score aggregation</h4><p>遵循之前的方法，采取topk均值的方法，从而获得该类别的分数</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202152829191.png" alt="image-20211202152829191"></p>
+<p>再使用softmax，可以得到对应动作c的概率</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202153204454.png" alt="image-20211202153204454"></p>
+<p>这个和之前的工作类似</p>
+<h3 id="Uncertainty-modeling"><a href="#Uncertainty-modeling" class="headerlink" title="Uncertainty modeling"></a>Uncertainty modeling</h3><p>上面部分，是基本的WTAL步骤，里面并没有考虑背景。考虑到背景帧的不约束和不一致性，我们将背景作为WTAL的out-<br>of-distribution和uncertainty</p>
+<p>考虑到视频片段$\tilde{s}_{n,t}$属于第c个动作的概率，可以用链式法则（条件概率公式）将其分解为两部分</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202155527868.png" alt="image-20211202155527868"></p>
+<p>回想起条件概率公式支配的恐惧了</p>
+<script type="math/tex; mode=display">
+P(A|B)=P(A,B)/P(B)</script><p>所以有</p>
+<script type="math/tex; mode=display">
+P(A,B)=P(A|B)P(B)</script><p>当然再推下去就是贝叶斯了，这个就不细说。</p>
+<h4 id="Uncertainty-formulation"><a href="#Uncertainty-formulation" class="headerlink" title="Uncertainty formulation"></a>Uncertainty formulation</h4><p>公式当中$P(y<em>{n,t}=c|d=1, \tilde{s}</em>{n,t})$，与一般分类任务一样，采用softmax函数进行估计。此外，有必要建模一个片段属于任何动作类的概率，也就是$P(d=1| \tilde{s}_{n,t})$的概率。</p>
+<p>为了解决背景辨别问题。观察到动作帧的特征通常比背景帧的特征有更大的幅度(图2)，我们通过使用特征向量的幅度来表达不确定性。具体来说，背景特征的幅度较小，接近于0，而动作特征的幅度较大。</p>
+<p>然后在n个视频$( \tilde{s}_{n,t})$中的t-th段是一个动作段的概率由:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202161510271.png" alt="image-20211202161510271"></p>
+<p>其中$f<em>{n,t}$表示视频$\tilde{s}</em>{n,t}$的特征，而$\lVert \cdot \rVert$是一个范数函数(这里我们使用L-2范数)，m是预定义的一个特征值，从公式我们可以得到</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202161833408.png" alt="image-20211202161833408"></p>
+<h4 id="Uncertainty-learning-via-multiple-instance-learning"><a href="#Uncertainty-learning-via-multiple-instance-learning" class="headerlink" title="Uncertainty learning via multiple instance learning"></a>Uncertainty learning via multiple instance learning</h4><p>为了只通过视频级别的标签来学习不确定性，我们借用了多实例学习的概念(Maron和LozanoPérez1998)，即使用一个包(视频)而不是实例(片段)来训练模型。在这个设置中，考虑到每个未修剪的视频都包含动作帧和背景帧，我们选择伪动作/背景段来表示视频。简单来说就是选择$k^{act}$个特征幅度最大的k个片段作为伪动作片段$\lbrace \tilde{s}<em>{n,t} |i\in S^{act} \rbrace$，选择$k^{bkg}$个片段作为伪背景片段$\lbrace \tilde{s}</em>{n,t} |j\in S^{bkg} \rbrace$。</p>
+<h3 id="Training-objectives"><a href="#Training-objectives" class="headerlink" title="Training objectives"></a>Training objectives</h3><p>训练的损失总共有三个</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202163725110.png" alt="image-20211202163725110"></p>
+<h4 id="Video-level-classification-loss"><a href="#Video-level-classification-loss" class="headerlink" title="Video-level classification loss"></a>Video-level classification loss</h4><p>对于多标签动作分类，我们使用二叉熵损失与标准化视频级标签</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202163806830.png" alt="image-20211202163806830"></p>
+<p>很简单的一个损失比较常见</p>
+<h4 id="Uncertainty-modeling-loss"><a href="#Uncertainty-modeling-loss" class="headerlink" title="Uncertainty modeling loss"></a>Uncertainty modeling loss</h4><p>为了学习不确定性，我们训练模型生成大特征量的伪动作片段，而生成小特征量的伪背景片段，如图3(a)所示。形式上，不确定性建模损失的形式为:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164237878.png" alt="image-20211202164237878"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164312359.png" alt="image-20211202164312359"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164646695.png" alt="image-20211202164646695"></p>
+<p>这个损失的含义是将动作特征拉的更远背景特征拉的更近，可以看这个m为特征距离，蓝色部分向m之外移动，红色部分向m之内移动。</p>
+<h4 id="Background-entropy-loss"><a href="#Background-entropy-loss" class="headerlink" title="Background entropy loss"></a>Background entropy loss</h4><p>虽然不确定性建模损失鼓励背景部分为所有动作生成低对数，但由于softmax功能的相对性，某些动作类的softmax得分可能较高。为了防止背景片段对任何动作类都有较高的softmax得分，我们定义了一个损失函数，使背景片段的动作概率熵最大化，即，背景段对动作类强制具有均匀概率分布，如图3(b)所示。损失计算方法如下:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164356143.png" alt="image-20211202164356143"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164432247.png" alt="image-20211202164432247"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20211202164712103.png" alt="image-20211202164712103"></p>
+<p>这个损失是为了防止背景在某个动作类上的softmax得分可能较高，为了将背景分数拉平而设计的一个函数。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章在前人提出背景的基础上再次加深了一步研究，思想性很强不亏是微软亚洲研究院出品的，我只能称之为神仙。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%97%B6%E5%BA%8F%E5%8A%A8%E4%BD%9C%E5%AE%9A%E4%BD%8D/" rel="tag"><i class="fa fa-tag"></i> 时序动作定位</a>
+              <a href="/tags/%E5%BC%B1%E7%9B%91%E7%9D%A3/" rel="tag"><i class="fa fa-tag"></i> 弱监督</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/05/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/CvT%20Introducing%20Convolutions%20to%20Vision%20Transformers/" rel="prev" title="CvT:Introducing Convolutions to Vision Transformers">
+      <i class="fa fa-chevron-left"></i> CvT:Introducing Convolutions to Vision Transformers
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/29/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Background-Click%20Supervision%20for%20Temporal%20Action%20Localization/" rel="next" title="Background-Click Supervision for Temporal Action Localization">
+      Background-Click Supervision for Temporal Action Localization <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Weakly-supervised-Temporal-Action-Localization-by-Uncertainty-Modeling"><span class="nav-number">1.</span> <span class="nav-text">Weakly-supervised Temporal Action Localization by Uncertainty Modeling</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">提出问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">解决方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Main-pipeline"><span class="nav-number">1.3.1.</span> <span class="nav-text">Main pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Feature-extraction"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">Feature extraction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Feature-embedding"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">Feature embedding</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Segment-level-classification"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">Segment-level classification</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Action-score-aggregation"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">Action score aggregation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Uncertainty-modeling"><span class="nav-number">1.3.2.</span> <span class="nav-text">Uncertainty modeling</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Uncertainty-formulation"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Uncertainty formulation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Uncertainty-learning-via-multiple-instance-learning"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Uncertainty learning via multiple instance learning</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Training-objectives"><span class="nav-number">1.3.3.</span> <span class="nav-text">Training objectives</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Video-level-classification-loss"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">Video-level classification loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Uncertainty-modeling-loss"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">Uncertainty modeling loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Background-entropy-loss"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">Background entropy loss</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">493k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : 'f48646dbdd53da8ccd063151dc8b80a8',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

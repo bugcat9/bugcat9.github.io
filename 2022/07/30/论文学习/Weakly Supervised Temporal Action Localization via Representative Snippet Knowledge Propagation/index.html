@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Weakly Supervised Temporal Action Localization via Representative Snippet Knowledge Propagation文章简介文章发表在CVPR2022上，作者发现许多现有弱监督时序动作定位方法试图生成伪标签以弥补分类和定位之间的差异，但目前方法通常仅利用有限的上下文信息生成伪标签。为了缓解这个问题，作者提出了一个具有代表性的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Weakly Supervised Temporal Action Localization via Representative Snippet Knowledge Propagation">
+<meta property="og:url" content="https://bugcat.top/2022/07/30/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Weakly%20Supervised%20Temporal%20Action%20Localization%20via%20Representative%20Snippet%20Knowledge%20Propagation/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="Weakly Supervised Temporal Action Localization via Representative Snippet Knowledge Propagation文章简介文章发表在CVPR2022上，作者发现许多现有弱监督时序动作定位方法试图生成伪标签以弥补分类和定位之间的差异，但目前方法通常仅利用有限的上下文信息生成伪标签。为了缓解这个问题，作者提出了一个具有代表性的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210425343.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210529001.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210725403.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210858240.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210940462.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211006038.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211054457.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211023456.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210858240.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210725403.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211322392.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211023456.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211354223.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211430094.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211441366.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220719124601551.png">
+<meta property="article:published_time" content="2022-07-30T20:57:12.000Z">
+<meta property="article:modified_time" content="2024-10-20T13:34:26.732Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="时序动作定位">
+<meta property="article:tag" content="弱监督">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210425343.png">
+
+<link rel="canonical" href="https://bugcat.top/2022/07/30/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Weakly%20Supervised%20Temporal%20Action%20Localization%20via%20Representative%20Snippet%20Knowledge%20Propagation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Weakly Supervised Temporal Action Localization via Representative Snippet Knowledge Propagation | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2022/07/30/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Weakly%20Supervised%20Temporal%20Action%20Localization%20via%20Representative%20Snippet%20Knowledge%20Propagation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Weakly Supervised Temporal Action Localization via Representative Snippet Knowledge Propagation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-30 20:57:12" itemprop="dateCreated datePublished" datetime="2022-07-30T20:57:12+00:00">2022-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-20 13:34:26" itemprop="dateModified" datetime="2024-10-20T13:34:26+00:00">2024-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">论文学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Weakly-Supervised-Temporal-Action-Localization-via-Representative-Snippet-Knowledge-Propagation"><a href="#Weakly-Supervised-Temporal-Action-Localization-via-Representative-Snippet-Knowledge-Propagation" class="headerlink" title="Weakly Supervised Temporal Action Localization via Representative Snippet Knowledge Propagation"></a>Weakly Supervised Temporal Action Localization via Representative Snippet Knowledge Propagation</h1><h2 id="文章简介"><a href="#文章简介" class="headerlink" title="文章简介"></a>文章简介</h2><p>文章发表在<strong>CVPR2022</strong>上，作者发现许多现有弱监督时序动作定位方法试图生成伪标签以弥补分类和定位之间的差异，但目前方法通常仅利用<strong>有限</strong>的上下文信息生成伪标签。为了缓解这个问题，作者提出了一个<strong>具有代表性的片段汇总和传播</strong>框架。作者的方法试图挖掘每个视频中的代表性片段，以便在视频片段之间传播信息，从而生成更好的伪标签。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210425343.png" alt="image-20220730210425343"></p>
+<span id="more"></span>
+<h2 id="论文动机"><a href="#论文动机" class="headerlink" title="论文动机"></a>论文动机</h2><p>由于在弱监督中缺乏<strong>细粒度注释</strong>，现有工作主要采用localization-by-classification的方式进行训练，使用动作类别的<strong>视频级注释</strong>训练分类器，并用于获得<strong>时间类激活图（TCAM）</strong>。再通过阈值或定位分支等方式从TCAM获得检测结果。因此，TCAM的质量决定了模型的上限。但是，分类和定位之间通常存在差异，使得模型很容易将重点放在对视频级分类贡献最大的<strong>上下文背景</strong>或<strong>区分性片段上</strong>，阻碍生成高质量TCAM。</p>
+<p>因此有人提出了<strong>基于伪标签</strong>的方法来生成<strong>片段伪标签</strong>，以弥合分类和定位之间的差距。然而，现有方法都是使用每个片段中的信息来生成伪标签，这很难生成高</p>
+<p>质量的伪标签。</p>
+<p>在图1中，作者显示了两种方法的检测结果。第一种方法TSCN是一种基于伪标签的方法，而第二种方法STPN是一种不使用伪标签的简单基线模型。正如我们所看到的，即使TSCN和STPN相比获得了很大的增益，但这两种方法都没有成功地检测到橙色框中的困难动作实例，该框仅显示运动员的部分身体。显然，由不准确的TCAM生成的伪标签也不准确。相反，对于简单的例子，例如蓝色框中的一个，这两种方法都能准确地检测到它。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210529001.png" alt="image-20220730210529001"></p>
+<p>为此作者引入上下文信息来生成<strong>伪标签</strong>。具体来说，作者以视频内和视频间的方式传播这些代表性片段（图中的黑色和蓝色方框）的知识，以促进伪标签的生成，特别是对于那些困难的片段（图中的橙色方框）。</p>
+<p>作者提出了一个<strong>具有代表性的片段汇总和传播框架</strong>。作者的方法试图挖掘每个视频中的代表性片段，以便在视频片段之间传播信息，从而<strong>生成更好的伪标签</strong>。对于每个视频，以视频内和视频间的方式传播其自身的代表片段和来自存储库的代表片段以更新输入特征。伪标签是由更新特征的时间类激活映射生成，以纠正主分支的预测</p>
+<p>作者的方法概述 如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210725403.png" alt="image-20220730210725403"></p>
+<h2 id="Feature-extraction"><a href="#Feature-extraction" class="headerlink" title="Feature extraction"></a>Feature extraction</h2><p>给定一段视频，作者首先把它分为一些列不重叠片段。接下来，作者利用固定权重的backbone网络，在Kinetics-400数据集上预训练I3D模型，将外观（RGB）和运动（光流）信息编码为d=2048维特征。I3D特征通过卷积层编码到潜在嵌入F∈R^(l×d)中，其中l是视频的片段数。作者取F作为模型的输入。 </p>
+<h2 id="Classification-head"><a href="#Classification-head" class="headerlink" title="Classification head"></a>Classification head</h2><p>分类头用于生成TCAM，它可以是任何现有的WSTAL方法。为了生成高质量的TCAM并改进作者方法的下限，作者使用了最新的FAC-Net作为分类头（作者经过一定的修改），因为它具有简单的管道和良好的性能。</p>
+<h2 id="Representative-Snippet-Summarization"><a href="#Representative-Snippet-Summarization" class="headerlink" title="Representative Snippet Summarization"></a>Representative Snippet Summarization</h2><p>获得代表性片段的简单方法是选择<strong>预测得分高</strong>的片段，即<strong>辨别性片段</strong>。然而，如图所示，即使经过大规模的预训练，<strong>辨别性片段</strong>和同类别的其他片段之间的相似度通常较低。直观地说，代表性片段应该能够描述同一类的大多数片段，从而起到联系同一类片段进行知识传播的桥梁的作用。因此，将<strong>辨别性片段</strong>的信息直接传播到其他片段是无效的。</p>
+<p>作者提出对视频片段的表示方式进行总结，得到每个视频的<strong>辨别性片段</strong>。在图中，通过<strong>聚类</strong>视频片段特征（例如，k均值、谱聚类和凝聚聚类），使用聚类中心作为代表片段，取得了更好的性能。实验表明，使用聚类方法总结代表性片段对于提高高检测性能有重要意义。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210858240.png" alt="image-20220730210858240"></p>
+<p>在这项工作中，作者使用<strong>期望最大化（EM）注意力</strong>来生成每个视频的代表性片段。EM注意力使用基于高斯混合模型（GMM）的特殊EM算法。具体来说，采用分离的GMM来捕获每个视频的特征统计信息，并将$f_i\in \mathbb R^d$($F$的第$i$个片段特征)的分布建模为一个高斯线性组合，如下所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210940462.png" alt="image-20220730210940462"></p>
+<p>其中$n$为高斯函数的个数，$\mu<em>k\in\mathbb R^d,\sum_k\in\mathbb R^{d\times d},Z</em>{ik}$分别表示第$k$个高斯函数的均值、协方差矩阵和权重。作者用单位矩阵<strong>I</strong>替换了协方差，在后续的方程中去掉它。(其实这里的$\mu$是高斯函数的平均值，但是也可以理解为)</p>
+<p>如图（顶部）所示，EM注意力从随机初始化的均值$\mu^{(0)}\in\mathbb R^{n\times d}$开始。在第$t$次迭代中，首先执行E步骤，计算高斯的新权重$Z^{(t)}\in\mathbb R^{t\times n}$为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211006038.png" alt="image-20220730211006038"></p>
+<p>其中$\lambda$表示一个超参数，用于控制分布的平滑度。$Norm<em>2 (F)$沿F的每一行的$l2-norm$。softmax操作沿$Z$的每一行都执行。因此，$Z^{(t)}</em>{ik}$表示片段特征$f_i$由第k个高斯函数生成的概率。</p>
+<p>在E步骤之后，M步骤将平均值μ进行更新为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211054457.png" alt="image-20220730211054457"></p>
+<p>其中$Norm_1(Z^{(t)})$表示$Z^t $按照列进行$l_1$ 归一化。可以看到公式更新均值实验特征F的加权求和。归一化确保更新后的$\mu$与$F$位于相同的嵌入空间中。因此，交替执行上述两个等式以非局部但更有效的方式捕获视频的全局上下文，这是因为均值$\mu^{(t)}\in\mathbb R^{n\times d}$ 的尺寸比视频特征$F\in\mathbb R^{l\times d}(l&gt;&gt;n)$小的多。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211023456.png" alt="image-20220730211023456"></p>
+<p>作者在网络中集成了两个EM迭代，以获得有希望的代表性片段（即$\mu^{(2)}$ ）。作者通过标准反向传播更新初始化均值。此外，当作者用一个（半）正交矩阵初始化$\mu^{0}$时，即使<strong>固定了初始化的均值</strong>（即图中的EM-Att w/o BP），获得的代表性片段也比其他聚类方法的聚类中心更具代表性。当作者通过<strong>标准反向传播</strong>（即图中的EM-Att）更新初始均值$\mu^{0}$时，它们可以捕获数据集的特征分布并实现最佳性能。为了使方程清晰并避免混淆，我们将在线计算的代表性片段表示为$\mu^{(a)}$ 。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210858240.png" alt="image-20220730210858240"></p>
+<h2 id="Representative-Snippet-Memory-Bank"><a href="#Representative-Snippet-Memory-Bank" class="headerlink" title="Representative Snippet Memory Bank"></a>Representative Snippet Memory Bank</h2><p>在获得每个视频的代表性片段后，作者使用一个<strong>存储库</strong>来存储每个类的所有<strong>高置信度视频的代表片段</strong>。作者认为不同的视频可能包含相同的动作实例，但是具有不同的外观。因此，通过存储库以视频间的方式传播代表性片段，可以利用每个类的许多视频的巨大变化，帮助网络识别那些困难的动作实例。 </p>
+<p>具体来说，作者维护了两个记忆表，分别存储代表性片段的<strong>特征</strong>及其<strong>分数</strong>。我们将代表性片段的内存表表示为$M\in\mathbb R^{c\times s\times d}$，其中c是类的数量，s表示每个类的内存插槽（代表性片段）的数量。给定视频的代表性片段，作者利用分类头中的动作分类器来获得它们的类预测。然后，将它们真实类的预测分数与存储表M中的代表性片段进行比较，预测分数较高的片段被归档到存储表M。同时，分数存储表中的相应分数也被更新。总之，作者只将分数高的代表性片段保留在内存表中。为了区别于<strong>在线</strong>代表性片段$\mu^{(a)}$ ，将<strong>离线</strong>代表性片段表示为$\mu^{(e)}$ 。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730210725403.png" alt="image-20220730210725403"></p>
+<h2 id="Representative-Snippet-Propagation"><a href="#Representative-Snippet-Propagation" class="headerlink" title="Representative Snippet Propagation"></a>Representative Snippet Propagation</h2><p>给定在线和离线代表性片段$\mu^{(a)}$和$\mu^{(e)}$ ，一个挑战是如何将<strong>代表性片段</strong>传播到当前视频的片段特征F。直观地说，一种直接的方法是使用亲和力$Z^∗$(∗ 是a或e），进行随机游动操作作为$Z^∗ μ^∗$ 。 实际上，作者希望更新后的特征不会偏离视频特征F太远。因此，传播过程可以公式化为$F^∗=\omega⋅Z^∗ μ^∗+(1-\omega)⋅F$，其中$\omega$表示控制特征传播和原始特征之间权衡的参数。</p>
+<p>然而，即使代表性片段与同一类的大多数片段具有高度相似性，通过一次传播来完全传播代表性片段的知识也是不切实际的。作者发现，具有代表性的片段$\mu^<em>$和视频特征F实际上构成了一个完整的<strong>二部图</strong>，其亲和力由$Z^∗$表示。因此，作者提出了一个<em>*二部随机游走（BiRW）模块</em></em>，以实现多次传播，将代表性片段的知识完全融合到视频片段特征中。 </p>
+<p>BiRW中有多次迭代。在第$t$次迭代中，传播过程公式如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211322392.png" alt="image-20220730211322392"></p>
+<p>其中其中$F^{(0)}$和$\mu^{(0)}$分别是视频片段特征$F$和代表片段  。$\mu^{(a)}$和$\mu^{(e)}$如图（底部）所示，上述公式也可以被视为EM过程，它固定了亲和力$Z^*$交替更新$F$和$\mu^∗$  。因此，代表性片段不仅用于传播代表性知识，而且还作为桥梁在F的特征之间传播知识。由于其代表性，它们可以更好地在同一类的特征之间传播信息。这个过程可以多次进行，以充分融合代表性片段的知识。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211023456.png" alt="image-20220730211023456"></p>
+<p>为了避免展开计算图引起的梯度消失或爆炸，作者使用近似推理公式</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211354223.png" alt="image-20220730211354223"></p>
+<p>注意，我们使用等式（6）分别传播关于$\mu^{(a)}$和$\mu^{(e)}$的知识，而不是连接$\mu^{(a)}$和$\mu^{(e)}$来传播代表性片段。该设计目的是防止从F的同一视频中提取的在$\mu^{(a)}$传播中占主导地位。因此，在代表性片段传播后，我们分别获得更新的视频内特征$F^a$和更新的视频间特征$F^e$。 </p>
+<h2 id="Training-Objectives"><a href="#Training-Objectives" class="headerlink" title="Training Objectives"></a>Training Objectives</h2><p>给定原始视频片段特征$F$和更新后的特征$F^a,F^e$，我们将其输入三个具有共享参数的并行分类头，分别输出其TCAM $T$、$T^a$和$T^e$。对TCAMs进行加权求$T^a$和$T^e$和，获得包含视频内和视频间代表性片段知识的TCAM $T^f$。作者将$T^f$作为在线伪标签来监控TCAM $T$</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211430094.png" alt="image-20220730211430094"></p>
+<p>其中t是片段数。总损失是损失$L<em>{kd}$、三个分类头的视频分类损失$L</em>{cls}$和只应用于主分支的注意力归一化损失$L_{att}$的总和。 </p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220730211441366.png" alt="image-20220730211441366"></p>
+<p>其中α和β是平衡参数。 </p>
+<p>注意力归一化损失$L_{att}$在<a target="_blank" rel="noopener" href="https://bugcat9.github.io/2022/07/19/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/Two-Stream%20Consensus%20Network%20for%20Weakly-Supervised%20Temporal/">TSCN</a>中提到过</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/paper/image-20220719124601551.png" alt="image-20220719124601551"></p>
+<p><strong>参考：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/78311644">https://zhuanlan.zhihu.com/p/78311644</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%97%B6%E5%BA%8F%E5%8A%A8%E4%BD%9C%E5%AE%9A%E4%BD%8D/" rel="tag"><i class="fa fa-tag"></i> 时序动作定位</a>
+              <a href="/tags/%E5%BC%B1%E7%9B%91%E7%9D%A3/" rel="tag"><i class="fa fa-tag"></i> 弱监督</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/22/%E5%85%B6%E4%BB%96/python%E4%BD%BF%E7%94%A8opencv%E6%8F%90%E5%8F%96%E5%85%89%E6%B5%81/" rel="prev" title="python使用opencv提取光流">
+      <i class="fa fa-chevron-left"></i> python使用opencv提取光流
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/08/05/Linux/Linux%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="next" title="Linux网络中小知识点">
+      Linux网络中小知识点 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Weakly-Supervised-Temporal-Action-Localization-via-Representative-Snippet-Knowledge-Propagation"><span class="nav-number">1.</span> <span class="nav-text">Weakly Supervised Temporal Action Localization via Representative Snippet Knowledge Propagation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">文章简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E5%8A%A8%E6%9C%BA"><span class="nav-number">1.2.</span> <span class="nav-text">论文动机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Feature-extraction"><span class="nav-number">1.3.</span> <span class="nav-text">Feature extraction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Classification-head"><span class="nav-number">1.4.</span> <span class="nav-text">Classification head</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Representative-Snippet-Summarization"><span class="nav-number">1.5.</span> <span class="nav-text">Representative Snippet Summarization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Representative-Snippet-Memory-Bank"><span class="nav-number">1.6.</span> <span class="nav-text">Representative Snippet Memory Bank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Representative-Snippet-Propagation"><span class="nav-number">1.7.</span> <span class="nav-text">Representative Snippet Propagation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-Objectives"><span class="nav-number">1.8.</span> <span class="nav-text">Training Objectives</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">493k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : '590159d05789d854bb85e8b37f43d2a9',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>
