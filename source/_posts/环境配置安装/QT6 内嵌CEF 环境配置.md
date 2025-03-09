@@ -11,7 +11,7 @@ categories:
 最近开发一个项目，需要在Qt中使用CEF，记录一下相关的环境配置（Windows下）。
 
 需要的软件：Qt6、cmake、vs2022
-
+<!--more-->
 # CEF相关内容
 ## CEF下载
 下载地址：[https://cef-builds.spotifycdn.com/index.html](https://cef-builds.spotifycdn.com/index.html)
