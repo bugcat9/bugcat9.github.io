@@ -1,3 +1,11 @@
+---
+title: android studio使用
+date: 2021-05-20 23:13:23
+tags:
+categories:
+- 环境配置安装
+- android studio
+---
 ## 快捷键
 
 * https://developer.android.google.cn/studio/intro/keyboard-shortcuts?hl=zh-cn

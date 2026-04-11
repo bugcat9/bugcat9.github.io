@@ -1,3 +1,11 @@
+---
+title: java中String、StringBuffer、StringBuilder
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- java
+- 基础
+---
 # java中String、StringBuffer、StringBuilder
 
 **问题：String StringBuffer 和 StringBuilder 的区别是什么? String 为什么是不可变的?**

@@ -1,3 +1,10 @@
+---
+title: thymeleaf语法简单记录
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- springboot
+---
 # thymeleaf语法简单记录
 
 ## 简介

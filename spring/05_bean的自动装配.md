@@ -1,3 +1,10 @@
+---
+title: spring中bean的自动装配
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- spring
+---
 # spring中bean的自动装配
 
 ## 简介

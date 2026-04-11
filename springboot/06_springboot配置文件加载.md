@@ -1,3 +1,10 @@
+---
+title: springboot配置文件加载
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- springboot
+---
 # springboot配置文件加载
 
 ## 介绍

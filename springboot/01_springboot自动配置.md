@@ -1,3 +1,10 @@
+---
+title: springboot中自动配置笔记
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- springboot
+---
 # springboot中自动配置笔记
 
 ## 简介

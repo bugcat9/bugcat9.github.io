@@ -1,3 +1,10 @@
+---
+title: Spring配置文件
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- spring
+---
 
 
 # Spring配置文件

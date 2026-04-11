@@ -1,3 +1,11 @@
+---
+title: Android studio 下载安装
+date: 2021-05-20 23:13:23
+tags:
+categories:
+- 环境配置安装
+- android studio
+---
 # Android studio 下载安装
 
 ## java环境配置

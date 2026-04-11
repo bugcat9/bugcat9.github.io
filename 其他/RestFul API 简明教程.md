@@ -1,3 +1,10 @@
+---
+title: RestFul API 简明教程
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- 其他
+---
 ![bd4442aed16acafc54c7943d34abff0edadfa74c](https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-11/bd4442aed16acafc54c7943d34abff0edadfa74c.png)
 
 RESTful API 是每个程序员都应该了解并掌握的基本知识，我们在开发过程中设计 API 的时候也应该至少要满足 RESTful API 的最基本的要求（比如接口中尽量使用名词，使用 POST 请求创建资源，DELETE 请求删除资源等等，示例：`GET /notes/id`：获取某个指定 id 的笔记的信息）。

@@ -1,3 +1,10 @@
+---
+title: "springboot中@PropertySource、@ImportResource、@Bean"
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- springboot
+---
 # springboot中@PropertySource、@ImportResource、@Bean
 
 ## 介绍

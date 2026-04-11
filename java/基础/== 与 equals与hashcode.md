@@ -1,3 +1,11 @@
+---
+title: java中==、equals、hashCode
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- java
+- 基础
+---
 # java中==、equals、hashCode
 
 ## 1、== 与 equals

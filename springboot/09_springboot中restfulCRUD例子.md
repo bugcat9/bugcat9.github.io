@@ -1,3 +1,10 @@
+---
+title: springboot中restfulCRUD例子
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- springboot
+---
 # springboot中restfulCRUD例子
 
 ## 简介

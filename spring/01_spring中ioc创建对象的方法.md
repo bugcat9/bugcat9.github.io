@@ -1,3 +1,10 @@
+---
+title: spring中ioc创建对象的方法
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- spring
+---
 # spring中ioc创建对象的方法
 
 ## 介绍

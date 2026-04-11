@@ -1,3 +1,10 @@
+---
+title: yaml语法介绍
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- springboot
+---
 # yaml语法介绍
 
 # 一、基本语法

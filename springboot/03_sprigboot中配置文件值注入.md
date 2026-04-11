@@ -1,3 +1,10 @@
+---
+title: sprigboot中配置文件值注入
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- springboot
+---
 # sprigboot中配置文件值注入
 
 # 介绍

@@ -1,3 +1,11 @@
+---
+title: java中的代理
+date: 2021-05-20 10:26:53
+tags:
+categories:
+- java
+- 基础
+---
 # java中的代理
 
 ## 简介
