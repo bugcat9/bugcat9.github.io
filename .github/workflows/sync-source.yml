@@ -1,0 +1,40 @@
+name: Sync Source Branch
+
+on:
+  push:
+    branches:
+      - hexo
+    paths:
+      - 'source/_posts/**'
+      - 'tools/sync-source-branch.js'
+      - '.github/workflows/sync-source.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-source:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+      - name: Checkout hexo branch
+        uses: actions/checkout@v4
+        with:
+          ref: hexo
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Prepare git identity
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git fetch origin source:source || true
+
+      - name: Sync posts to source branch
+        run: npm run sync:source -- --push

@@ -6,7 +6,11 @@
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
-    "server": "hexo server"
+    "server": "hexo server",
+    "sync:source": "node tools/sync-source-branch.js",
+    "audit:source": "node tools/import-source-only-posts.js",
+    "import:source-only": "node tools/import-source-only-posts.js --apply",
+    "fix:frontmatter": "node tools/fix-post-frontmatter.js --apply"
   },
   "hexo": {
     "version": "5.4.0"
