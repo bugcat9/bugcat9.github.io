@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本次实习因为写java界面，有一个自定义对话框的需求，在网上查了一些才发现了一种方法，所以记录一下。具体需求类似于这样：按下一个按钮弹出一个输入界面，输入行李的长宽高，然后进行显示。需求很简单，最重要的是信息在两个界面之间传递。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java自定义对话框弹出">
+<meta property="og:url" content="https://bugcat.top/2020/04/12/java/%E5%9F%BA%E7%A1%80/java%E5%87%A0%E7%A7%8D%E5%AF%B9%E8%AF%9D%E6%A1%86/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="本次实习因为写java界面，有一个自定义对话框的需求，在网上查了一些才发现了一种方法，所以记录一下。具体需求类似于这样：按下一个按钮弹出一个输入界面，输入行李的长宽高，然后进行显示。需求很简单，最重要的是信息在两个界面之间传递。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/对话框1.png">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/对话框2.png">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/对话框3.png">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/普通对话框.jpg">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/警告提示框.png">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/错误提示框.png">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/最基本提示框.png">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/确认对话框.png">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/自定义选择提示对话框.png">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/下拉框对话框.png">
+<meta property="og:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/输入框对话框.png">
+<meta property="article:published_time" content="2020-04-12T18:19:26.000Z">
+<meta property="article:modified_time" content="2026-04-11T05:09:04.529Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/ning_zhou/BlogImage/raw/master/java/对话框1.png">
+
+<link rel="canonical" href="https://bugcat.top/2020/04/12/java/%E5%9F%BA%E7%A1%80/java%E5%87%A0%E7%A7%8D%E5%AF%B9%E8%AF%9D%E6%A1%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>java自定义对话框弹出 | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2020/04/12/java/%E5%9F%BA%E7%A1%80/java%E5%87%A0%E7%A7%8D%E5%AF%B9%E8%AF%9D%E6%A1%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java自定义对话框弹出
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-12 18:19:26" itemprop="dateCreated datePublished" datetime="2020-04-12T18:19:26+00:00">2020-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- # java自定义对话框弹出 -->
+<blockquote>
+<p>本次实习因为写java界面，有一个自定义对话框的需求，在网上查了一些才发现了一种方法，所以记录一下。具体需求类似于这样：按下一个按钮弹出一个输入界面，输入行李的长宽高，然后进行显示。需求很简单，最重要的是信息在两个界面之间传递。<br><span id="more"></span></p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2></blockquote>
+<p>具体实现只讲比较重要的一些部分</p>
+<ol>
+<li>编写界面继承自<code>JDialog</code></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaggageGUI</span> <span class="keyword">extends</span> <span class="title">JDialog</span>  <span class="keyword">implements</span> <span class="title">ActionListener</span></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    JTextField LengthField = <span class="keyword">new</span> JTextField();    <span class="comment">//长</span></span><br><span class="line">    JTextField WidthField = <span class="keyword">new</span> JTextField();    <span class="comment">//宽</span></span><br><span class="line">    JTextField HeighField = <span class="keyword">new</span> JTextField();    <span class="comment">//高</span></span><br><span class="line">    JTextField WeightField = <span class="keyword">new</span> JTextField();    <span class="comment">//重</span></span><br><span class="line">    JButton  addbtu =<span class="keyword">new</span> JButton(<span class="string">&quot;确定添加&quot;</span>);</span><br><span class="line">	</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Baggage <span class="title">getBaggage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> baggage;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Baggage baggage;	<span class="comment">//自定义的一个类，里面有长宽高重这四个字段</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaggageGUI</span><span class="params">()</span>  </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.setTitle(<span class="string">&quot;普通行李&quot;</span>);</span><br><span class="line">        <span class="keyword">this</span>.setSize(<span class="number">400</span>, <span class="number">250</span>);</span><br><span class="line">        init();</span><br><span class="line">        <span class="keyword">this</span>.setLayout(<span class="keyword">null</span>);</span><br><span class="line"><span class="comment">//        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);</span></span><br><span class="line"><span class="comment">//        this.setVisible(true);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        JLabel jl1 = <span class="keyword">new</span> JLabel(<span class="string">&quot;长:&quot;</span>);<span class="comment">//jl1.setOpaque(true);jl1.setBackground(Color.GREEN);</span></span><br><span class="line">        JLabel jl2 = <span class="keyword">new</span> JLabel(<span class="string">&quot;宽:&quot;</span>);</span><br><span class="line">        JLabel jl3 = <span class="keyword">new</span> JLabel(<span class="string">&quot;高:&quot;</span>);</span><br><span class="line">        JLabel jl4 = <span class="keyword">new</span> JLabel(<span class="string">&quot;重:&quot;</span>);</span><br><span class="line">        jl1.setBounds(<span class="number">10</span>, <span class="number">10</span>, <span class="number">50</span>, <span class="number">25</span>);LengthField.setBounds(<span class="number">100</span>,<span class="number">10</span>,<span class="number">200</span>,<span class="number">30</span>);</span><br><span class="line">        jl2.setBounds(<span class="number">10</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">25</span>);WidthField.setBounds(<span class="number">100</span>,<span class="number">50</span>,<span class="number">200</span>,<span class="number">30</span>);</span><br><span class="line">        jl3.setBounds(<span class="number">10</span>, <span class="number">90</span>, <span class="number">50</span>, <span class="number">25</span>);HeighField.setBounds(<span class="number">100</span>,<span class="number">90</span>,<span class="number">200</span>,<span class="number">30</span>);</span><br><span class="line">        jl4.setBounds(<span class="number">10</span>, <span class="number">130</span>, <span class="number">50</span>, <span class="number">25</span>);WeightField.setBounds(<span class="number">100</span>,<span class="number">130</span>,<span class="number">200</span>,<span class="number">30</span>);</span><br><span class="line">        addbtu.setBounds(<span class="number">50</span>, <span class="number">170</span>, <span class="number">300</span>, <span class="number">30</span>);</span><br><span class="line">        <span class="keyword">this</span>.add(jl1);</span><br><span class="line">        <span class="keyword">this</span>.add(jl2);</span><br><span class="line">        <span class="keyword">this</span>.add(jl3);</span><br><span class="line">        <span class="keyword">this</span>.add(jl4);</span><br><span class="line">        <span class="keyword">this</span>.add(LengthField);</span><br><span class="line">        <span class="keyword">this</span>.add(WidthField);</span><br><span class="line">        <span class="keyword">this</span>.add(HeighField);</span><br><span class="line">        <span class="keyword">this</span>.add(WeightField);</span><br><span class="line">        <span class="keyword">this</span>.add(addbtu);</span><br><span class="line"></span><br><span class="line">        addbtu.addActionListener(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">actionPerformed</span><span class="params">(ActionEvent e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">float</span> length = Float.valueOf(LengthField.getText());</span><br><span class="line">        <span class="keyword">float</span> width = Float.valueOf(WidthField.getText());</span><br><span class="line">        <span class="keyword">float</span> heigh = Float.valueOf(HeighField.getText());</span><br><span class="line">        <span class="keyword">float</span> weight = Float.valueOf(WeightField.getText());</span><br><span class="line">        baggage = <span class="keyword">new</span> Baggage(width, heigh,length , weight);</span><br><span class="line">        System.out.println(baggage);</span><br><span class="line">        <span class="keyword">this</span>.setVisible(<span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol>
+<li>在主界面当中创建该界面的引用，并设置<code>setModal()</code>函数</li>
+</ol>
+<p>如：我的主界面是<code>CalculatorGUI</code>,在<code>CalculatorGUI</code>当中我设置一个<code>BaggageGUI</code>的引用，q</p>
+<p>说是子窗口也行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BaggageGUI baggageGUI = <span class="keyword">new</span> BaggageGUI();</span><br></pre></td></tr></table></figure>
+<p>然后在构造<code>CalculatorGUI</code>的时候调用<code>baggageGUI</code>的<code>setModal()</code>函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">baggageGUI.setVisible(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+<p>该函数的作用为设置对话框为<strong>”模态“</strong>，模态对话框，关闭当前对话框前，无法操作其他窗口，这样可以阻塞主对话框，让我在对<code>baggageGUI</code>输入后，再变成运行状态，然后可以顺利取得我设置的行李。</p>
+<ol>
+<li>在按钮按下事件当中调用<code>baggageGUI</code>,让其显示</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">addBagBut.addActionListener(<span class="keyword">new</span> ActionListener()&#123;</span><br><span class="line"></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">actionPerformed</span><span class="params">(ActionEvent e)</span> </span>&#123;</span><br><span class="line">               baggageGUI.setVisible(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">               Baggage baggage = baggageGUI.getBaggage();</span><br><span class="line"></span><br><span class="line">               bagInfo.append(baggage.toString());</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="显示效果"><a href="#显示效果" class="headerlink" title="显示效果"></a>显示效果</h2><p>主界面：</p>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/对话框1.png" alt="对话框1" style="zoom:80%;" /></p>
+<p><code>BaggageGUI</code>界面：</p>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/对话框2.png" alt="对话框2" style="zoom:80%;" /></p>
+<p>添加之后：</p>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/对话框3.png" alt="对话框3" style="zoom:80%;" /></p>
+<h2 id="补充java的对话框使用"><a href="#补充java的对话框使用" class="headerlink" title="补充java的对话框使用"></a>补充java的对话框使用</h2><p><strong>这部分是转载别人的博客</strong>，<a target="_blank" rel="noopener" href="https://blog.csdn.net/qs17809259715/article/details/88062414">原博客这里</a></p>
+<ol>
+<li>showMessageDialog(只显示一个确定按钮的对话框)</li>
+</ol>
+<ul>
+<li>普通对话框Java代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JOptionPane.showMessageDialog(<span class="keyword">null</span>, <span class="string">&quot;普通对话框&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/普通对话框.jpg" alt="普通对话框"></p>
+<ul>
+<li>警告提示框Java代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JOptionPane.showMessageDialog(<span class="keyword">null</span>, <span class="string">&quot;警告提示框&quot;</span>, <span class="string">&quot;Title&quot;</span>,JOptionPane.WARNING_MESSAGE);</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/警告提示框.png" alt="警告提示框"></p>
+<ul>
+<li>错误提示框Java代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JOptionPane.showMessageDialog(<span class="keyword">null</span>, <span class="string">&quot;错误提示框&quot;</span>, <span class="string">&quot;Title&quot;</span>,JOptionPane.ERROR_MESSAGE);</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/错误提示框.png" alt="错误提示框"></p>
+<ul>
+<li>基本提示框java代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JOptionPane.showMessageDialog(<span class="keyword">null</span>, <span class="string">&quot;最基本提示框&quot;</span>, <span class="string">&quot;Title&quot;</span>,JOptionPane.PLAIN_MESSAGE);</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/最基本提示框.png" alt="最基本提示框"></p>
+<ol>
+<li>showConfirmDialog（确认对话框，对话框的按钮通常为：“是”、“否”、“取消”和“确认”及其组合）。</li>
+</ol>
+<ul>
+<li>“是” “否”对话框Java代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n = JOptionPane.showConfirmDialog(<span class="keyword">null</span>, <span class="string">&quot;你是否喜欢Java？&quot;</span>, <span class="string">&quot;Title&quot;</span>,JOptionPane.YES_NO_OPTION); </span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/确认对话框.png" alt="确认对话框"></p>
+<ol>
+<li>showOptionDialog(自定义选择提示对话框)</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object[] options =&#123; <span class="string">&quot;喜欢&quot;</span>, <span class="string">&quot;不喜欢&quot;</span> &#125;;  <span class="comment">//自定义按钮上的文字</span></span><br><span class="line"><span class="keyword">int</span> m = JOptionPane.showOptionDialog(<span class="keyword">null</span>, <span class="string">&quot;你喜欢这篇博客吗？&quot;</span>, <span class="string">&quot;Title&quot;</span>,JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, <span class="keyword">null</span>, options, options[<span class="number">0</span>]); </span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/自定义选择提示对话框.png" alt="自定义选择提示对话框"></p>
+<ol>
+<li>showInputDialog（下拉框或者输入框）</li>
+</ol>
+<ul>
+<li>下拉框Java代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object[] options =&#123; <span class="string">&quot;苹果&quot;</span>, <span class="string">&quot;橘子&quot;</span>, <span class="string">&quot;香蕉&quot;</span> &#125;;  </span><br><span class="line">String s = (String) JOptionPane.showInputDialog(<span class="keyword">null</span>,<span class="string">&quot;请选择你喜欢吃的水果:\n&quot;</span>, <span class="string">&quot;水果&quot;</span>, JOptionPane.PLAIN_MESSAGE, <span class="keyword">new</span> ImageIcon(<span class="string">&quot;xx.png&quot;</span>), options, <span class="string">&quot;xx&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/下拉框对话框.png" alt="下拉框对话框"></p>
+<ul>
+<li>输入框Java代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JOptionPane.showInputDialog(<span class="keyword">null</span>,<span class="string">&quot; Please input：\n&quot;</span>,<span class="string">&quot;title&quot;</span>,JOptionPane.PLAIN_MESSAGE);</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/输入框对话框.png" alt="输入框对话框"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>写了一下java对话框相关的内容，用java写界面其实用的不多，但是有备无患记录一下。</p>
+<p><strong>转载</strong>：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qs17809259715/article/details/88062414">https://blog.csdn.net/qs17809259715/article/details/88062414</a></p>
+<p><strong>参考</strong>：<a target="_blank" rel="noopener" href="https://blog.csdn.net/ayangann915/article/details/80410788">https://blog.csdn.net/ayangann915/article/details/80410788</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/02/java/%E5%9F%BA%E7%A1%80/io/io3/" rel="prev" title="java中IO（三）：内存流简单讲解">
+      <i class="fa fa-chevron-left"></i> java中IO（三）：内存流简单讲解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/20/java/%E5%9F%BA%E7%A1%80/io/io2/" rel="next" title="io2">
+      io2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">具体实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E6%95%88%E6%9E%9C"><span class="nav-number">2.</span> <span class="nav-text">显示效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E5%85%85java%E7%9A%84%E5%AF%B9%E8%AF%9D%E6%A1%86%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">补充java的对话框使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">811k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">12:17</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : 'a3ee927e7ed5221674e3955d4cc4cb86',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="RESTful API 是每个程序员都应该了解并掌握的基本知识，我们在开发过程中设计 API 的时候也应该至少要满足 RESTful API 的最基本的要求（比如接口中尽量使用名词，使用 POST 请求创建资源，DELETE 请求删除资源等等，示例：GET &#x2F;notes&#x2F;id：获取某个指定 id 的笔记的信息）。 如果你看 RESTful API 相关的文章的话一般都比较晦涩难懂，包括我下面的文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RestFul API 简明教程">
+<meta property="og:url" content="https://bugcat.top/2021/05/20/%E5%85%B6%E4%BB%96/RestFul%20API%20%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="RESTful API 是每个程序员都应该了解并掌握的基本知识，我们在开发过程中设计 API 的时候也应该至少要满足 RESTful API 的最基本的要求（比如接口中尽量使用名词，使用 POST 请求创建资源，DELETE 请求删除资源等等，示例：GET &#x2F;notes&#x2F;id：获取某个指定 id 的笔记的信息）。 如果你看 RESTful API 相关的文章的话一般都比较晦涩难懂，包括我下面的文">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-11/bd4442aed16acafc54c7943d34abff0edadfa74c.png">
+<meta property="article:published_time" content="2021-05-20T10:26:53.000Z">
+<meta property="article:modified_time" content="2026-04-11T05:09:04.531Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="C++ python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-11/bd4442aed16acafc54c7943d34abff0edadfa74c.png">
+
+<link rel="canonical" href="https://bugcat.top/2021/05/20/%E5%85%B6%E4%BB%96/RestFul%20API%20%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RestFul API 简明教程 | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/05/20/%E5%85%B6%E4%BB%96/RestFul%20API%20%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RestFul API 简明教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 10:26:53" itemprop="dateCreated datePublished" datetime="2021-05-20T10:26:53+00:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-11/bd4442aed16acafc54c7943d34abff0edadfa74c.png" alt="bd4442aed16acafc54c7943d34abff0edadfa74c"></p>
+<p>RESTful API 是每个程序员都应该了解并掌握的基本知识，我们在开发过程中设计 API 的时候也应该至少要满足 RESTful API 的最基本的要求（比如接口中尽量使用名词，使用 POST 请求创建资源，DELETE 请求删除资源等等，示例：<code>GET /notes/id</code>：获取某个指定 id 的笔记的信息）。</p>
+<p>如果你看 RESTful API 相关的文章的话一般都比较晦涩难懂，包括我下面的文章也会提到一些概念性的东西。但是，实际上我们平时开发用到的 RESTful API 的知识非常简单也很容易概括！举个例子,如果我给你下面两个 url 你是不是立马能知道它们是干什么的！这就是 RESTful API 的强大之处！</p>
+<p><strong>RESTful API 可以你看到 url + http method 就知道这个 url 是干什么的，让你看到了 http 状态码（status code）就知道请求结果如何。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET    /classes：列出所有班级</span><br><span class="line">POST   /classes：新建一个班级</span><br></pre></td></tr></table></figure>
+<p>下面的内容只是介绍了我觉得关于 RESTful API 比较重要的一些东西，欢迎补充。</p>
+<h3 id="一、重要概念"><a href="#一、重要概念" class="headerlink" title="一、重要概念"></a>一、重要概念</h3><p>REST,即 <strong>REpresentational State Transfer</strong> 的缩写。这个词组的翻译过来就是”表现层状态转化”。这样理解起来甚是晦涩，实际上 REST 的全称是 <strong>Resource Representational State Transfe</strong> ，直白地翻译过来就是 <strong>“资源”在网络传输中以某种“表现形式”进行“状态转移”</strong> 。如果还是不能继续理解，请继续往下看，相信下面的讲解一定能让你理解到底啥是 REST 。</p>
+<p>我们分别对上面涉及到的概念进行解读，以便加深理解，不过实际上你不需要搞懂下面这些概念，也能看懂我下一部分要介绍到的内容。不过，为了更好地能跟别人扯扯 “RESTful API”我建议你还是要好好理解一下！</p>
+<ul>
+<li><strong>资源（Resource）</strong> ：我们可以把真实的对象数据称为资源。一个资源既可以是一个集合，也可以是单个个体。比如我们的班级 classes 是代表一个集合形式的资源，而特定的 class 代表单个个体资源。每一种资源都有特定的 URI（统一资源定位符）与之对应，如果我们需要获取这个资源，访问这个 URI 就可以了，比如获取特定的班级：<code>/class/12</code>。另外，资源也可以包含子资源，比如 <code>/classes/classId/teachers</code>：列出某个指定班级的所有老师的信息</li>
+<li><strong>表现形式（Representational）</strong>：”资源”是一种信息实体，它可以有多种外在表现形式。我们把”资源”具体呈现出来的形式比如 json，xml，image,txt 等等叫做它的”表现层/表现形式”。</li>
+<li><strong>状态转移（State Transfer）</strong> ：大家第一眼看到这个词语一定会很懵逼？内心 BB：这尼玛是啥啊？ 大白话来说 REST 中的状态转移更多地描述的服务器端资源的状态，比如你通过增删改查（通过 HTTP 动词实现）引起资源状态的改变。ps:互联网通信协议 HTTP 协议，是一个无状态协议，所有的资源状态都保存在服务器端。</li>
+</ul>
+<p>综合上面的解释，我们总结一下什么是 RESTful 架构：</p>
+<ol>
+<li>每一个 URI 代表一种资源；</li>
+<li>客户端和服务器之间，传递这种资源的某种表现形式比如 json，xml，image,txt 等等；</li>
+<li>客户端通过特定的 HTTP 动词，对服务器端资源进行操作，实现”表现层状态转化”。</li>
+</ol>
+<h3 id="二、REST-接口规范"><a href="#二、REST-接口规范" class="headerlink" title="二、REST 接口规范"></a>二、REST 接口规范</h3><h4 id="1、动作"><a href="#1、动作" class="headerlink" title="1、动作"></a>1、动作</h4><ul>
+<li>GET ：请求从服务器获取特定资源。举个例子：<code>GET /classes</code>（获取所有班级）</li>
+<li>POST ：在服务器上创建一个新的资源。举个例子：<code>POST /classes</code>（创建班级）</li>
+<li>PUT ：更新服务器上的资源（客户端提供更新后的整个资源）。举个例子：<code>PUT /classes/12</code>（更新编号为 12 的班级）</li>
+<li>DELETE ：从服务器删除特定的资源。举个例子：<code>DELETE /classes/12</code>（删除编号为 12 的班级）</li>
+<li>PATCH ：更新服务器上的资源（客户端提供更改的属性，可以看做作是部分更新），使用的比较少，这里就不举例子了。</li>
+</ul>
+<h4 id="2、路径（接口命名）"><a href="#2、路径（接口命名）" class="headerlink" title="2、路径（接口命名）"></a>2、路径（接口命名）</h4><p>路径又称”终点”（endpoint），表示 API 的具体网址。实际开发中常见的规范如下：</p>
+<ol>
+<li><strong>网址中不能有动词，只能有名词，API 中的名词也应该使用复数。</strong> 因为 REST 中的资源往往和数据库中的表对应，而数据库中的表都是同种记录的”集合”（collection）。<strong>如果 API 调用并不涉及资源（如计算，翻译等操作）的话，可以用动词。</strong> 比如：<code>GET /calculate?param1=11&amp;param2=33</code></li>
+<li>不用大写字母，建议用中杠 - 不用下杠 _ 比如邀请码写成 <code>invitation-code</code>而不是 <del>invitation_code</del></li>
+</ol>
+<p>Talk is cheap！来举个实际的例子来说明一下吧！现在有这样一个 API 提供班级（class）的信息，还包括班级中的学生和教师的信息，则它的路径应该设计成下面这样。</p>
+<p><strong>接口尽量使用名词，禁止使用动词。</strong> 下面是一些例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET    /classes：列出所有班级</span><br><span class="line">POST   /classes：新建一个班级</span><br><span class="line">GET    /classes/classId：获取某个指定班级的信息</span><br><span class="line">PUT    /classes/classId：更新某个指定班级的信息（一般倾向整体更新）</span><br><span class="line">PATCH  /classes/classId：更新某个指定班级的信息（一般倾向部分更新）</span><br><span class="line">DELETE /classes/classId：删除某个班级</span><br><span class="line">GET    /classes/classId/teachers：列出某个指定班级的所有老师的信息</span><br><span class="line">GET    /classes/classId/students：列出某个指定班级的所有学生的信息</span><br><span class="line">DELETE classes/classId/teachers/ID：删除某个指定班级下的指定的老师的信息</span><br></pre></td></tr></table></figure>
+<p>反例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/getAllclasses</span><br><span class="line">/createNewclass</span><br><span class="line">/deleteAllActiveclasses</span><br></pre></td></tr></table></figure>
+<p>理清资源的层次结构，比如业务针对的范围是学校，那么学校会是一级资源:<code>/schools</code>，老师: <code>/schools/teachers</code>，学生: <code>/schools/students</code> 就是二级资源。</p>
+<h4 id="3、过滤信息（Filtering）"><a href="#3、过滤信息（Filtering）" class="headerlink" title="3、过滤信息（Filtering）"></a>3、过滤信息（Filtering）</h4><p>如果我们在查询的时候需要添加特定条件的话，建议使用 url 参数的形式。比如我们要查询 state 状态为 active 并且 name 为 guidegege 的班级：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET    /classes?state=active&amp;name=guidegege</span><br></pre></td></tr></table></figure>
+<p>比如我们要实现分页查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET    /classes?page=1&amp;size=10 //指定第1页，每页10个数据</span><br></pre></td></tr></table></figure>
+<h4 id="4、状态码（Status-Codes）"><a href="#4、状态码（Status-Codes）" class="headerlink" title="4、状态码（Status Codes）"></a>4、状态码（Status Codes）</h4><p><strong>状态码范围：</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>2xx：成功</th>
+<th>3xx：重定向</th>
+<th>4xx：客户端错误</th>
+<th>5xx：服务器错误</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200 成功</td>
+<td>301 永久重定向</td>
+<td>400 错误请求</td>
+<td>500 服务器错误</td>
+</tr>
+<tr>
+<td>201 创建</td>
+<td>304 资源未修改</td>
+<td>401 未授权</td>
+<td>502 网关错误</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>403 禁止访问</td>
+<td>504 网关超时</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>404 未找到</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>405 请求方法不对</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="三-HATEOAS"><a href="#三-HATEOAS" class="headerlink" title="三 HATEOAS"></a>三 HATEOAS</h3><blockquote>
+<p><strong>RESTful 的极致是 hateoas ，但是这个基本不会在实际项目中用到。</strong></p>
+</blockquote>
+<p>上面是 RESTful API 最基本的东西，也是我们平时开发过程中最容易实践到的。实际上，RESTful API 最好做到 Hypermedia，即返回结果中提供链接，连向其他 API 方法，使得用户不查文档，也知道下一步应该做什么。</p>
+<p>比如，当用户向 api.example.com 的根目录发出请求，会得到这样一个文档。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;link&quot;: &#123;</span><br><span class="line">  &quot;rel&quot;:   &quot;collection https://www.example.com/classes&quot;,</span><br><span class="line">  &quot;href&quot;:  &quot;https://api.example.com/classes&quot;,</span><br><span class="line">  &quot;title&quot;: &quot;List of classes&quot;,</span><br><span class="line">  &quot;type&quot;:  &quot;application/vnd.yourformat+json&quot;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码表示，文档中有一个 link 属性，用户读取这个属性就知道下一步该调用什么 API 了。rel 表示这个 API 与当前网址的关系（collection 关系，并给出该 collection 的网址），href 表示 API 的路径，title 表示 API 的标题，type 表示返回类型 Hypermedia API 的设计被称为<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/HATEOAS">HATEOAS</a>。</p>
+<p>在 Spring 中有一个叫做 HATEOAS 的 API 库，通过它我们可以更轻松的创建除符合 HATEOAS 设计的 API。</p>
+<p><strong>转载自：</strong><a target="_blank" rel="noopener" href="https://gitee.com/SnailClimb/JavaGuide/blob/master/docs/system-design/restful-api.md">https://gitee.com/SnailClimb/JavaGuide/blob/master/docs/system-design/restful-api.md</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/20/%E5%85%B6%E4%BB%96/git%E5%AD%A6%E4%B9%A0/" rel="prev" title="git学习">
+      <i class="fa fa-chevron-left"></i> git学习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/20/springboot/13_springboot%E5%92%8Cjdbc/" rel="next" title="springboot当中整合Druid">
+      springboot当中整合Druid <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">一、重要概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81REST-%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83"><span class="nav-number">2.</span> <span class="nav-text">二、REST 接口规范</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%8A%A8%E4%BD%9C"><span class="nav-number">2.1.</span> <span class="nav-text">1、动作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E8%B7%AF%E5%BE%84%EF%BC%88%E6%8E%A5%E5%8F%A3%E5%91%BD%E5%90%8D%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">2、路径（接口命名）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E8%BF%87%E6%BB%A4%E4%BF%A1%E6%81%AF%EF%BC%88Filtering%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">3、过滤信息（Filtering）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%81%EF%BC%88Status-Codes%EF%BC%89"><span class="nav-number">2.4.</span> <span class="nav-text">4、状态码（Status Codes）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89-HATEOAS"><span class="nav-number">3.</span> <span class="nav-text">三 HATEOAS</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">811k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">12:17</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : '99ae29d11050d0413c86510f99a7398a',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

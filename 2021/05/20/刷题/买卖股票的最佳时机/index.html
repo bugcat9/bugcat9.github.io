@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="买卖股票的最佳时机121.买卖股票的最佳时机题目描述给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。 如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。 注意：你不能在买入股票前卖出股票。 示例 1: 1234输入: [7,1,5,3,6,4]输出: 5解释: 在第 2 天（股票价格 &#x3D; 1）的时候买入，在第 5 天（股票价格 &#x3D; 6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="买卖股票的最佳时机">
+<meta property="og:url" content="https://bugcat.top/2021/05/20/%E5%88%B7%E9%A2%98/%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="买卖股票的最佳时机121.买卖股票的最佳时机题目描述给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。 如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。 注意：你不能在买入股票前卖出股票。 示例 1: 1234输入: [7,1,5,3,6,4]输出: 5解释: 在第 2 天（股票价格 &#x3D; 1）的时候买入，在第 5 天（股票价格 &#x3D; 6">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/zhou-ning/BlogImage/raw/master/刷题/d447f96d20d1cfded20a5d08993b3658ed08e295ecc9aea300ad5e3f4466e0fe-file_1555699515174.png">
+<meta property="og:image" content="https://gitee.com/zhou-ning/BlogImage/raw/master/刷题/041a4d01398359409ecc69dacc13a44d179dd1a2a9f43b1def80e9a6acceee55-image.png">
+<meta property="article:published_time" content="2021-05-20T10:26:53.000Z">
+<meta property="article:modified_time" content="2026-04-11T05:09:04.532Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="C++ python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zhou-ning/BlogImage/raw/master/刷题/d447f96d20d1cfded20a5d08993b3658ed08e295ecc9aea300ad5e3f4466e0fe-file_1555699515174.png">
+
+<link rel="canonical" href="https://bugcat.top/2021/05/20/%E5%88%B7%E9%A2%98/%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>买卖股票的最佳时机 | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/05/20/%E5%88%B7%E9%A2%98/%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          买卖股票的最佳时机
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 10:26:53" itemprop="dateCreated datePublished" datetime="2021-05-20T10:26:53+00:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="买卖股票的最佳时机"><a href="#买卖股票的最佳时机" class="headerlink" title="买卖股票的最佳时机"></a>买卖股票的最佳时机</h1><h2 id="121-买卖股票的最佳时机"><a href="#121-买卖股票的最佳时机" class="headerlink" title="121.买卖股票的最佳时机"></a>121.买卖股票的最佳时机</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
+<p>如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。</p>
+<p>注意：你不能在买入股票前卖出股票。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: [7,1,5,3,6,4]</span><br><span class="line">输出: 5</span><br><span class="line">解释: 在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。</span><br><span class="line">     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [7,6,4,3,1]</span><br><span class="line">输出: 0</span><br><span class="line">解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。</span><br></pre></td></tr></table></figure>
+<p>来源：力扣（LeetCode）<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock">https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>这里只能进行一次交易，那我们选择相对来说差距最大的两个才行，有一种动态规划的思想在里面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(prices==<span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> minPrice = Integer.MAX_VALUE;</span><br><span class="line">        <span class="keyword">int</span> maxNum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">            </span><br><span class="line">            minPrice = Math.min(minPrice, prices[i]);</span><br><span class="line">            maxNum = Math.max(maxNum, prices[i]-minPrice);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxNum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="122-买卖股票的最佳时机II"><a href="#122-买卖股票的最佳时机II" class="headerlink" title="122.买卖股票的最佳时机II"></a>122.买卖股票的最佳时机II</h2><h3 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
+<p>设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。</p>
+<p><strong>注意：</strong>你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: [7,1,5,3,6,4]</span><br><span class="line">输出: 7</span><br><span class="line">解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。</span><br><span class="line">     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入: [1,2,3,4,5]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。</span><br><span class="line">     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。</span><br><span class="line">     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [7,6,4,3,1]</span><br><span class="line">输出: 0</span><br><span class="line">解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。</span><br></pre></td></tr></table></figure>
+<p>提示：</p>
+<ul>
+<li>1 &lt;= prices.length &lt;= 3 * 10 ^ 4</li>
+<li>0 &lt;= prices[i] &lt;= 10 ^ 4</li>
+</ul>
+<p>来源：力扣（LeetCode）<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii">https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><p>可以进行多次股票买卖</p>
+<p>思想一：贪心，贪心算法的决策是：<strong>只加正数</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> profit = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (prices[i] &gt; prices[i -<span class="number">1</span>]) &#123;</span><br><span class="line">                profit  = profit + prices[i] - prices[i - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;    </span><br><span class="line">        <span class="keyword">return</span> profit;    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>思想二：峰谷法</p>
+<p>假设给定的数组为：</p>
+<p>[7, 1, 5, 3, 6, 4]</p>
+<p>如果我们在图表上绘制给定数组中的数字，我们将会得到：</p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/刷题/d447f96d20d1cfded20a5d08993b3658ed08e295ecc9aea300ad5e3f4466e0fe-file_1555699515174.png" alt=""></p>
+<p>如果我们分析图表，那么我们的兴趣点是连续的峰和谷。</p>
+<p>其实最大值就算波峰剪对应的波谷的累加，其实用单调栈也是同样可以做出来，思想类似</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> valley = prices[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> peak = prices[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> maxprofit = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; prices.length - <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">while</span> (i &lt; prices.length - <span class="number">1</span> &amp;&amp; prices[i] &gt;= prices[i + <span class="number">1</span>])</span><br><span class="line">                i++;</span><br><span class="line">            valley = prices[i];</span><br><span class="line">            <span class="keyword">while</span> (i &lt; prices.length - <span class="number">1</span> &amp;&amp; prices[i] &lt;= prices[i + <span class="number">1</span>])</span><br><span class="line">                i++;</span><br><span class="line">            peak = prices[i];</span><br><span class="line">            maxprofit += peak - valley;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxprofit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>思想三：动态规划，能用贪心的一定能够使用动态规划，只是这题的动态规划不好想，直接转载<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/solution/tan-xin-suan-fa-by-liweiwei1419-2/">https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/solution/tan-xin-suan-fa-by-liweiwei1419-2/</a></p>
+<p>想到动态规划的原因是：可以用贪心算法解决的问题，一般情况下都可以用动态规划。因此，不妨从 “状态”、“状态转移方程” 的角度考虑一下，使用动态规划的思路解决这道问题。</p>
+<p>根据 「力扣」第 121 题的思路，需要设置一个二维矩阵表示状态。</p>
+<p><strong>第 1 步：定义状态</strong><br>状态 dp[i][j] 定义如下</p>
+<p>第一维 i 表示索引为 i 的那一天（具有前缀性质，即考虑了之前天数的收益）能获得的最大利润；<br>第二维 j 表示索引为 i 的那一天是持有股票，还是持有现金。这里 0 表示持有现金（cash），1 表示持有股票（stock）。<br><strong>第 2 步：思考状态转移方程</strong><br>状态从持有现金（cash）开始，到最后一天我们关心的状态依然是持有现金（cash）；<br>每一天状态可以转移，也可以不动。状态转移用下图表示：</p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/刷题/041a4d01398359409ecc69dacc13a44d179dd1a2a9f43b1def80e9a6acceee55-image.png" alt=""></p>
+<p>（状态转移方程写在代码中）</p>
+<p>说明：</p>
+<p>因为不限制交易次数，除了最后一天，每一天的状态可能不变化，也可能转移；<br>写代码的时候，可以不用对最后一天单独处理，输出最后一天，状态为 0 的时候的值即可。<br><strong>第 3 步：确定起始</strong><br>起始的时候：</p>
+<p>如果什么都不做，dp[0][0] = 0；<br>如果买入股票，当前收益是负数，即 dp[0][1] = -prices[i]；<br><strong>第 4 步：确定终止</strong><br>终止的时候，上面也分析了，输出 dp[len - 1][0]，因为一定有 dp[len - 1][0] &gt; dp[len - 1][1]。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = prices.length;</span><br><span class="line">        <span class="keyword">if</span> (len &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 0：持有现金</span></span><br><span class="line">        <span class="comment">// 1：持有股票</span></span><br><span class="line">        <span class="comment">// 状态转移：0 → 1 → 0 → 1 → 0 → 1 → 0</span></span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[len][<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">1</span>] = -prices[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</span><br><span class="line">            <span class="comment">// 这两行调换顺序也是可以的</span></span><br><span class="line">            dp[i][<span class="number">0</span>] = Math.max(dp[i - <span class="number">1</span>][<span class="number">0</span>], dp[i - <span class="number">1</span>][<span class="number">1</span>] + prices[i]);</span><br><span class="line">            dp[i][<span class="number">1</span>] = Math.max(dp[i - <span class="number">1</span>][<span class="number">1</span>], dp[i - <span class="number">1</span>][<span class="number">0</span>] - prices[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[len - <span class="number">1</span>][<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>感觉十分难想象到，然后可以进行优化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = prices.length;</span><br><span class="line">        <span class="keyword">if</span> (len &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// cash：持有现金</span></span><br><span class="line">        <span class="comment">// hold：持有股票</span></span><br><span class="line">        <span class="comment">// 状态转移：cash → hold → cash → hold → cash → hold → cash</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> cash = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> hold = -prices[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> preCash = cash;</span><br><span class="line">        <span class="keyword">int</span> preHold = hold;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</span><br><span class="line">            cash = Math.max(preCash, preHold + prices[i]);</span><br><span class="line">            hold = Math.max(preHold, preCash - prices[i]);</span><br><span class="line"></span><br><span class="line">            preCash = cash;</span><br><span class="line">            preHold = hold;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cash;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="123-买卖股票的最佳时机-III"><a href="#123-买卖股票的最佳时机-III" class="headerlink" title="123.买卖股票的最佳时机 III"></a>123.买卖股票的最佳时机 III</h2><h3 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。</p>
+<p>设计一个算法来计算你所能获取的最大利润。你最多可以完成 两笔 交易。</p>
+<p><strong>注意:</strong> 你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: [3,3,5,0,0,3,1,4]</span><br><span class="line">输出: 6</span><br><span class="line">解释: 在第 4 天（股票价格 = 0）的时候买入，在第 6 天（股票价格 = 3）的时候卖出，这笔交易所能获得利润 = 3-0 = 3 。</span><br><span class="line">     随后，在第 7 天（股票价格 = 1）的时候买入，在第 8 天 （股票价格 = 4）的时候卖出，这笔交易所能获得利润 = 4-1 = 3 。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入: [1,2,3,4,5]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。   </span><br><span class="line">     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。   </span><br><span class="line">     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [7,6,4,3,1] </span><br><span class="line">输出: 0 </span><br><span class="line">解释: 在这个情况下, 没有交易完成, 所以最大利润为 0。</span><br></pre></td></tr></table></figure>
+<p>来源：力扣（LeetCode）<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii">https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><p>这次限制了交易的次数为2，这样看来前三题其实只是次数上的不同，有了上题的基础后就比较好理解了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">int</span> T_i10 = <span class="number">0</span>, T_i11 = Integer.MIN_VALUE;</span><br><span class="line">    	<span class="keyword">int</span> T_i20 = <span class="number">0</span>, T_i21 = Integer.MIN_VALUE;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">            T_i20 = Math.max(T_i20, T_i21 + price);</span><br><span class="line">            T_i21 = Math.max(T_i21, T_i10 - price);</span><br><span class="line">            T_i10 = Math.max(T_i10, T_i11 + price);</span><br><span class="line">            T_i11 = Math.max(T_i11, -price);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    	<span class="keyword">return</span> T_i20;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="188-买卖股票的最佳时机IV"><a href="#188-买卖股票的最佳时机IV" class="headerlink" title="188.买卖股票的最佳时机IV"></a>188.买卖股票的最佳时机IV</h2><h3 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。</p>
+<p>设计一个算法来计算你所能获取的最大利润。你最多可以完成 k 笔交易。</p>
+<p>注意: 你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [2,4,1], k = 2</span><br><span class="line">输出: 2</span><br><span class="line">解释: 在第 1 天 (股票价格 = 2) 的时候买入，在第 2 天 (股票价格 = 4) 的时候卖出，这笔交易所能获得利润 = 4-2 = 2 。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: [3,2,6,5,0,3], k = 2</span><br><span class="line">输出: 7</span><br><span class="line">解释: 在第 2 天 (股票价格 = 2) 的时候买入，在第 3 天 (股票价格 = 6) 的时候卖出, 这笔交易所能获得利润 = 6-2 = 4 。</span><br><span class="line">     随后，在第 5 天 (股票价格 = 0) 的时候买入，在第 6 天 (股票价格 = 3) 的时候卖出, 这笔交易所能获得利润 = 3-0 = 3 。</span><br></pre></td></tr></table></figure>
+<p>来源：力扣（LeetCode）<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv">https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><p>思路看下面思路总结</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (k &gt;= prices.length &gt;&gt;&gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">//相当于k为无限的情况</span></span><br><span class="line">        <span class="keyword">int</span> T_ik0 = <span class="number">0</span>, T_ik1 = Integer.MIN_VALUE;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">            <span class="keyword">int</span> T_ik0_old = T_ik0;</span><br><span class="line">            T_ik0 = Math.max(T_ik0, T_ik1 + price);</span><br><span class="line">            T_ik1 = Math.max(T_ik1, T_ik0_old - price);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> T_ik0;</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">int</span>[] T_ik0 = <span class="keyword">new</span> <span class="keyword">int</span>[k + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">int</span>[] T_ik1 = <span class="keyword">new</span> <span class="keyword">int</span>[k + <span class="number">1</span>];</span><br><span class="line">    Arrays.fill(T_ik1, Integer.MIN_VALUE);</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = k; j &gt; <span class="number">0</span>; j--) &#123;</span><br><span class="line">            T_ik0[j] = Math.max(T_ik0[j], T_ik1[j] + price);</span><br><span class="line">            T_ik1[j] = Math.max(T_ik1[j], T_ik0[j - <span class="number">1</span>] - price);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> T_ik0[k];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="309-最佳买卖股票时机含冷冻期"><a href="#309-最佳买卖股票时机含冷冻期" class="headerlink" title="309.最佳买卖股票时机含冷冻期"></a>309.最佳买卖股票时机含冷冻期</h2><h3 id="题目描述-4"><a href="#题目描述-4" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个整数数组，其中第 i 个元素代表了第 i 天的股票价格 。</p>
+<p>设计一个算法计算出最大利润。在满足以下约束条件下，你可以尽可能地完成更多的交易（多次买卖一支股票）:</p>
+<ul>
+<li>你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</li>
+<li>卖出股票后，你无法在第二天买入股票 (即冷冻期为 1 天)。</li>
+</ul>
+<p><strong>示例:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [1,2,3,0,2]</span><br><span class="line">输出: 3 </span><br><span class="line">解释: 对应的交易状态为: [买入, 卖出, 冷冻期, 买入, 卖出]</span><br></pre></td></tr></table></figure>
+<p>来源：力扣（LeetCode）<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown">https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h3 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> T_ik0_pre = <span class="number">0</span>, T_ik0 = <span class="number">0</span>, T_ik1 = Integer.MIN_VALUE;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">        <span class="keyword">int</span> T_ik0_old = T_ik0;</span><br><span class="line">        T_ik0 = Math.max(T_ik0, T_ik1 + price);</span><br><span class="line">        T_ik1 = Math.max(T_ik1, T_ik0_pre - price);</span><br><span class="line">        T_ik0_pre = T_ik0_old;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> T_ik0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="714-买卖股票的最佳时机含手续费"><a href="#714-买卖股票的最佳时机含手续费" class="headerlink" title="714.买卖股票的最佳时机含手续费"></a>714.买卖股票的最佳时机含手续费</h2><h3 id="题目描述-5"><a href="#题目描述-5" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个整数数组 prices，其中第 i 个元素代表了第 i 天的股票价格 ；非负整数 fee 代表了交易股票的手续费用。</p>
+<p>你可以无限次地完成交易，但是你每笔交易都需要付手续费。如果你已经购买了一个股票，在卖出它之前你就不能再继续购买股票了。</p>
+<p>返回获得利润的最大值。</p>
+<p><strong>注意</strong>：这里的一笔交易指买入持有并卖出股票的整个过程，每笔交易你只需要为支付一次手续费。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入: prices = [1, 3, 2, 8, 4, 9], fee = 2</span><br><span class="line">输出: 8</span><br><span class="line">解释: 能够达到的最大利润:  </span><br><span class="line">在此处买入 prices[0] = 1</span><br><span class="line">在此处卖出 prices[3] = 8</span><br><span class="line">在此处买入 prices[4] = 4</span><br><span class="line">在此处卖出 prices[5] = 9</span><br><span class="line">总利润: ((8 - 1) - 2) + ((9 - 4) - 2) = 8.</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>:</p>
+<ul>
+<li><code>0 &lt; prices.length &lt;= 50000.</code></li>
+<li><code>0 &lt; prices[i] &lt; 50000.</code></li>
+<li><code>0 &lt;= fee &lt; 50000.</code></li>
+</ul>
+<p>来源：力扣（LeetCode）<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee">https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h3 id="代码-5"><a href="#代码-5" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">int</span> T_ik0 = <span class="number">0</span>, T_ik1 = Integer.MIN_VALUE;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">        <span class="keyword">int</span> T_ik0_old = T_ik0;</span><br><span class="line">        T_ik0 = Math.max(T_ik0, T_ik1 + price);</span><br><span class="line">        T_ik1 = Math.max(T_ik1, T_ik0_old - price - fee);</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> T_ik0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="思路总结"><a href="#思路总结" class="headerlink" title="思路总结"></a>思路总结</h2><p>做了k=1，k=2和k=无穷多后，我参考别人的博客，发现其实这题有一个同一的解法。翻译题解：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems">https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems</a></p>
+<h3 id="一、分析"><a href="#一、分析" class="headerlink" title="一、分析"></a>一、分析</h3><p>首先，让我们阐明表示法以简化我们的分析。令价格为长度为<code>n</code>的股票价格数组<code>prices</code>，<code>i</code>表示第<code>i</code>天（<code>i</code>从<code>0</code>到<code>n-1</code>），<code>k</code>表示允许完成的最大交易数，<code>T[i][k]</code>为在第<code>i</code>天结束时最多可进行k笔交易可获得的最大利润。显然，我们有基本情况：<code>T[-1][k]= T[i][0] = 0</code>，即没有股票或没有交易产生任何利润（请注意，第一天的i = 0，所以i = -1表示没有库存）。现在，如果我们能够以某种方式将<code>T[i][k]</code>与其子问题相关联，例如<code>T [i-1] [k]，T [i] [k-1]，T [i-1] [k-1]，...。 ..</code>，我们将有一个有效的递归关系，并且可以递归解决该问题。那么我们如何实现呢？</p>
+<p>最直接的方法是查看第<code>i</code>天采取的措施。我们有几种选择？答案是三个：买，卖，休息。我们应该选哪一个？答案是：我们并不真正知道，但是找出哪一个很容易。如果没有其他限制，我们可以尝试每一种选择，然后选择使我们的利润最大化的选择。但是，我们确实有一个额外的限制，即不允许同时进行多次交易，这意味着如果我们决定在第i天进行购买，那么在购买之前，我们手中应该持有0只股票；如果我们决定在第i天卖出，则在我们卖出之前，我们手中应该只持有1只股票。我们手中持有的股票数量是上述隐藏的因素，它将影响第i天的操作，从而影响最大利润。</p>
+<p>因此，我们对<code>T[i][k]</code>的定义实际上应该分为两部分：<code>T[i][k][0]</code>和<code>T[i][k][1]</code>，其中前者表示在第i天交易股票获得的利润最大，k笔交易后手头有0只股票，而后者表示第<code>i</code>天结束时的最大利润，最多交易数<code>k</code>笔交易中有1只股票采取行动后，伸出一只手。现在，基本案例和递归关系可以写成：</p>
+<ol>
+<li><p>基本情况</p>
+<p><code>T[-1][k][0] = 0, T[-1][k][1] = -Infinity</code><br><code>T[i][0][0] = 0, T[i][0][1] = -Infinity</code></p>
+</li>
+<li><p>递归关系：</p>
+<p><code>T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])</code><br><code>T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0] - prices[i])</code></p>
+<p>这个关系在前面有例子之后更好理解</p>
+</li>
+</ol>
+<p>对于基本情况，<code>T [-1] [k] [0] = T [i] [0] [0] = 0</code>具有与以前相同的含义，而<code>T[-1] [k] [1] = T[i] [0][1] = -Infinity</code>强调一个事实，即如果没有可用的库存或不允许进行交易，那么我们手头就不可能有1只库存。</p>
+<p>对于循环关系中的<code>T [i] [k] [0]</code>，在第i天采取的行动只能是休息和出售，因为在一天结束时我们手中的股票为0。如果采取行动休息，<code>T [i-1] [k] [0]</code>是最大利润，而采取行动卖出的则<code>T[i-1][k][1] + prices[i]</code>。请注意，由于交易包含两个成对出现的交易（即买入和卖出），因此允许交易的最大数量保持不变。只有行动购买会改变允许的最大交易数量。</p>
+<p>对于递归关系中的<code>T [i] [k] [1]</code>，在第<code>i</code>天采取的行动只能休息或者购买，因为在一天结束时我们手中只有1只股票。如果采取行动休息，<code>T[i-1][k][1]</code>是最大利润，如果采取行动买入， <code>T[i-1][k-1][0] - prices[i]</code> 是最大利润。采取。请注意，允许交易的最大数量减少了一个，因为在第i天进行购买将使用一次交易，如上所述。</p>
+<p>要找到最后一天结束时的最大利润，我们可以简单地遍历价格数组并根据上述重复关系更新<code>T [i] [k] [0]</code>和<code>T [i] [k] [1]</code>。最终答案将是<code>T [i] [k] [0]</code>（如果最终手头有0只股票，我们总是有更大的利润）。</p>
+<p>另外需要一提的是虽然上面是三维表达式，但是可以通过滚动数组等方式进行降维</p>
+<h3 id="二、实际例子"><a href="#二、实际例子" class="headerlink" title="二、实际例子"></a>二、实际例子</h3><h4 id="案例一：k-1-也就是第一题"><a href="#案例一：k-1-也就是第一题" class="headerlink" title="案例一：k=1,也就是第一题"></a>案例一：k=1,也就是第一题</h4><p>对于这种情况，我们实际上每天都有两个未知变量：<code>T[i][1][0]</code>和<code>T[i][1][1]</code>，递归关系说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T[i][1][0] = max(T[i-1][1][0], T[i-1][1][1] + prices[i])</span><br><span class="line">T[i][1][1] = max(T[i-1][1][1], T[i-1][0][0] - prices[i]) = max(T[i-1][1][1], -prices[i])</span><br></pre></td></tr></table></figure>
+<p>在这里，我们针对第二个方程利用了基本情况<code>T [i] [0] [0]</code> = 0。所以最终变成</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> T_i10 = <span class="number">0</span>, T_i11 = Integer.MIN_VALUE;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">        T_i10 = Math.max(T_i10, T_i11 + price);</span><br><span class="line">        T_i11 = Math.max(T_i11, -price);</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> T_i10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，让我们尝试对上述解决方案有所了解。如果我们更仔细地检查循环中的部分，则<code>T_i11</code>实际上只是表示第<code>i</code>天之前所有股价的负值的最大值，或者等效地表示所有股价的最小值。至于<code>T_i10</code>，我们只需要决定哪个动作产生更高的利润，即卖出还是休息。如果采取卖空行动，我们买入股票的价格为<code>T_i11</code>，即第i天之前的最小值。如果我们想获得最大的利润，这正是我们在现实中会做的事情。我应该指出，这不是解决这种情况的唯一方法。您可能会在这里找到其他不错的解决方案。</p>
+<h4 id="案例二：k-Infinity-也就是第二题"><a href="#案例二：k-Infinity-也就是第二题" class="headerlink" title="案例二：k=+Infinity,也就是第二题"></a>案例二：k=+Infinity,也就是第二题</h4><p>如果k为正无穷大，则<code>k</code>与<code>k-</code>1之间实际上没有任何区别，这意味着<code>T[i-1][k-1][0]</code> = <code>T [i -1] [k] [0]</code>和<code>T [i-1] [k-1] [1] = T [i-1] [k] [1]</code>。因此，我们每天仍有两个未知变量：<code>T [i] [k] [0]和T [i] [k] [1]</code>，其中<code>k = + Infinity</code>，递归关系说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])</span><br><span class="line">T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0] - prices[i]) = max(T[i-1][k][1], T[i-1][k][0] - prices[i])</span><br></pre></td></tr></table></figure>
+<p>这里我们利用了第二个方程<code>T [i-1] [k-1] [0] = T [i-1] [k] [0]</code>的事实。 <code>O(n)</code>时间和<code>O(1)</code>空间解如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> T_ik0 = <span class="number">0</span>, T_ik1 = Integer.MIN_VALUE;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">        <span class="keyword">int</span> T_ik0_old = T_ik0;</span><br><span class="line">        T_ik0 = Math.max(T_ik0, T_ik1 + price);</span><br><span class="line">        T_ik1 = Math.max(T_ik1, T_ik0_old - price);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> T_ik0;</span><br></pre></td></tr></table></figure>
+<p>（注意：不需要缓存T_ik0的旧值，即变量T_ik0_old。特别感谢0x0101和elvina对此进行了说明。） 该解决方案提出了一种获取最大利润的贪婪策略：尽可能长的时间，在每个局部最小值处购买股票，并在紧随其后的局部最大值处出售。这等同于找到价格上涨的子阵列（股票价格阵列），并以每个子阵列的起始价格购买，同时以其最终价格出售。很容易证明这与累积利润相同，只要这样做是有利可图的，正如本文所展示的。</p>
+<h4 id="案例三：k-2-也就是第三题"><a href="#案例三：k-2-也就是第三题" class="headerlink" title="案例三：k=2,也就是第三题"></a>案例三：k=2,也就是第三题</h4><p>类似于<code>k = 1</code>的情况，除了现在我们有四个变量而不是每天有两个变量：<code>T [i] [1] [0]，T [i] [1] [1]，T [i] [2 ] [0]，T [i] [2] [1]</code>和递归关系为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">T[i][2][0] = max(T[i-1][2][0], T[i-1][2][1] + prices[i])</span><br><span class="line">T[i][2][1] = max(T[i-1][2][1], T[i-1][1][0] - prices[i])</span><br><span class="line">T[i][1][0] = max(T[i-1][1][0], T[i-1][1][1] + prices[i])</span><br><span class="line">T[i][1][1] = max(T[i-1][1][1], -prices[i])</span><br></pre></td></tr></table></figure>
+<p>在这里，我们再次利用了基本情况<code>T [i] [0] [0] = 0</code>的最后一个方程式。<code>O（n）</code>时间和<code>O（1）</code>空间解如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> T_i10 = <span class="number">0</span>, T_i11 = Integer.MIN_VALUE;</span><br><span class="line">    <span class="keyword">int</span> T_i20 = <span class="number">0</span>, T_i21 = Integer.MIN_VALUE;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">        T_i20 = Math.max(T_i20, T_i21 + price);</span><br><span class="line">        T_i21 = Math.max(T_i21, T_i10 - price);</span><br><span class="line">        T_i10 = Math.max(T_i10, T_i11 + price);</span><br><span class="line">        T_i11 = Math.max(T_i11, -price);</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> T_i20;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这与此处给出的基本相同。</p>
+<h4 id="案例四：k是任意的"><a href="#案例四：k是任意的" class="headerlink" title="案例四：k是任意的"></a>案例四：k是任意的</h4><p>这是最普遍的情况，因此每天我们都需要在一天结束时用不同的<code>k</code>值（对应于0或1只股票）更新所有最大利润。但是，如果<code>k</code>超过某个临界值，我们可以做一个较小的优化，超过这个临界值，最大利润将不再取决于允许的交易数量，而是由可用股票的数量（价格数组的长度）限制。让我们弄清楚这个临界值是什么。 有利可图的交易至少需要两天的时间（一天买入，另一天卖出，前提是买入价低于卖出价）。如果价格数组的长度为<code>n</code>，则获利交易的最大数量为<code>n / 2</code>（整数除法）。之后，将无法进行任何有利可图的交易，这意味着最大利润将保持不变。因此，<code>k</code>的临界值为<code>n / 2</code>。如果给定的k不小于该值，即<code>k&gt; = n / 2</code>，我们可以将k扩展到正无穷大，并且问题等同于情况II。 以下是<code>O（kn）</code>时间和<code>O（k）</code>空间解。如果不进行优化，则TLE会满足较大<code>k</code>值的代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (k &gt;= prices.length &gt;&gt;&gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">//相当于k为无限的情况</span></span><br><span class="line">        <span class="keyword">int</span> T_ik0 = <span class="number">0</span>, T_ik1 = Integer.MIN_VALUE;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">            <span class="keyword">int</span> T_ik0_old = T_ik0;</span><br><span class="line">            T_ik0 = Math.max(T_ik0, T_ik1 + price);</span><br><span class="line">            T_ik1 = Math.max(T_ik1, T_ik0_old - price);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> T_ik0;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//也可以由一个三维数组表示</span></span><br><span class="line">    <span class="keyword">int</span>[] T_ik0 = <span class="keyword">new</span> <span class="keyword">int</span>[k + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">int</span>[] T_ik1 = <span class="keyword">new</span> <span class="keyword">int</span>[k + <span class="number">1</span>];</span><br><span class="line">    Arrays.fill(T_ik1, Integer.MIN_VALUE);</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = k; j &gt; <span class="number">0</span>; j--) &#123;</span><br><span class="line">            T_ik0[j] = Math.max(T_ik0[j], T_ik1[j] + price);</span><br><span class="line">            T_ik1[j] = Math.max(T_ik1[j], T_ik0[j - <span class="number">1</span>] - price);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> T_ik0[k];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例五：k-Infinity但是有冷冻期"><a href="#案例五：k-Infinity但是有冷冻期" class="headerlink" title="案例五：k=+Infinity但是有冷冻期"></a>案例五：k=+Infinity但是有冷冻期</h4><p>案例与案例II非常相似，因为它们具有相同的k值，不同之处在于现在必须对递归关系进行一些修改以解决“冷却”要求。案例二的原始递归关系由下式给出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])</span><br><span class="line">T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])</span><br></pre></td></tr></table></figure>
+<p>但是，由于“冷却”，如果在第（i-1）天卖出股票，我们将无法在第i天购买股票。因此，在上述第二个公式中，如果要在第i天购买，我们实际上应该使用T [i-2] [k] [0]代替T [i-1] [k] [0] 。其他所有内容保持不变，并且新的重复关系是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])</span><br><span class="line">T[i][k][1] = max(T[i-1][k][1], T[i-2][k][0] - prices[i])</span><br></pre></td></tr></table></figure>
+<p>这是O（n）时间和O（1）空间解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> T_ik0_pre = <span class="number">0</span>, T_ik0 = <span class="number">0</span>, T_ik1 = Integer.MIN_VALUE;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">        <span class="keyword">int</span> T_ik0_old = T_ik0;</span><br><span class="line">        T_ik0 = Math.max(T_ik0, T_ik1 + price);</span><br><span class="line">        T_ik1 = Math.max(T_ik1, T_ik0_pre - price);</span><br><span class="line">        T_ik0_pre = T_ik0_old;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> T_ik0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例六：k-Infinity但是有手续费"><a href="#案例六：k-Infinity但是有手续费" class="headerlink" title="案例六：k=+Infinity但是有手续费"></a>案例六：k=+Infinity但是有手续费</h4><p>再次，此案例与案例II非常相似，因为它们具有相同的k值，只是现在需要对递归关系进行一些修改以解决“交易费用”的要求。案例二的原始递归关系由下式给出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])</span><br><span class="line">T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])</span><br></pre></td></tr></table></figure>
+<p>由于现在我们需要为每笔交易支付一定的费用（表示为费用），因此应该将第i天买卖股票后的利润减去该金额，因此新的重复关系将是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])</span><br><span class="line">T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i] - fee)</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i] - fee)</span><br><span class="line">T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])</span><br></pre></td></tr></table></figure>
+<p>请注意，关于何时扣除费用，我们有两种选择。这是因为（如上所述）每笔交易的特点是两个动作成对出现-买卖。可以在我们购买股票（对应于第一组方程式）时或当我们出售它（对应于第二组方程式）时支付费用。以下是对应于这两个选项的O（n）时间和O（1）空间解，其中对于第二个解，我们需要注意可能的溢出。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> T_ik0 = <span class="number">0</span>, T_ik1 = Integer.MIN_VALUE;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">        <span class="keyword">int</span> T_ik0_old = T_ik0;</span><br><span class="line">        T_ik0 = Math.max(T_ik0, T_ik1 + price);</span><br><span class="line">        T_ik1 = Math.max(T_ik1, T_ik0_old - price - fee);</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> T_ik0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> T_ik0 = <span class="number">0</span>, T_ik1 = Integer.MIN_VALUE;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</span><br><span class="line">        <span class="keyword">long</span> T_ik0_old = T_ik0;</span><br><span class="line">        T_ik0 = Math.max(T_ik0, T_ik1 + price - fee);</span><br><span class="line">        T_ik1 = Math.max(T_ik1, T_ik0_old - price);</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)T_ik0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/20/%E5%88%B7%E9%A2%98/%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE/" rel="prev" title="二维数组中的查找">
+      <i class="fa fa-chevron-left"></i> 二维数组中的查找
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/20/%E5%85%B6%E4%BB%96/%E7%BC%96%E7%A8%8B%E6%B8%B8%E6%88%8F/" rel="next" title="编程游戏">
+      编程游戏 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA"><span class="nav-number">1.</span> <span class="nav-text">买卖股票的最佳时机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#121-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA"><span class="nav-number">1.1.</span> <span class="nav-text">121.买卖股票的最佳时机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.2.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#122-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAII"><span class="nav-number">1.2.</span> <span class="nav-text">122.买卖股票的最佳时机II</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#123-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA-III"><span class="nav-number">1.3.</span> <span class="nav-text">123.买卖股票的最佳时机 III</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#188-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAIV"><span class="nav-number">1.4.</span> <span class="nav-text">188.买卖股票的最佳时机IV</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-3"><span class="nav-number">1.4.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-3"><span class="nav-number">1.4.2.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#309-%E6%9C%80%E4%BD%B3%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E6%97%B6%E6%9C%BA%E5%90%AB%E5%86%B7%E5%86%BB%E6%9C%9F"><span class="nav-number">1.5.</span> <span class="nav-text">309.最佳买卖股票时机含冷冻期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-4"><span class="nav-number">1.5.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-4"><span class="nav-number">1.5.2.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#714-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA%E5%90%AB%E6%89%8B%E7%BB%AD%E8%B4%B9"><span class="nav-number">1.6.</span> <span class="nav-text">714.买卖股票的最佳时机含手续费</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-5"><span class="nav-number">1.6.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-5"><span class="nav-number">1.6.2.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E6%80%BB%E7%BB%93"><span class="nav-number">1.7.</span> <span class="nav-text">思路总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%88%86%E6%9E%90"><span class="nav-number">1.7.1.</span> <span class="nav-text">一、分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AE%9E%E9%99%85%E4%BE%8B%E5%AD%90"><span class="nav-number">1.7.2.</span> <span class="nav-text">二、实际例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80%EF%BC%9Ak-1-%E4%B9%9F%E5%B0%B1%E6%98%AF%E7%AC%AC%E4%B8%80%E9%A2%98"><span class="nav-number">1.7.2.1.</span> <span class="nav-text">案例一：k&#x3D;1,也就是第一题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C%EF%BC%9Ak-Infinity-%E4%B9%9F%E5%B0%B1%E6%98%AF%E7%AC%AC%E4%BA%8C%E9%A2%98"><span class="nav-number">1.7.2.2.</span> <span class="nav-text">案例二：k&#x3D;+Infinity,也就是第二题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%89%EF%BC%9Ak-2-%E4%B9%9F%E5%B0%B1%E6%98%AF%E7%AC%AC%E4%B8%89%E9%A2%98"><span class="nav-number">1.7.2.3.</span> <span class="nav-text">案例三：k&#x3D;2,也就是第三题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E5%9B%9B%EF%BC%9Ak%E6%98%AF%E4%BB%BB%E6%84%8F%E7%9A%84"><span class="nav-number">1.7.2.4.</span> <span class="nav-text">案例四：k是任意的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%94%EF%BC%9Ak-Infinity%E4%BD%86%E6%98%AF%E6%9C%89%E5%86%B7%E5%86%BB%E6%9C%9F"><span class="nav-number">1.7.2.5.</span> <span class="nav-text">案例五：k&#x3D;+Infinity但是有冷冻期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E5%85%AD%EF%BC%9Ak-Infinity%E4%BD%86%E6%98%AF%E6%9C%89%E6%89%8B%E7%BB%AD%E8%B4%B9"><span class="nav-number">1.7.2.6.</span> <span class="nav-text">案例六：k&#x3D;+Infinity但是有手续费</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">811k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">12:17</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : 'a693c5d7839f71fc24ef3737df8e4482',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

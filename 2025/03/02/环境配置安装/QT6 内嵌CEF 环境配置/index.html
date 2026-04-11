@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="最近开发一个项目，需要在Qt中使用CEF，记录一下相关的环境配置（Windows下）。 需要的软件：Qt6、cmake、vs2022">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT6 内嵌CEF 环境配置">
+<meta property="og:url" content="https://bugcat.top/2025/03/02/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/QT6%20%E5%86%85%E5%B5%8CCEF%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="最近开发一个项目，需要在Qt中使用CEF，记录一下相关的环境配置（Windows下）。 需要的软件：Qt6、cmake、vs2022">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741437197704-a775d440-a95c-47c4-8d81-0828c99ee59c.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741437420406-1dc82bd0-52d1-47f9-8abb-60fa107b1033.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741438164334-ca798880-818b-4bd9-96ed-9c2aee69e0bb.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741438355163-1a4db978-af8f-48be-a4ba-a8b927639974.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741438499181-f66ccd78-46d1-423f-bbc2-791202acf426.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741439851642-08aa063a-b520-4fb1-a853-02e9a89763cc.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741440820239-7857f7db-f6d3-4f1a-a287-30793eeb7828.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741441686989-1c5a21b3-5fe6-4945-8aad-2ab02ee6addf.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741442043990-34a4d29d-680c-4b9f-907f-906cd311d6b9.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741442297427-838fe24e-c664-49cd-9c5b-b2cac6f62f44.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741443796722-92702278-6ec6-4a05-a218-f88f4da91b48.png">
+<meta property="article:published_time" content="2025-03-02T22:48:55.000Z">
+<meta property="article:modified_time" content="2026-04-11T05:09:04.535Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="QT">
+<meta property="article:tag" content="CEF">
+<meta property="article:tag" content="环境配置">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741437197704-a775d440-a95c-47c4-8d81-0828c99ee59c.png">
+
+<link rel="canonical" href="https://bugcat.top/2025/03/02/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/QT6%20%E5%86%85%E5%B5%8CCEF%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>QT6 内嵌CEF 环境配置 | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2025/03/02/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/QT6%20%E5%86%85%E5%B5%8CCEF%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          QT6 内嵌CEF 环境配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-03-02 22:48:55" itemprop="dateCreated datePublished" datetime="2025-03-02T22:48:55+00:00">2025-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/" itemprop="url" rel="index"><span itemprop="name">环境配置安装</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近开发一个项目，需要在Qt中使用CEF，记录一下相关的环境配置（Windows下）。</p>
+<p>需要的软件：Qt6、cmake、vs2022<br><span id="more"></span></p>
+<h1 id="CEF相关内容"><a href="#CEF相关内容" class="headerlink" title="CEF相关内容"></a>CEF相关内容</h1><h2 id="CEF下载"><a href="#CEF下载" class="headerlink" title="CEF下载"></a>CEF下载</h2><p>下载地址：<a target="_blank" rel="noopener" href="https://cef-builds.spotifycdn.com/index.html">https://cef-builds.spotifycdn.com/index.html</a></p>
+<p>我这里下载是windows64位的标准版本</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741437197704-a775d440-a95c-47c4-8d81-0828c99ee59c.png" alt=""></p>
+<h2 id="CEF编译"><a href="#CEF编译" class="headerlink" title="CEF编译"></a>CEF编译</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741437420406-1dc82bd0-52d1-47f9-8abb-60fa107b1033.png" alt=""></p>
+<p>在当前目录允许以下命令</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake ..</span><br></pre></td></tr></table></figure>
+<p>如果能够正常编译的话，我们能在build目录下找到.sln文件，然后直接双击打开</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741438164334-ca798880-818b-4bd9-96ed-9c2aee69e0bb.png" alt=""></p>
+<h2 id="CEF项目结构"><a href="#CEF项目结构" class="headerlink" title="CEF项目结构"></a>CEF项目结构</h2><p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741438355163-1a4db978-af8f-48be-a4ba-a8b927639974.png" alt=""></p>
+<p>cef_gtest：包含ceftests目标使用的Google C++测试框架。</p>
+<p>ceftests：包含执行CEF API的单元测试。</p>
+<p>cefclient：一个包含CEF各种API演示的浏览器程序Demo。</p>
+<p>cefsimple：一个创建CEF浏览器程序所需最少功能的Demo。</p>
+<p>libcef_dll_wrapper：对cef库的C++代码封装库。</p>
+<p>我们设置cefclient为启动项，运行后可以正常跳一个窗口，就说明我们cef环境没有问题</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741438499181-f66ccd78-46d1-423f-bbc2-791202acf426.png" alt=""></p>
+<h2 id="libcef-dll-wrapper编译"><a href="#libcef-dll-wrapper编译" class="headerlink" title="libcef_dll_wrapper编译"></a>libcef_dll_wrapper编译</h2><p>在Qt中我们需要使用cef相关的库，所以需要编译libcef_dll_wrapper。我们将libcef_dll_wrapper设置为启动项，并且需要将运行库改为“多线程调试 DLL (/MDd)”（如果是 release 版，则改为“多线程 DLL (/MD)”）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741439851642-08aa063a-b520-4fb1-a853-02e9a89763cc.png" alt=""></p>
+<p>运行之后，我们可以在build目录的libcef_dll_wrapper中找到对于的lib库和pdb符号</p>
+<h1 id="Qt相关内容"><a href="#Qt相关内容" class="headerlink" title="Qt相关内容"></a>Qt相关内容</h1><p>创建一个Qt6项目并且成功运行，Qt现在都是首选cmake作为构建工具，方便很多。</p>
+<p>项目结构如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741440820239-7857f7db-f6d3-4f1a-a287-30793eeb7828.png" alt=""></p>
+<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><p>cef目录是我们自己进行创建的。我们还需要需要在cef目录里面创建一个bin目录存储二进制文件</p>
+<ol>
+<li>我们先需要复制cef目录下（前面编译的cef目录）的Resources和Include到demo下的cef目录里面</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741441686989-1c5a21b3-5fe6-4945-8aad-2ab02ee6addf.png" alt=""></p>
+<ol>
+<li>复制debug、release目录到demo下的cef下bin目录里面</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741442043990-34a4d29d-680c-4b9f-907f-906cd311d6b9.png" alt=""></p>
+<ol>
+<li>将前面编译的libcef_dll_wrapper.lib文件，也拷贝到对应的bin目录中Debug或者Release目录下</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741442297427-838fe24e-c664-49cd-9c5b-b2cac6f62f44.png" alt=""></p>
+<p>最终结构目录如下，src中simple_app、simple_handler等文件是把cefsimple下面的文件复制进来了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Demo</span><br><span class="line">├─ cef</span><br><span class="line">│  ├─ bin</span><br><span class="line">│  │  ├─ Debug</span><br><span class="line">│  │  │  │  libcef.dll</span><br><span class="line">│  │  │  │  libcef.lib</span><br><span class="line">│  │  │  │  libcef_dll_wrapper.lib</span><br><span class="line">│  │  │  │  ... (其他Debug模式下的库文件)</span><br><span class="line">│  │  │  └─ swiftshader</span><br><span class="line">│  │  │          ... (swiftshader相关文件)</span><br><span class="line">│  │  └─ Release</span><br><span class="line">│  │      │  libcef.dll</span><br><span class="line">│  │      │  libcef.lib</span><br><span class="line">│  │      │  libcef_dll_wrapper.lib</span><br><span class="line">│  │      │  ... (其他Release模式下的库文件)</span><br><span class="line">│  │      └─ swiftshader</span><br><span class="line">│  │              ... (swiftshader相关文件)</span><br><span class="line">│  ├─ include</span><br><span class="line">│  │      各种.h头文件</span><br><span class="line">│  │      ...</span><br><span class="line">│  └─ Resources</span><br><span class="line">│      │  cef.pak</span><br><span class="line">│      │  .. (其他资源文件)</span><br><span class="line">│      └─ locales</span><br><span class="line">│              ... (不同语言包文件)</span><br><span class="line">│              zh-CN.pak</span><br><span class="line">│              zh-TW.pak</span><br><span class="line">└─ src</span><br><span class="line">     │  main.cpp</span><br><span class="line">     │  mainwindow.cpp	</span><br><span class="line">     │  mainwindow.h</span><br><span class="line">     │  mainwindow.ui</span><br><span class="line">     │  simple_app.cc</span><br><span class="line">     │  simple_app.h</span><br><span class="line">     │  simple_handler.cc</span><br><span class="line">     │  simple_handler.h</span><br><span class="line">     │  simple_handler_win.cc</span><br></pre></td></tr></table></figure>
+<h2 id="main文件内容"><a href="#main文件内容" class="headerlink" title="main文件内容"></a>main文件内容</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;mainwindow.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QApplication&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;simple_app.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 初始化QT以及CEF相关</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">init_qt_cef</span><span class="params">(<span class="keyword">int</span>&amp; argc, <span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> HINSTANCE h_instance = <span class="keyword">static_cast</span>&lt;HINSTANCE&gt;(<span class="built_in">GetModuleHandle</span>(<span class="literal">nullptr</span>));</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">const</span> CefMainArgs <span class="title">main_args</span><span class="params">(h_instance)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">const</span> CefRefPtr&lt;SimpleApp&gt; <span class="title">app</span><span class="params">(<span class="keyword">new</span> SimpleApp)</span></span>; <span class="comment">//CefApp实现，用于处理进程相关的回调。</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> exit_code = <span class="built_in">CefExecuteProcess</span>(main_args, app.<span class="built_in">get</span>(), <span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">if</span> (exit_code &gt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> exit_code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置配置</span></span><br><span class="line">    CefSettings settings;</span><br><span class="line">    settings.multi_threaded_message_loop = <span class="literal">true</span>; <span class="comment">//多线程消息循环</span></span><br><span class="line">    settings.log_severity = LOGSEVERITY_DISABLE; <span class="comment">//日志</span></span><br><span class="line">    settings.no_sandbox = <span class="literal">true</span>; <span class="comment">//沙盒</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">CefInitialize</span>(main_args, settings, app, <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 将init_qt_cef提取到QApplication初始化之前</span></span><br><span class="line">    <span class="comment">// 对于CEF多进程架构模型</span></span><br><span class="line">    <span class="comment">// 因为【渲染进程】启动后，init_qt_cef中执行的CefExecuteProcess会阻塞住，</span></span><br><span class="line">    <span class="comment">// 如果在此之前启动了QT的事件循环，那么会导致QT出现异常</span></span><br><span class="line">    <span class="comment">// 所以，我们将init_qt_cef提前到QApplication初始化之前，</span></span><br><span class="line">    <span class="comment">// 保证无论是浏览器进程还是渲染进程启动，都会进入init_qt_cef，但渲染进程会在里面阻塞，</span></span><br><span class="line">    <span class="comment">// 不会进入后续的QT应用初始化</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> result = <span class="built_in">init_qt_cef</span>(argc, argv);</span><br><span class="line">    <span class="keyword">if</span> (result &gt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    QCoreApplication::<span class="built_in">setAttribute</span>(Qt::AA_EnableHighDpiScaling);  <span class="comment">// 解决高DPI下，界面比例问题</span></span><br><span class="line">    <span class="function">QApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line"></span><br><span class="line">    MainWindow w;</span><br><span class="line">    w.<span class="built_in">show</span>();</span><br><span class="line">    a.<span class="built_in">exec</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CefShutdown</span>(); <span class="comment">// 关闭CEF，释放资源</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="mainwindow-cpp内容"><a href="#mainwindow-cpp内容" class="headerlink" title="mainwindow.cpp内容"></a>mainwindow.cpp内容</h2><p>我们在mainwindow构造函数里面写一些内容</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;mainwindow.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;./ui_mainwindow.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">MainWindow::<span class="built_in">MainWindow</span>(QWidget *parent)</span><br><span class="line">    : <span class="built_in">QMainWindow</span>(parent)</span><br><span class="line">    , <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::MainWindow)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 以下是将 SimpleHandler 与窗体进行关联的代码</span></span><br><span class="line">    CefWindowInfo cef_wnd_info;</span><br><span class="line">    std::string str_url = <span class="string">&quot;www.baidu.com&quot;</span>;</span><br><span class="line">    QRect rect = <span class="keyword">this</span>-&gt;<span class="built_in">geometry</span>();</span><br><span class="line">    <span class="function">CefRect <span class="title">win_rect</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        rect.left(),</span></span></span><br><span class="line"><span class="params"><span class="function">        rect.top(),</span></span></span><br><span class="line"><span class="params"><span class="function">        rect.left() + rect.width() * devicePixelRatio(),</span></span></span><br><span class="line"><span class="params"><span class="function">        rect.top() + rect.height() * devicePixelRatio())</span></span>;</span><br><span class="line"></span><br><span class="line">    cef_wnd_info.<span class="built_in">SetAsChild</span>((HWND)<span class="keyword">this</span>-&gt;<span class="built_in">winId</span>(), win_rect); <span class="comment">//将cef界面嵌入qt界面中</span></span><br><span class="line">    CefBrowserSettings cef_browser_settings;</span><br><span class="line">    simple_handler_ = CefRefPtr&lt;SimpleHandler&gt;(SimpleHandler::<span class="built_in">GetInstance</span>());</span><br><span class="line">    CefBrowserHost::<span class="built_in">CreateBrowser</span>(cef_wnd_info,</span><br><span class="line">        simple_handler_,</span><br><span class="line">        str_url,</span><br><span class="line">        cef_browser_settings,</span><br><span class="line">        <span class="literal">nullptr</span>,</span><br><span class="line">        CefRequestContext::<span class="built_in">GetGlobalContext</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MainWindow::~<span class="built_in">MainWindow</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="cmake文件内容"><a href="#cmake文件内容" class="headerlink" title="cmake文件内容"></a>cmake文件内容</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.16</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(TinyAnt VERSION <span class="number">0.1</span> LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTOUIC <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTOMOC <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTORCC <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">20</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_BUILD_TYPE <span class="string">&quot;Debug&quot;</span>) <span class="comment"># 或者 &quot;Release&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)</span><br><span class="line"><span class="keyword">find_package</span>(Qt<span class="variable">$&#123;QT_VERSION_MAJOR&#125;</span> REQUIRED COMPONENTS Widgets)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 【CEF】CEF相关头文件的引入</span></span><br><span class="line"><span class="keyword">INCLUDE_DIRECTORIES</span>(<span class="string">&quot;$&#123;CMAKE_SOURCE_DIR&#125;/cef&quot;</span>)</span><br><span class="line"><span class="keyword">INCLUDE_DIRECTORIES</span>(<span class="string">&quot;$&#123;CMAKE_SOURCE_DIR&#125;/cef/include&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(PROJECT_SOURCES</span><br><span class="line">        src/main.cpp</span><br><span class="line">        src/mainwindow.cpp</span><br><span class="line">        src/mainwindow.h</span><br><span class="line">        src/mainwindow.ui</span><br><span class="line">        src/simple_handler.h</span><br><span class="line">        src/simple_handler.cc</span><br><span class="line">        src/simple_handler_win.cc</span><br><span class="line">        src/simple_app.h</span><br><span class="line">        src/simple_app.cc</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># CEF库位置</span></span><br><span class="line"><span class="keyword">if</span>(CMAKE_BUILD_TYPE <span class="keyword">STREQUAL</span> <span class="string">&quot;Debug&quot;</span>)</span><br><span class="line">    <span class="keyword">set</span>(CEF_DLL_DIR <span class="string">&quot;$&#123;CMAKE_SOURCE_DIR&#125;/cef/bin/Debug&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span>(CMAKE_BUILD_TYPE <span class="keyword">STREQUAL</span> <span class="string">&quot;Release&quot;</span>)</span><br><span class="line">    <span class="keyword">set</span>(CEF_DLL_DIR <span class="string">&quot;$&#123;CMAKE_SOURCE_DIR&#125;/cef/bin/Release&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$&#123;QT_VERSION_MAJOR&#125;</span> <span class="keyword">GREATER_EQUAL</span> <span class="number">6</span>)</span><br><span class="line">    qt_add_executable(TinyAnt</span><br><span class="line">        MANUAL_FINALIZATION</span><br><span class="line">        <span class="variable">$&#123;PROJECT_SOURCES&#125;</span></span><br><span class="line">    )</span><br><span class="line"><span class="comment"># Define target properties for Android with Qt 6 as:</span></span><br><span class="line"><span class="comment">#    set_property(TARGET TinyAnt APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR</span></span><br><span class="line"><span class="comment">#                 $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/android)</span></span><br><span class="line"><span class="comment"># For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation</span></span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">if</span>(ANDROID)</span><br><span class="line">        <span class="keyword">add_library</span>(TinyAnt SHARED</span><br><span class="line">            <span class="variable">$&#123;PROJECT_SOURCES&#125;</span></span><br><span class="line">        )</span><br><span class="line"><span class="comment"># Define properties for Android with Qt 5 after find_package() calls as:</span></span><br><span class="line"><span class="comment">#    set(ANDROID_PACKAGE_SOURCE_DIR &quot;$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/android&quot;)</span></span><br><span class="line">    <span class="keyword">else</span>()</span><br><span class="line">        <span class="keyword">add_executable</span>(TinyAnt</span><br><span class="line">            <span class="variable">$&#123;PROJECT_SOURCES&#125;</span></span><br><span class="line">        )</span><br><span class="line">    <span class="keyword">endif</span>()</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_compile_definitions</span>(TinyAnt PRIVATE NOMINMAX)</span><br><span class="line"><span class="keyword">target_compile_definitions</span>(TinyAnt PRIVATE _ITERATOR_DEBUG_LEVEL=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(TinyAnt PRIVATE Qt<span class="variable">$&#123;QT_VERSION_MAJOR&#125;</span>::Widgets)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(TinyAnt PRIVATE <span class="string">&quot;$&#123;CMAKE_SOURCE_DIR&#125;/cef/bin/Debug/libcef.lib&quot;</span> <span class="string">&quot;$&#123;CMAKE_SOURCE_DIR&#125;/cef/bin/Debug/libcef_dll_wrapper.lib&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.</span></span><br><span class="line"><span class="comment"># If you are developing for iOS or macOS you should consider setting an</span></span><br><span class="line"><span class="comment"># explicit, fixed bundle identifier manually though.</span></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$&#123;QT_VERSION&#125;</span> <span class="keyword">VERSION_LESS</span> <span class="number">6.1</span>.<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">set</span>(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.TinyAnt)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"><span class="keyword">set_target_properties</span>(TinyAnt PROPERTIES</span><br><span class="line">    <span class="variable">$&#123;BUNDLE_ID_OPTION&#125;</span></span><br><span class="line">    MACOSX_BUNDLE_BUNDLE_VERSION <span class="variable">$&#123;PROJECT_VERSION&#125;</span></span><br><span class="line">    MACOSX_BUNDLE_SHORT_VERSION_STRING <span class="variable">$&#123;PROJECT_VERSION_MAJOR&#125;</span>.<span class="variable">$&#123;PROJECT_VERSION_MINOR&#125;</span></span><br><span class="line">    MACOSX_BUNDLE <span class="keyword">TRUE</span></span><br><span class="line">    WIN32_EXECUTABLE <span class="keyword">TRUE</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(GNUInstallDirs)</span><br><span class="line"><span class="keyword">install</span>(TARGETS TinyAnt</span><br><span class="line">    BUNDLE DESTINATION .</span><br><span class="line">    LIBRARY DESTINATION <span class="variable">$&#123;CMAKE_INSTALL_LIBDIR&#125;</span></span><br><span class="line">    RUNTIME DESTINATION <span class="variable">$&#123;CMAKE_INSTALL_BINDIR&#125;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(QT_VERSION_MAJOR <span class="keyword">EQUAL</span> <span class="number">6</span>)</span><br><span class="line">    qt_finalize_executable(TinyAnt)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_custom_command</span>(<span class="keyword">TARGET</span> TinyAnt POST_BUILD</span><br><span class="line">                   <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_COMMAND&#125;</span> -E copy_directory</span><br><span class="line">                   <span class="variable">$&#123;CEF_DLL_DIR&#125;</span></span><br><span class="line">                   $&lt;TARGET_FILE_DIR:TinyAnt&gt;)</span><br></pre></td></tr></table></figure>
+<p>最终运行的结果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/环境配置/1741443796722-92702278-6ec6-4a05-a218-f88f4da91b48.png" alt=""></p>
+<h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><ol>
+<li>std::max 编译错误，cmake里面增加了宏<code>target_compile_definitions(TinyAnt PRIVATE NOMINMAX)</code></li>
+<li>libcef_dll_wrapper.lib(libcef_dll_wrapper.obj) : error LNK2038: 检测到“_ITERATOR_DEBUG_LEVEL”的不匹配项: 值“0”不匹配值“2”(mocs_compilation.cpp.obj 中)，cmake里面增加了宏<code>target_compile_definitions(TinyAnt PRIVATE _ITERATOR_DEBUG_LEVEL=0)</code></li>
+<li>找不到 libcef.dll（典中典之找不到动态库）。这个是因为编译出的可执行文件在build/debug目录下，他找不到cef下面的bin/debug目录（release同类），所以需要cmake将cef下面的bin/debug目录里面的内容复制到build/debug下。可以加入以下cmake命令</li>
+</ol>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设你在 CMakeLists.txt 文件中定义了你的目标 TinyAnt</span></span><br><span class="line"><span class="keyword">if</span>(CMAKE_BUILD_TYPE <span class="keyword">STREQUAL</span> <span class="string">&quot;Debug&quot;</span>)</span><br><span class="line">    <span class="keyword">set</span>(CEF_DLL_DIR <span class="string">&quot;$&#123;CMAKE_SOURCE_DIR&#125;/cef/bin/Debug&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span>(CMAKE_BUILD_TYPE <span class="keyword">STREQUAL</span> <span class="string">&quot;Release&quot;</span>)</span><br><span class="line">    <span class="keyword">set</span>(CEF_DLL_DIR <span class="string">&quot;$&#123;CMAKE_SOURCE_DIR&#125;/cef/bin/Release&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_custom_command</span>(<span class="keyword">TARGET</span> TinyAnt POST_BUILD</span><br><span class="line">                   <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_COMMAND&#125;</span> -E copy_directory</span><br><span class="line">                   <span class="variable">$&#123;CEF_DLL_DIR&#125;</span></span><br><span class="line">                   $&lt;TARGET_FILE_DIR:TinyAnt&gt;)</span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6981077794507718692#heading-8">https://juejin.cn/post/6981077794507718692#heading-8</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45551020/article/details/136383436">https://blog.csdn.net/weixin_45551020/article/details/136383436</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/w4ngzhen/p/16686232.html">https://www.cnblogs.com/w4ngzhen/p/16686232.html</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/QT/" rel="tag"><i class="fa fa-tag"></i> QT</a>
+              <a href="/tags/CEF/" rel="tag"><i class="fa fa-tag"></i> CEF</a>
+              <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag"><i class="fa fa-tag"></i> 环境配置</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/11/28/C++/SFINAE%E5%AD%A6%E4%B9%A0/" rel="prev" title="SFINAE学习">
+      <i class="fa fa-chevron-left"></i> SFINAE学习
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CEF%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9"><span class="nav-number">1.</span> <span class="nav-text">CEF相关内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CEF%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.1.</span> <span class="nav-text">CEF下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CEF%E7%BC%96%E8%AF%91"><span class="nav-number">1.2.</span> <span class="nav-text">CEF编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CEF%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">CEF项目结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#libcef-dll-wrapper%E7%BC%96%E8%AF%91"><span class="nav-number">1.4.</span> <span class="nav-text">libcef_dll_wrapper编译</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Qt%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">Qt相关内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">复制文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">2.2.</span> <span class="nav-text">main文件内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mainwindow-cpp%E5%86%85%E5%AE%B9"><span class="nav-number">2.3.</span> <span class="nav-text">mainwindow.cpp内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cmake%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">2.4.</span> <span class="nav-text">cmake文件内容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">遇到的问题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">811k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">12:17</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : '82792d678cc552ec0c48fe0a618bd125',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

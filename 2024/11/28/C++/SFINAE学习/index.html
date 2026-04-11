@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="SFINAE 全称是substitution failure is not an error（“替换失败不是错误”），是C++模板当中的一项技术，感觉主要用途是在模板替换参数失败时，继续编译而不是报错并停止编译。 以下内容翻译自：https:&#x2F;&#x2F;www.cppstories.com&#x2F;2016&#x2F;02&#x2F;notes-on-c-sfinae&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SFINAE学习">
+<meta property="og:url" content="https://bugcat.top/2024/11/28/C++/SFINAE%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="SFINAE 全称是substitution failure is not an error（“替换失败不是错误”），是C++模板当中的一项技术，感觉主要用途是在模板替换参数失败时，继续编译而不是报错并停止编译。 以下内容翻译自：https:&#x2F;&#x2F;www.cppstories.com&#x2F;2016&#x2F;02&#x2F;notes-on-c-sfinae&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/cpp/SFINAE学习1.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/cpp/SFINAE学习2.png">
+<meta property="article:published_time" content="2024-11-28T23:23:56.000Z">
+<meta property="article:modified_time" content="2026-04-11T05:09:04.525Z">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="C++ python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/cpp/SFINAE学习1.png">
+
+<link rel="canonical" href="https://bugcat.top/2024/11/28/C++/SFINAE%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SFINAE学习 | bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2024/11/28/C++/SFINAE%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SFINAE学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-11-28 23:23:56" itemprop="dateCreated datePublished" datetime="2024-11-28T23:23:56+00:00">2024-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>SFINAE 全称是substitution failure is not an error（“替换失败不是错误”），是C++模板当中的一项技术，感觉主要用途是在模板替换参数失败时，继续编译而不是报错并停止编译。</p>
+<p>以下内容翻译自：<a target="_blank" rel="noopener" href="https://www.cppstories.com/2016/02/notes-on-c-sfinae/">https://www.cppstories.com/2016/02/notes-on-c-sfinae/</a><br><span id="more"></span></p>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Bar</span> &#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">double</span> internalType;  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; </span><br><span class="line"><span class="function"><span class="keyword">typename</span> T::internalType <span class="title">foo</span><span class="params">(<span class="keyword">const</span> T&amp; t)</span> </span>&#123; </span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;foo&lt;T&gt;\n&quot;</span>; </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">foo</span>(<span class="built_in">Bar</span>());</span><br><span class="line">    <span class="built_in">foo</span>(<span class="number">0</span>); <span class="comment">// &lt;&lt; error!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有一个函数模板返回T::internalType，我们用Bar和int参数类型调用它。</p>
+<p>在vs2022上编译报错</p>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/cpp/SFINAE学习1.png" alt=""></p>
+<p>当实现一个简单的、合适的返回int的函数时。如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;foo(int)\n&quot;</span>; <span class="keyword">return</span> <span class="number">0</span>; &#125;</span><br></pre></td></tr></table></figure>
+<p>当为int类型添加重载函数时，编译器可以找到合适的匹配并调用代码。但是在编译过程中，编译器也会“查看”模板化的函数头文件。这个函数对于int类型无效，那么为什么甚至没有报告警告（就像没有提供第二个函数时那样）？要理解这一点，我们需要看一下为函数调用构建重载解析集的过程。</p>
+<h1 id="C-重载解析过程"><a href="#C-重载解析过程" class="headerlink" title="C++重载解析过程"></a>C++重载解析过程</h1><p>当编译器试图编译一个函数调用时（简化）：</p>
+<ol>
+<li>执行按函数名称查找</li>
+<li>对于函数模板，模板实参值是从传递给函数的实际实参的类型推导出来的。<ol>
+<li>所有出现的模板形参（在返回类型和形参类型中）都用这些推导出来的类型替换。</li>
+<li><strong>当此过程导致无效类型（如int::internalType）时，将从重载解析集中删除特定的函数</strong>。(SFINAE)</li>
+</ol>
+</li>
+<li>最后，我们有一个可用于特定调用的可行函数列表。<ol>
+<li>如果此集合为空，则编译失败。</li>
+<li>如果选择了多个函数，就会产生歧义。</li>
+<li>一般来说，其形参与实参最匹配的候选函数是被调用的函数。</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/cpp/SFINAE学习2.png" alt="画板"></p>
+<p>在我们的例子中：typename T::internalType foo（const T&amp; T）不是int的好匹配，它被重载解析集拒绝了。但是最后，int foo（int i）是集合中唯一的选项，所以编译器没有报告任何问题。</p>
+<h1 id="SFINAE作用"><a href="#SFINAE作用" class="headerlink" title="SFINAE作用"></a>SFINAE作用</h1><p>每当我们想要为特定类型选择合适的函数/专门化时，可以使用SFINAE技术</p>
+<ul>
+<li>当T有一个给定的方法时调用一个函数（比如如果T有toString方法调用toString()）</li>
+<li>禁止从包装器类型进行窄化或错误转换。例如，这用于防止std::variant推断出错误的类型。参考: <a target="_blank" rel="noopener" href="https://www.cppstories.com/2018/06/variant/#type-conversions">c++ 17类型转换中有关std::variant的所有信息</a> </li>
+<li>为所有类型的trait特化一个函数（is_integral, is_array, is_class, is_pointer，等等）</li>
+</ul>
+<h2 id="std-enable-if使用"><a href="#std-enable-if使用" class="headerlink" title="std::enable_if使用"></a><code>std::enable_if</code>使用</h2><p>enable_if是一组工具，从c++ 11开始在标准库中可用，它们在内部使用了SFINAE。它们允许从可能的函数模板或类模板的<strong>特化</strong>重载中进行 包含/排除。</p>
+<p>比如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C++11:</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="keyword">typename</span> std::enable_if&lt;std::is_arithmetic&lt;T&gt;::value, T&gt;::<span class="function">type  </span></span><br><span class="line"><span class="function"><span class="title">foo</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;foo&lt;arithmetic T&gt;\n&quot;</span>;</span><br><span class="line">  <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>foo函数适用于所有算术类型（int, long, float…）。如果传递其他类型（例如MyClass），foo将无法实例化。换句话说，重载解析集中拒绝非算术类型的模板实例化。这种类似的结构可以用作<strong>模板形参、函数形参或函数返回类型</strong>。</p>
+<p>enable_if可能的实现</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">bool</span> B, <span class="class"><span class="keyword">class</span> <span class="title">T</span> =</span> <span class="keyword">void</span>&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">enable_if</span> &#123;</span>&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">enable_if</span>&lt;</span><span class="literal">true</span>, T&gt; &#123; <span class="keyword">typedef</span> T type; &#125;;</span><br></pre></td></tr></table></figure>
+<p><code>enable_if&lt;condition,T&gt;::type</code>，如果条件为真，则<code>enable_if&lt;condition,T&gt;::type</code>将生成T，如果条件为假，<code>enable_if&lt;&gt;::type</code>则生成无效替换。</p>
+<p>enable_if可以与 <a target="_blank" rel="noopener" href="http://en.cppreference.com/w/cpp/types">type traits</a> 一起使用，以提供基于trait的最佳函数版本。</p>
+<p>从c++ 14和c++ 17开始，引入了_v和_t变量模板和模板别名。不需要为<code>enable_if</code>或traits使用<code>::type</code>或<code>::value</code>，引入了<code>_v</code>和<code>_t</code>变量模板和模板别名。</p>
+<p>之前的代码可以变成：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C++17:</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="keyword">typename</span> std::<span class="keyword">enable_if_t</span>&lt;std::is_arithmetic_v&lt;T&gt;, T&gt; <span class="comment">// &lt;&lt; shorter!</span></span><br><span class="line"><span class="built_in">foo</span>(T t) &#123;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;foo&lt;arithmetic T&gt;\n&quot;</span>;</span><br><span class="line">  <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整的例子</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;type_traits&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="keyword">typename</span> std::<span class="keyword">enable_if_t</span>&lt;std::is_arithmetic_v&lt;T&gt;, T&gt; <span class="comment">// &lt;&lt; shorter!</span></span><br><span class="line"><span class="built_in">foo</span>(T t) &#123;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;foo&lt;arithmetic T&gt;\n&quot;</span>;</span><br><span class="line">  <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="keyword">typename</span> std::<span class="keyword">enable_if_t</span>&lt;!std::is_arithmetic_v&lt;T&gt;, <span class="keyword">void</span>&gt;</span><br><span class="line"><span class="built_in">foo</span>(T t) &#123;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;foo fallback\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">foo</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">foo</span>(std::string&#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="SFINAE的缺点"><a href="#SFINAE的缺点" class="headerlink" title="SFINAE的缺点"></a>SFINAE的缺点</h1><p>SFINAE和enable_if是比厉害的功能，但也很难正确使用。简单的例子可能行得通，但在现实生活中，可能会遇到各种各样的问题：</p>
+<ul>
+<li>模板错误：你喜欢阅读由编译器生成的模板错误吗？特别是当您使用STL类型时？</li>
+<li>可读性</li>
+<li>嵌套模板通常在enable_if语句中不起作用</li>
+</ul>
+<p>我们能做得更好吗？</p>
+<h1 id="SFINAE的替代方案"><a href="#SFINAE的替代方案" class="headerlink" title="SFINAE的替代方案"></a>SFINAE的替代方案</h1><p>我们至少有三点：</p>
+<ul>
+<li>tag 调度</li>
+<li>编译期if</li>
+<li>Concepts</li>
+</ul>
+<h2 id="Tag-调度"><a href="#Tag-调度" class="headerlink" title="Tag 调度"></a>Tag 调度</h2><p>这是选择调用函数的哪个版本的一个可读性更强的版本。首先，我们定义一个核心函数，然后根据一些编译时条件调用版本A或B。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_int_value_impl</span><span class="params">(T t, std::true_type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(t+<span class="number">0.5f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_int_value_impl</span><span class="params">(T t, std::false_type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(t);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_int_value</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">get_int_value_impl</span>(t, std::is_floating_point&lt;T&gt;&#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当调用get_int_value时，编译器将检查std::is_floating_point的值，然后调用匹配的_impl函数。</p>
+<h2 id="编译期if（C-17）"><a href="#编译期if（C-17）" class="headerlink" title="编译期if（C++17）"></a>编译期if（C++17）</h2><p>从c++ 17开始，我们有了一个新的工具，可以在编译时检查条件，而不需要编写复杂的模板代码！</p>
+<p>可以用一个简短的形式来表达：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_int_value</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">if</span> <span class="title">constexpr</span> <span class="params">(std::is_floating_point&lt;T&gt;)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(t+<span class="number">0.5f</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(t);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Concepts-（C-20）"><a href="#Concepts-（C-20）" class="headerlink" title="Concepts （C++20）"></a>Concepts （C++20）</h2><p>在c++ 20中，我们将获得一个期待已久的特性，使用Concepts，您将能够在模板参数上添加约束，并获得更好的编译器警告。</p>
+<p>一个基本的例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// define a concept:</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="keyword">concept</span> SignedIntegral = std::is_integral_v&lt;T&gt; &amp;&amp; std::is_signed_v&lt;T&gt;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use:</span></span><br><span class="line"><span class="keyword">template</span> &lt;SignedIntegral T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">signedIntsOnly</span><span class="params">(T val)</span> </span>&#123; &#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们首先创建了一个描述有符号和整型类型的Concept。请注意，我们可以使用现有的类型特征。稍后，我们将使用它来定义一个函数模板，该模板只支持与该概念匹配的类型。这里我们不使用typename T，但我们可以引用Concepts的名称。</p>
+<p>现在让我们试着用一个例子来概括我们的知识。</p>
+<h1 id="一个完整例子"><a href="#一个完整例子" class="headerlink" title="一个完整例子"></a>一个完整例子</h1><p>为了总结，最好通过一些工作示例来了解如何使用SFINAE：</p>
+<p>测试的class：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HasToString</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">char</span> YesType[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">char</span> NoType[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> C&gt; <span class="function"><span class="keyword">static</span> YesType&amp; <span class="title">test</span><span class="params">(<span class="keyword">decltype</span>(&amp;C::ToString))</span></span>;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> C&gt; <span class="function"><span class="keyword">static</span> NoType&amp; <span class="title">test</span><span class="params">(...)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="class"><span class="keyword">enum</span> &#123;</span> value = <span class="built_in"><span class="keyword">sizeof</span></span>(test&lt;T&gt;(<span class="number">0</span>)) == <span class="built_in"><span class="keyword">sizeof</span></span>(YesType) &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面的模板类将用于测试某个给定类型T是否有ToString（）方法。我们这里有什么。SFINAE的概念在哪里使用？你能看到吗？</p>
+<p>当我们想要执行测试时，我们需要这样写：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HasToString&lt;T&gt;::value</span><br></pre></td></tr></table></figure>
+<p>如果我们在那里传递int会发生什么？它将类似于本文开头的第一个示例。编译器将尝试执行模板替换，它将在以下情况下失败：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> C&gt; <span class="function"><span class="keyword">static</span> YesType&amp; <span class="title">test</span><span class="params">( <span class="keyword">decltype</span>(&amp;C::ToString) )</span> </span>;</span><br></pre></td></tr></table></figure>
+<p>显然，没有int::ToString方法，因此第一个重载方法将被排除在解析集之外。但是，第二个方法将通过（NoType&amp; test（…）），因为它可以在所有其他类型上调用。所以这里我们得到SFINAE！删除了一个方法，只有第二个方法对该类型有效。<br> 最后枚举的最终值，计算如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span> value = <span class="built_in"><span class="keyword">sizeof</span></span>(test&lt;T&gt;(<span class="number">0</span>)) == <span class="built_in"><span class="keyword">sizeof</span></span>(YesType) &#125;;</span><br></pre></td></tr></table></figure>
+<p>返回NoType，由于sizeof（NoType）与sizeof（YesType）不同，因此最终值将为0。</p>
+<p>如果我们提供并测试下面的类，会发生什么？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClassWithToString</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">ToString</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="string">&quot;ClassWithToString object&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>现在，模板替换将生成两个候选方法：两个测试方法都是有效的，但是第一个更好，并且将被“使用”。我们将得到YesType，最后HasToString<ClassWithToString>::value返回1作为结果。</p>
+<p>如何使用这样的检查器类？</p>
+<p>理想情况下，写一些if语句会很方便：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (HasToString&lt;<span class="keyword">decltype</span>(obj)&gt;::value)</span><br><span class="line">    <span class="keyword">return</span> obj.<span class="built_in">ToString</span>();</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;undefined&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>我们可以使用if constexpr来编写这段代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function">string <span class="title">CallToString</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">if</span> <span class="title">constexpr</span> <span class="params">(HasToString&lt;<span class="keyword">decltype</span>(obj)&gt;::value)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> obj.<span class="built_in">ToString</span>();</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="string">&quot;undefined&quot;</span>;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但出于本例的目的，我们将重点放在c++ 11/14解决方案上。</p>
+<p>为此，可以使用enable_if并创建两个函数：一个接受带有ToString的类，另一个接受所有其他情况。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; </span><br><span class="line"><span class="keyword">typename</span> enable_if&lt;HasToString&lt;T&gt;::value, string&gt;::<span class="function">type</span></span><br><span class="line"><span class="function"><span class="title">CallToString</span><span class="params">(T * t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t-&gt;<span class="built_in">ToString</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">CallToString</span><span class="params">(...)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;undefined...&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样，在上面的代码中有SFINAE。当您传递生成HasToString<T>::value = false的类型时，enable_if将无法实例化。</p>
+<p>上述技术相当复杂，也有局限性。例如，它不限制函数的返回类型。</p>
+<p>让我们看看现代c++如何提供帮助。</p>
+<h1 id="现代c-的救星"><a href="#现代c-的救星" class="headerlink" title="现代c++的救星"></a>现代c++的救星</h1><ul>
+<li><code>decltype</code></li>
+<li><code>declval</code></li>
+<li><code>constexpr</code></li>
+<li><code>std::void_t</code></li>
+<li>detection idiom</li>
+</ul>
+<h2 id="decltype"><a href="#decltype" class="headerlink" title="decltype"></a>decltype</h2><p>Decltype是一个功能强大的工具，可以返回给定表达式的类型。我们已经用它来：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> C&gt; </span><br><span class="line"><span class="function"><span class="keyword">static</span> YesType&amp; <span class="title">test</span><span class="params">( <span class="keyword">decltype</span>(&amp;C::ToString) )</span> </span>;</span><br></pre></td></tr></table></figure>
+<p>它返回C::ToString成员方法的类型（如果此类方法存在于该类的上下文中）。</p>
+<h3 id="declval"><a href="#declval" class="headerlink" title="declval"></a><code>declval</code></h3><p>declval是一个实用程序，它允许您在<strong>不创建实际对象</strong>的情况下调用T上的方法。在本例中，可以使用它来检查方法的返回类型：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decltype(declval&lt;T&gt;().toString())</span><br></pre></td></tr></table></figure>
+<h3 id="constexpr"><a href="#constexpr" class="headerlink" title="constexpr"></a><code>constexpr</code></h3><p>Constexpr建议编译器在编译时计算表达式（如果可能的话）。否则，我们的检查器方法可能只在运行时求值。新风格建议为大多数方法添加constexpr。</p>
+<h2 id="void-t"><a href="#void-t" class="headerlink" title="void_t"></a><code>void_t</code></h2><ul>
+<li><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/26366205/using-void-t-to-check-if-a-class-has-a-method-with-a-specific-signature">SO question: Usingvoid_tto check if a class has a method with a specific signature</a></li>
+<li><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/27687389/how-does-void-t-work">SO question: How doesvoid_twork</a></li>
+</ul>
+<p>Full video for the lecture:</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=a0FliKwcwXE&amp;feature=emb_logo">CppCon 2014: Walter E. Brown “Modern Template Metaprogramming: A Compendium, Part II” - YouTube</a></p>
+<p>Starting at around 29 minute, and especially around 39 minutes.</p>
+<p>This is an amazing meta-programming pattern! I don’t want to spoil anything, so just watch the video, and you should understand the idea! :)</p>
+<h2 id="detection-idiom"><a href="#detection-idiom" class="headerlink" title="detection idiom"></a><strong>detection idiom</strong></h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4436.pdf">WG21 N4436, PDF</a> - -提出对c++检测习惯用法的标准库支持，由Walter E. Brown编写</li>
+<li><a target="_blank" rel="noopener" href="http://en.cppreference.com/w/cpp/experimental/is_detected">std::is_detected</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Member_Detector">wikibooks: C++ Member Detector</a> 成员检测器</li>
+</ul>
+<p>Walter E. Brown提出了一个完整的实用程序类，可用于检查给定类的接口和其他属性。当然，其中大部分是基于void_t技术。</p>
+<h2 id="改进代码"><a href="#改进代码" class="headerlink" title="改进代码"></a>改进代码</h2><p>如果我是正确的，假设你在编译器/库中有void_t，这是代码的新版本：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// default template:</span></span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> , <span class="keyword">class</span> =</span> <span class="keyword">void</span> &gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">has_toString</span> :</span> false_type &#123; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// specialized as has_member&lt; T , void &gt; or sfinae</span></span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">has_toString</span>&lt;</span>T , <span class="keyword">void_t</span>&lt;<span class="keyword">decltype</span>(&amp;T::toString)&gt;&gt; : std::is_same&lt;std::string, <span class="keyword">decltype</span>(declval&lt;T&gt;().<span class="built_in">toString</span>())&gt;</span><br><span class="line">&#123; &#125;;</span><br></pre></td></tr></table></figure>
+<p>它使用基于void_t的显式检测习语。基本上，当类中没有T::toString（）时，就会发生SFINAE，最终得到通用的默认模板（因此使用了false_type）。但是当类中有这样的方法时，将选择模板的专门化版本。如果我们不关心方法的返回类型，这可能就是结束。但是在这个版本中，我们通过继承std::is_same来检查这一点。代码检查方法的返回类型是否为std::string。这样就可以得到true_type或false_type。</p>
+<h2 id="Concepts-进行拯救"><a href="#Concepts-进行拯救" class="headerlink" title="Concepts 进行拯救"></a>Concepts 进行拯救</h2><p>我们可以在c++ 20中做得更好。有了这个特性，我们可以声明一个新concept 来指定类的接口：</p>
+<p>比如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">concept</span> HasToString = <span class="built_in"><span class="keyword">requires</span></span>(T v)</span><br><span class="line">&#123;</span><br><span class="line">    &#123;v.<span class="built_in">toString</span>()&#125; -&gt; std::convertible_to&lt;std::string&gt;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>就这些！所有这些都是用一个很好的和易于阅读的语法编写的。</p>
+<p>我们可以用一些测试代码来尝试：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;type_traits&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">concept</span> HasToString = <span class="built_in"><span class="keyword">requires</span></span>(<span class="keyword">const</span> T v)</span><br><span class="line">&#123;</span><br><span class="line">    &#123;v.<span class="built_in">toString</span>()&#125; -&gt; std::convertible_to&lt;std::string&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Number</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> _num &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="function">std::string <span class="title">toString</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> std::<span class="built_in">to_string</span>(_num); &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintType</span><span class="params">(HasToString <span class="keyword">auto</span>&amp; t)</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; t.<span class="built_in">toString</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Number x &#123; <span class="number">42</span> &#125;;</span><br><span class="line">    <span class="built_in">PrintType</span>(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你的类型不支持toString，那么你可能会得到编译错误</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在这篇文章中，我们介绍了SFINAE的理论和例子，SFINAE是一种模板编程技术，它允许你拒绝来自重载解析集的代码。在原始形式下，这可能有点复杂，但由于现代c++，我们有许多工具可以提供帮助：例如enable_if， std::declval和其他一些工具。更重要的是，如果您有幸使用最新的c++标准，您可以利用c++ 17中的constexpr和c++ 20中的Concepts。</p>
+<p>后者——concepts ——可以彻底改变我们的模板代码，使其易于阅读和使用！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/11/10/C++/span/" rel="prev" title="span">
+      <i class="fa fa-chevron-left"></i> span
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/03/02/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85/QT6%20%E5%86%85%E5%B5%8CCEF%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="next" title="QT6 内嵌CEF 环境配置">
+      QT6 内嵌CEF 环境配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-%E9%87%8D%E8%BD%BD%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">C++重载解析过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SFINAE%E4%BD%9C%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">SFINAE作用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#std-enable-if%E4%BD%BF%E7%94%A8"><span class="nav-number">3.1.</span> <span class="nav-text">std::enable_if使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SFINAE%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">SFINAE的缺点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SFINAE%E7%9A%84%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88"><span class="nav-number">5.</span> <span class="nav-text">SFINAE的替代方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tag-%E8%B0%83%E5%BA%A6"><span class="nav-number">5.1.</span> <span class="nav-text">Tag 调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E6%9C%9Fif%EF%BC%88C-17%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">编译期if（C++17）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Concepts-%EF%BC%88C-20%EF%BC%89"><span class="nav-number">5.3.</span> <span class="nav-text">Concepts （C++20）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%AE%8C%E6%95%B4%E4%BE%8B%E5%AD%90"><span class="nav-number">6.</span> <span class="nav-text">一个完整例子</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3c-%E7%9A%84%E6%95%91%E6%98%9F"><span class="nav-number">7.</span> <span class="nav-text">现代c++的救星</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#decltype"><span class="nav-number">7.1.</span> <span class="nav-text">decltype</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#declval"><span class="nav-number">7.1.1.</span> <span class="nav-text">declval</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#constexpr"><span class="nav-number">7.1.2.</span> <span class="nav-text">constexpr</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#void-t"><span class="nav-number">7.2.</span> <span class="nav-text">void_t</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#detection-idiom"><span class="nav-number">7.3.</span> <span class="nav-text">detection idiom</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E4%BB%A3%E7%A0%81"><span class="nav-number">7.4.</span> <span class="nav-text">改进代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Concepts-%E8%BF%9B%E8%A1%8C%E6%8B%AF%E6%95%91"><span class="nav-number">7.5.</span> <span class="nav-text">Concepts 进行拯救</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">811k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">12:17</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5181a7c6b299b2f49124',
+      clientSecret: '840df9eaf797888f8029b5a03aca0f28fe042bcf',
+      repo        : 'bugcat9.github.io',
+      owner       : 'bugcat9',
+      admin       : ['bugcat9'],
+      id          : '07e75ce667fa37a6b1489e6c87ac9f2e',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>

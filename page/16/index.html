@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+<meta name="google-site-verification" content="h6mqk4DHw-91R-MekBrLgCwD8GSHlkGduz8ltdkIfFI" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bugcat.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="啥都不会">
+<meta property="og:type" content="website">
+<meta property="og:title" content="bugCat&#39;s Blog">
+<meta property="og:url" content="https://bugcat.top/page/16/index.html">
+<meta property="og:site_name" content="bugCat&#39;s Blog">
+<meta property="og:description" content="啥都不会">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="bugCat">
+<meta property="article:tag" content="C++ python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://bugcat.top/page/16/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>bugCat's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="bugCat's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bugCat's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">毛的感情的程序猿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/bugcat9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/05/20/java/%E5%9F%BA%E7%A1%80/final,static,this,super%20%E5%85%B3%E9%94%AE%E5%AD%97%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/20/java/%E5%9F%BA%E7%A1%80/final,static,this,super%20%E5%85%B3%E9%94%AE%E5%AD%97%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">final,static,this,super 关键字总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 10:26:53" itemprop="dateCreated datePublished" datetime="2021-05-20T10:26:53+00:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="final-static-this-super-关键字总结"><a href="#final-static-this-super-关键字总结" class="headerlink" title="final,static,this,super 关键字总结"></a>final,static,this,super 关键字总结</h1><h2 id="final-关键字"><a href="#final-关键字" class="headerlink" title="final 关键字"></a>final 关键字</h2><p><strong>final关键字，意思是最终的、不可修改的，最见不得变化 ，用来修饰类、方法和变量，具有以下特点：</strong></p>
+<ol>
+<li><strong>final修饰的类不能被继承，final类中的所有成员方法都会被隐式的指定为final方法；</strong></li>
+<li><strong>final修饰的方法不能被重写；</strong></li>
+<li><strong>final修饰的变量是常量，如果是基本数据类型的变量，则其数值一旦在初始化之后便不能更改；如果是引用类型的变量，则在对其初始化之后便不能让其指向另一个对象。</strong></li>
+</ol>
+<p>说明：使用final方法的原因有两个。第一个原因是把方法锁定，以防任何继承类修改它的含义；第二个原因是效率。在早期的Java实现版本中，会将final方法转为内嵌调用。但是如果方法过于庞大，可能看不到内嵌调用带来的任何性能提升（现在的Java版本已经不需要使用final方法进行这些优化了）。类中所有的private方法都隐式地指定为final。</p>
+<h2 id="static-关键字"><a href="#static-关键字" class="headerlink" title="static 关键字"></a>static 关键字</h2><p><strong>static 关键字主要有以下四种使用场景：</strong></p>
+<ol>
+<li><p><strong>修饰成员变量和成员方法:</strong> 被 static 修饰的成员属于类，不属于单个这个类的某个对象，被类中所有对象共享，可以并且建议通过类名调用。被static 声明的成员变量属于静态成员变量，静态变量 存放在 Java 内存区域的方法区。调用格式：<code>类名.静态变量名</code> <code>类名.静态方法名()</code></p>
+</li>
+<li><p><strong>静态代码块:</strong> 静态代码块定义在类中方法外, 静态代码块在非静态代码块之前执行(静态代码块—&gt;非静态代码块—&gt;构造方法)。 该类不管创建多少对象，静态代码块只执行一次.</p>
+<p>静态代码块的格式是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;    </span><br><span class="line">语句体;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个类中的静态代码块可以有多个，位置可以随便放，它不在任何的方法体内，JVM加载类时会执行这些静态的代码块，如果静态代码块有多个，JVM将按照它们在类中出现的先后顺序依次执行它们，每个代码块只会被执行一次。</p>
+</li>
+</ol>
+<ol>
+<li><p><strong>静态内部类（static修饰类的话只能修饰内部类）：</strong> 静态内部类与非静态内部类之间存在一个最大的区别: 非静态内部类在编译完成之后会隐含地保存着一个引用，该引用是指向创建它的外围类，但是静态内部类却没有。没有这个引用就意味着：1. 它的创建是不需要依赖外围类的创建。2. 它不能使用任何外围类的非static成员变量和方法。</p>
+<p>Example（静态内部类实现单例模式）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//声明为 private 避免调用默认构造方法创建对象</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">// 声明为 private 表明静态内部该类只能在该 Singleton 类中被访问</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getUniqueInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当 Singleton 类加载时，静态内部类 SingletonHolder 没有被加载进内存。只有当调用 <code>getUniqueInstance()</code>方法从而触发 <code>SingletonHolder.INSTANCE</code> 时 SingletonHolder 才会被加载，此时初始化 INSTANCE 实例，并且 JVM 能确保 INSTANCE 只被实例化一次。</p>
+<p>这种方式不仅具有延迟初始化的好处，而且由 JVM 提供了对线程安全的支持。</p>
+</li>
+<li><p><strong>静态导包(用来导入类中的静态资源，1.5之后的新特性):</strong> 格式为：<code>import static</code> 这两个关键字连用可以指定导入某个类中的指定静态资源，并且不需要使用类名调用类中静态成员，可以直接使用类中静态成员变量和成员方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//将Math中的所有静态资源导入，这时候可以直接使用里面的静态方法，而不用通过类名进行调用</span></span><br><span class="line"> <span class="comment">//如果只想导入单一某个静态方法，只需要将换成对应的方法名即可</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.lang.Math.*;<span class="comment">//换成import static java.lang.Math.max;具有一样的效果</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">int</span> max = max(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">    System.out.println(max);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>补充内容：</strong><code>static&#123;&#125;</code>静态代码块与<code>&#123;&#125;</code>非静态代码块(构造代码块)</p>
+<p>相同点： 都是在JVM加载类时且在构造方法执行之前执行，在类中都可以定义多个，定义多个时按定义的顺序执行，一般在代码块中对一些static变量进行赋值。</p>
+<p>不同点： 静态代码块在非静态代码块之前执行(静态代码块—非静态代码块—构造方法)。静态代码块只在第一次new执行一次，之后不再执行，而非静态代码块在每new一次就执行一次。 非静态代码块可在普通方法中定义(不过作用不大)；而静态代码块不行。</p>
+<blockquote>
+<p>修正 <a target="_blank" rel="noopener" href="https://github.com/Snailclimb/JavaGuide/issues/677">issue #677</a>：静态代码块可能在第一次new的时候执行，但不一定只在第一次new的时候执行。比如通过 <code>Class.forName(&quot;ClassDemo&quot;)</code>创建 Class 对象的时候也会执行。</p>
+</blockquote>
+<p>一般情况下,如果有些代码比如一些项目最常用的变量或对象必须在项目启动的时候就执行的时候,需要使用静态代码块,这种代码是主动执行的。如果我们想要设计不需要创建对象就可以调用类中的方法，例如：Arrays类，Character类，String类等，就需要使用静态方法, 两者的区别是 静态代码块是自动执行的而静态方法是被调用的时候才执行的.</p>
+<p>Example：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.print(<span class="string">&quot;默认构造方法！--&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//非静态代码块</span></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.print(<span class="string">&quot;非静态代码块！--&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//静态代码块</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.print(<span class="string">&quot;静态代码块！--&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.print(<span class="string">&quot;静态方法中的内容! --&quot;</span>);</span><br><span class="line">        &#123;</span><br><span class="line">            System.out.print(<span class="string">&quot;静态方法中的代码块！--&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Test test = <span class="keyword">new</span> Test();</span><br><span class="line">        Test.test();<span class="comment">//静态代码块！--静态方法中的内容! --静态方法中的代码块！--</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">静态代码块！--非静态代码块！--默认构造方法！--静态方法中的内容! --静态方法中的代码块！--</span><br></pre></td></tr></table></figure>
+<p>当只执行 <code>Test.test();</code> 时输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">静态代码块！--静态方法中的内容! --静态方法中的代码块！--</span><br></pre></td></tr></table></figure>
+<p>当只执行 <code>Test test = new Test();</code> 时输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">静态代码块！--非静态代码块！--默认构造方法！--</span><br></pre></td></tr></table></figure>
+<p>非静态代码块与构造函数的区别是： 非静态代码块是给所有对象进行统一初始化，而构造函数是给对应的对象初始化，因为构造函数是可以多个的，运行哪个构造函数就会建立什么样的对象，但无论建立哪个对象，都会先执行相同的构造代码块。也就是说，构造代码块中定义的是不同对象共性的初始化内容。</p>
+</li>
+</ol>
+<h2 id="this-关键字"><a href="#this-关键字" class="headerlink" title="this 关键字"></a>this 关键字</h2><p>this关键字用于引用类的当前实例。 例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Manager &#123;</span><br><span class="line">    Employees[] employees;</span><br><span class="line">     </span><br><span class="line">    void manageEmployees() &#123;</span><br><span class="line">        int totalEmp = this.employees.length;</span><br><span class="line">        System.out.println(&quot;Total employees: &quot; + totalEmp);</span><br><span class="line">        this.report();</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    void report() &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的示例中，this关键字用于两个地方：</p>
+<ul>
+<li>this.employees.length：访问类Manager的当前实例的变量。</li>
+<li>this.report（）：调用类Manager的当前实例的方法。</li>
+</ul>
+<p>此关键字是可选的，这意味着如果上面的示例在不使用此关键字的情况下表现相同。 但是，使用此关键字可能会使代码更易读或易懂。</p>
+<h2 id="super-关键字"><a href="#super-关键字" class="headerlink" title="super 关键字"></a>super 关键字</h2><p>super关键字用于从子类访问父类的变量和方法。 例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Super &#123;</span><br><span class="line">    protected int number;</span><br><span class="line">     </span><br><span class="line">    protected showNumber() &#123;</span><br><span class="line">        System.out.println(&quot;number = &quot; + number);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public class Sub extends Super &#123;</span><br><span class="line">    void bar() &#123;</span><br><span class="line">        super.number = 10;</span><br><span class="line">        super.showNumber();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，Sub 类访问父类成员变量 number 并调用其其父类 Super 的 <code>showNumber（）</code> 方法。</p>
+<p><strong>使用 this 和 super 要注意的问题：</strong></p>
+<ul>
+<li>在构造器中使用 <code>super（）</code> 调用父类中的其他构造方法时，该语句必须处于构造器的首行，否则编译器会报错。另外，this 调用本类中的其他构造方法时，也要放在首行。</li>
+<li>this、super不能用在static方法中。</li>
+</ul>
+<p><strong>简单解释一下：</strong></p>
+<p>被 static 修饰的成员属于类，不属于单个这个类的某个对象，被类中所有对象共享。而 this 代表对本类对象的引用，指向本类对象；而 super 代表对父类对象的引用，指向父类对象；所以， <strong>this和super是属于对象范畴的东西，而静态方法是属于类范畴的东西</strong>。</p>
+<p><strong>转载自：</strong><a target="_blank" rel="noopener" href="https://gitee.com/SnailClimb/JavaGuide/blob/master/docs/java/basic/final,static,this,super.md">https://gitee.com/SnailClimb/JavaGuide/blob/master/docs/java/basic/final,static,this,super.md</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/05/20/java/%E5%9F%BA%E7%A1%80/java%E4%B8%ADselenium%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/20/java/%E5%9F%BA%E7%A1%80/java%E4%B8%ADselenium%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">java中Selenium配置环境</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 10:26:53" itemprop="dateCreated datePublished" datetime="2021-05-20T10:26:53+00:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="java中Selenium配置环境"><a href="#java中Selenium配置环境" class="headerlink" title="java中Selenium配置环境"></a>java中Selenium配置环境</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Selenium是一个用于Web应用程序测试的工具，在上软件测试的时候需要使用到这个工具，这个工具有python版和java版，python版的配置方法网上有许多，但是java版感觉写的比较少，所以记录一下。</p>
+<h2 id="讲解"><a href="#讲解" class="headerlink" title="讲解"></a>讲解</h2><h3 id="一、下载Chrome谷歌浏览器驱动"><a href="#一、下载Chrome谷歌浏览器驱动" class="headerlink" title="一、下载Chrome谷歌浏览器驱动"></a>一、下载Chrome谷歌浏览器驱动</h3><p>我使用的是Chrome浏览器，所以需要下载Chrome谷歌浏览器驱动，驱动和浏览器有对应关系，如果驱动版本下载错误是使用不了的，所以需要先看一下浏览器版本。</p>
+<p>找到设置当中的“关于Chrome”中可以看到浏览器的版本，我的版本是81.0.4044.129</p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/java/java中Selenium配置环境01.png" alt="java中Selenium配置环境01"></p>
+<p>驱动下载可以到<a target="_blank" rel="noopener" href="http://chromedriver.storage.googleapis.com/index.html">http://chromedriver.storage.googleapis.com/index.html</a>进行下载</p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/java/java中Selenium配置环境02.png" alt="java中Selenium配置环境02"></p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/java/java中Selenium配置环境03.png" alt="java中Selenium配置环境03"></p>
+<p>因为我是windows系统所以下载chromedriver_win32.zip，下载后解压可以得到一个chromedriver.exe。如果下载太慢也可以到淘宝镜像<a target="_blank" rel="noopener" href="https://npm.taobao.org/mirrors/chromedriver/">https://npm.taobao.org/mirrors/chromedriver/</a>进行下载</p>
+<h3 id="二、创建java的Maven项目"><a href="#二、创建java的Maven项目" class="headerlink" title="二、创建java的Maven项目"></a>二、创建java的Maven项目</h3><p>将chromedriver.exe放在resources文件夹下</p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/java/java中Selenium配置环境04.png" alt="java中Selenium配置环境04"></p>
+<p>在pom.xml下写下下面的内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.zhouning<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>FunctionTest<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.seleniumhq.selenium<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>selenium-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.141.59<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>下载jar包的版本可以参考maven的仓库，我选择的是3.141.59版本，仓库地址：<a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java?__cf_chl_jschl_tk__=8cf2ed0cbf67974adb3f4d41b0c19dca430235c9-1588422116-0-ATzOuJO1jm78w9mjPQ9DCozEgF2ngWhN7QZLE4E0Jkox6MgtZ2oSSCNpkzOI4cZAZ1AEWnVVl3Evrs7DotRmDdpVVYp63ubqOUYn8UHMVrAC1v3a-aqiA_Oktwz8F1MDOCnI8Sgl__GWXntUOJnnNDFzVhuR5yUtCj0iPc7WtWLuB8DMqbg9PsBnAmB2MQsDdZm6D1YKLerWu9lCi8A8hJt99oO4SaFD1FTY8-YjO8ZxNvuA-qG8NUJYznyMQBRCRLfh7bAngNQkiw7P3m8zbapf8sJId8nI2JQQFQPNzR56_Oo6R-2gLMTjTx8lFnBuI7jgZzBstFAEaTHP4-ODdabW4MoeXonj9D35ufW6adoatbBBxb-raQ4a-O8WMMV_p5_7oeIMtLb3YFvNcWBC648">点这里</a></p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/java/java中Selenium配置环境05.png" alt="java中Selenium配置环境05"></p>
+<p>最后创建一个Test类，看看是否配置成功</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.setProperty(<span class="string">&quot;webdriver.chrome.driver&quot;</span>, <span class="string">&quot;src/main/resources/chromedriver.exe&quot;</span>);<span class="comment">// chromedriver服务地址</span></span><br><span class="line">        WebDriver driver = <span class="keyword">new</span> ChromeDriver(); <span class="comment">// 新建一个WebDriver 的对象，但是new 的是谷歌的驱动</span></span><br><span class="line">        String url = <span class="string">&quot;http://www.baidu.com&quot;</span>;</span><br><span class="line">        driver.get(url); <span class="comment">// 打开指定的网站</span></span><br><span class="line">        driver.navigate().to(url); <span class="comment">// 打开指定的网站</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果展示：</p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/java/java中Selenium配置环境06.png" alt="java中Selenium配置环境06"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>因为在学习软件测试，所以Selenium深入的使用，目前并不知道，后续有再写一些。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/05/20/java/%E5%9F%BA%E7%A1%80/java%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/20/java/%E5%9F%BA%E7%A1%80/java%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%90%86/" class="post-title-link" itemprop="url">java中的代理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 10:26:53" itemprop="dateCreated datePublished" datetime="2021-05-20T10:26:53+00:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="java中的代理"><a href="#java中的代理" class="headerlink" title="java中的代理"></a>java中的代理</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在学习spring的时候学习到了代理相关的知识，所以记录一下。<strong>代理的作用是帮助业务更加简单专一，而一些公共的东西交给代理来完成</strong>。比如：我们写<code>Service</code>的时候，需要在里面编写增删改查四个方法，并且调用这四个方法的时候都需要给出日志，这个时候我们就可以使用代理来完成，让<code>Service</code>中只专注于增删改查，而代理关注于写然日志。java的代理有静态和动态两种，一般使用动态更好。</p>
+<h2 id="代理讲解"><a href="#代理讲解" class="headerlink" title="代理讲解"></a>代理讲解</h2><h3 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h3><p>假设我们有一个需求，需要编写一个<code>UserService</code>，里面要有增删改查四个函数，在调用<code>UserService</code>的时候我们需要完成日志的输入。</p>
+<p>一般情况下我们是这样实现的，先编写一个<code>UserService</code>的接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhouning</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">search</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后再实现这个接口，并且在实现里面写一下日志：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhouning</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log(<span class="string">&quot;add&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;增加用户&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log(<span class="string">&quot;update&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;更新用户&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log(<span class="string">&quot;delete&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;删除用户&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">search</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log(<span class="string">&quot;search&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;查询用户&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 日志</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> methodName</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">log</span><span class="params">(String methodName)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;调用了&quot;</span>+methodName+<span class="string">&quot;方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这样似乎有一些不好，因为<code>UserService</code>应该专注于增删改查的业务，这种日志方法写在里面，就有一种不纯粹的感觉，所以这个时候我们引入了代理，使用代理来帮助我处理日志问题。</p>
+<h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>更改<code>UserServiceImpl</code>中代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhouning</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;增加用户&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;更新用户&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;删除用户&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">search</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;查询用户&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>创建对应的代理类<code>UserServiceProxy</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhouning</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceProxy</span> <span class="keyword">implements</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    UserService userService;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log(<span class="string">&quot;add&quot;</span>);</span><br><span class="line">        userService.add();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log(<span class="string">&quot;update&quot;</span>);</span><br><span class="line">        userService.update();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log(<span class="string">&quot;delete&quot;</span>);</span><br><span class="line">        userService.delete();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">search</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log(<span class="string">&quot;search&quot;</span>);</span><br><span class="line">        userService.search();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 日志</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> methodName</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">log</span><span class="params">(String methodName)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;调用了&quot;</span>+methodName+<span class="string">&quot;方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​        这样我们在实现<code>UserService</code>时，我们只需要关注业务的部分。但是我们发现这样的静态代理，有一个缺点，那就是类变多了增加了工作量，并且如果又有另外一个<code>service</code>有类似的需求，又需要创建另外一个<code>service</code>相关的接口，再实现另外一个代理类，比较麻烦，所以也就有了我们的动态代理类。</p>
+<h3 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h3><p>这里讲的动态代理是基于jdk动态代理实习，相关的内容为<code>InvocationHandler</code>接口和<code>Proxy</code>类。</p>
+<ul>
+<li><p><code>InvocationHandler</code>，官方文档说明上介绍：“<code>InvocationHandler</code> is the interface implemented by the <em>invocation handler</em> of a proxy instance.</p>
+<p>Each proxy instance has an associated invocation handler. When a method is invoked on a proxy instance, the method invocation is encoded and dispatched to the <code>invoke</code> method of its invocation handler.”（翻译：InvocationHandler是由代理实例的调用处理程序实现的接口。 每个代理实例都有一个关联的调用处理程序。在代理实例上调用方法时，该方法调用将被编码并分派到其调用处理程序的invoke方法。）</p>
+<p><code>InvocationHandler</code> 里面有一个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Object	<span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Processes a method invocation on a proxy instance and returns the result.处理代理实例上的方法调用并返回结果</span></span></span><br></pre></td></tr></table></figure>
+<p>理解一下就是我们将需要代理的对象、方法、参数传入invoke，然后再invoke里面调用代理实例的处理程序实现代理功能，其实跟上面的静态代理思想类似，比如在<code>UserServiceProxy</code>中调用代理对象<code>userService</code>相对应的处理程序</p>
+</li>
+<li><p><code>Proxy</code>,官方文档说明上介绍：“<code>Proxy</code> provides static methods for creating dynamic proxy classes and instances, and it is also the superclass of all dynamic proxy classes created by those methods.”（翻译：<code>Proxy</code> 提供用于创建动态代理类和实例的静态方法，它还是由这些方法创建的所有动态代理类的超类。）</p>
+<p><code>Proxy</code>中提供了一个静态方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> Object	<span class="title">newProxyInstance</span><span class="params">(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Returns an instance of a proxy class for the specified interfaces that dispatches method invocations to the specified invocation handler. 返回指定接口的代理类的实例，该实例将方法调用分派到指定的调用处理程序。</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>代码实现上，先创建一个ProxyInvocationHandler实现InvocationHandler：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhouning.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyInvocationHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">    <span class="comment">//目标对象，需要代理的对象</span></span><br><span class="line">    <span class="keyword">private</span> Object target;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTarget</span><span class="params">(Object target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span>  代理对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getProxy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Proxy.newProxyInstance(<span class="keyword">this</span>.getClass().getClassLoader(), target.getClass().getInterfaces(), <span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> proxy     代理类</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> method    代理类的调用处理程序方法对象</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args      参数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Throwable</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> </span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        log(method.getName());</span><br><span class="line">        Object result = method.invoke(target, args);</span><br><span class="line">        <span class="keyword">return</span> Object;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 日志</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> methodName</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">log</span><span class="params">(String methodName)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;调用了&quot;</span>+methodName+<span class="string">&quot;方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    UserService userService = <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">    ProxyInvocationHandler pih = <span class="keyword">new</span> ProxyInvocationHandler();</span><br><span class="line">    <span class="comment">//设置代理对象</span></span><br><span class="line">    pih.setTarget(userService);</span><br><span class="line">    UserService proxy = (UserService) pih.getProxy();</span><br><span class="line">    proxy.add();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就实现了动态的代理，似乎来说动态代理比静态代理要复杂一些，那么为什么不用更加简单一些的静态代理呢？首先是我们可以看到动态代理处理上更加简洁，其次是动态代理可以处理一类的业务逻辑，加入说下次有另外一个<code>service</code>需求，我们基本上不需要重写一个代理类，直接使用现在这个动态代理类就行，减少了工作量。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在学习spring_aop之前先学习了一下代理的内容，做个小结养成好习惯。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/05/20/java/%E5%9F%BA%E7%A1%80/try-catch-finally/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/20/java/%E5%9F%BA%E7%A1%80/try-catch-finally/" class="post-title-link" itemprop="url">java中try-catch-finally</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 10:26:53" itemprop="dateCreated datePublished" datetime="2021-05-20T10:26:53+00:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="java中try-catch-finally"><a href="#java中try-catch-finally" class="headerlink" title="java中try-catch-finally"></a>java中try-catch-finally</h1><h2 id="1-try-catch-finally"><a href="#1-try-catch-finally" class="headerlink" title="1.try-catch-finally"></a>1.try-catch-finally</h2><ul>
+<li><strong>try 块：</strong> 用于捕获异常。其后可接零个或多个 catch 块，如果没有 catch 块，则必须跟一个 finally 块。</li>
+<li><strong>catch 块：</strong> 用于处理 try 捕获到的异常。</li>
+<li><strong>finally 块：</strong> 无论是否捕获或处理异常，finally 块里的语句都会被执行。当在 try 块或 catch 块中遇到 return 语句时，finally 语句块将在方法返回之前被执行。</li>
+</ul>
+<p><strong>在以下 4 种特殊情况下，finally 块不会被执行：</strong></p>
+<ol>
+<li>在 finally 语句块第一行发生了异常。 因为在其他行，finally 块还是会得到执行</li>
+<li>在前面的代码中用了 System.exit(int)已退出程序。 exit 是带参函数 ；若该语句在异常语句之后，finally 会执行</li>
+<li>程序所在的线程死亡。</li>
+<li>关闭 CPU。</li>
+</ol>
+<p><strong>注意：</strong> 当 try 语句和 finally 语句中都有 return 语句时，在方法返回之前，finally 语句的内容将被执行，并且 finally 语句的返回值将会覆盖原始的返回值。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123;</span><br><span class="line">    public static int f(int value) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            return value * value;</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            if (value == 2) &#123;</span><br><span class="line">                return 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果调用 <code>f(2)</code>，返回值将是 0，因为 finally 语句的返回值覆盖了 try 语句块的返回值。</p>
+<h2 id="2-使用-try-with-resources-来代替try-catch-finally"><a href="#2-使用-try-with-resources-来代替try-catch-finally" class="headerlink" title="2.使用 try-with-resources 来代替try-catch-finally"></a>2.使用 <code>try-with-resources</code> 来代替<code>try-catch-finally</code></h2><blockquote>
+<p>面对必须要关闭的资源，我们总是应该优先使用try-with-resources而不是<code>try-finally</code>。随之产生的代码更简短，更清晰，产生的异常对我们也更有用。<code>try-with-resources</code>语句让我们更容易编写必须要关闭的资源的代码，若采用<code>try-finally</code>则几乎做不到这点。</p>
+</blockquote>
+<p>Java 中类似于<code>InputStream</code>、<code>OutputStream</code> 、<code>Scanner</code> 、<code>PrintWriter</code>等的资源都需要我们调用<code>close()</code>方法来手动关闭，一般情况下我们都是通过<code>try-catch-finally</code>语句来实现这个需求，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//读取文本文件的内容</span><br><span class="line">Scanner scanner = null;</span><br><span class="line">try &#123;</span><br><span class="line">    scanner = new Scanner(new File(&quot;D://read.txt&quot;));</span><br><span class="line">    while (scanner.hasNext()) &#123;</span><br><span class="line">        System.out.println(scanner.nextLine());</span><br><span class="line">    &#125;</span><br><span class="line">&#125; catch (FileNotFoundException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    if (scanner != null) &#123;</span><br><span class="line">        scanner.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用Java 7之后的 <code>try-with-resources</code> 语句改造上面的代码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">try (Scanner scanner = new Scanner(new File(&quot;test.txt&quot;))) &#123;</span><br><span class="line">    while (scanner.hasNext()) &#123;</span><br><span class="line">        System.out.println(scanner.nextLine());</span><br><span class="line">    &#125;</span><br><span class="line">&#125; catch (FileNotFoundException fnfe) &#123;</span><br><span class="line">    fnfe.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然多个资源需要关闭的时候，使用 <code>try-with-resources</code> 实现起来也非常简单，如果你还是用<code>try-catch-finally</code>可能会带来很多问题。</p>
+<p>通过使用分号分隔，可以在<code>try-with-resources</code>块中声明多个资源。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (BufferedInputStream bin = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(<span class="string">&quot;test.txt&quot;</span>)));</span><br><span class="line">             BufferedOutputStream bout = <span class="keyword">new</span> BufferedOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">&quot;out.txt&quot;</span>)))) &#123;</span><br><span class="line">            <span class="keyword">int</span> b;</span><br><span class="line">            <span class="keyword">while</span> ((b = bin.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">                bout.write(b);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>转载自：</strong><a target="_blank" rel="noopener" href="https://gitee.com/SnailClimb/JavaGuide/blob/master/docs/java/Java基础知识.md">https://gitee.com/SnailClimb/JavaGuide/blob/master/docs/java/Java基础知识.md</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/05/20/java/%E5%9F%BA%E7%A1%80/%E6%B3%9B%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/20/java/%E5%9F%BA%E7%A1%80/%E6%B3%9B%E5%9E%8B/" class="post-title-link" itemprop="url">泛型</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 10:26:53" itemprop="dateCreated datePublished" datetime="2021-05-20T10:26:53+00:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p> Java 泛型（generics）是 JDK1.5 中引入的一个新特性, 泛型提供了编译时类型安全检测机制，该机制允许程序员在编译时检测到非法的类型，在此之前java都是使用object来进行完成这种功能，但是object的向下转型会带来一些类型转化的问题，所以才加入了泛型。</p>
+</blockquote>
+<h2 id="讲解"><a href="#讲解" class="headerlink" title="讲解"></a>讲解</h2><h3 id="一、泛型的引入"><a href="#一、泛型的引入" class="headerlink" title="一、泛型的引入"></a>一、泛型的引入</h3><p>在jdk1.5以前想要实现类似于C++模板的功能时，一般都是使用object实现，如：实现一个point类，里面有x、y两个数据成员，但是对于x、y类似是不确定的，有时候需要int型的x、y，有时候需要float型的x、y。其实现如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object x;</span><br><span class="line">    <span class="keyword">private</span> Object y;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setX</span><span class="params">(Object x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setY</span><span class="params">(Object y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getY</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种做法是基本满足使用要求，但是如果在某些情况下，很容易发生Object向下转型带来的问题，如以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Point point = <span class="keyword">new</span> Point();</span><br><span class="line">    point.setX(<span class="number">1</span>);</span><br><span class="line">    point.setY(<span class="number">2</span>);</span><br><span class="line">    Float x = (Float) point.getX();</span><br><span class="line">    Float y = (Float) point.getY();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行时就会发错误（如下图），即类型转化所带来的问题，并且这种错误，在编译时不会显示出来，只会在运行时显示，所以针对这种情况java引进了泛型。</p>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/泛型1.png" style="zoom:80%;" /></p>
+<p>所以如果使用泛型改写上述代码就应该是这样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T x;</span><br><span class="line">    <span class="keyword">private</span> T y;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setX</span><span class="params">(T x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setY</span><span class="params">(T y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getY</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用起来就变成了这样<code>Point&lt;Integer&gt;point = new Point&lt;&gt;()</code>，如果这时候调用如果类型不对，会在编译的时候就爆出错误（如下图），方便开发人员及时的处理错误。</p>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/泛型2.png" alt="泛型2" style="zoom:80%;" /></p>
+<p>另外如果申明了泛型，但是使用时不加<code>&lt;类型&gt;</code>,java还是会把里面的T当作Object处理，如上面的<code>Point&lt;Integer&gt;point = new Point&lt;&gt;()</code>，我这样用<code>Point point = new Point()</code>，并不会报错，而且会把x、y直接当作Object类型，也算时一种向下兼容，防止以前写的代码出问题。</p>
+<h3 id="二、泛型的使用"><a href="#二、泛型的使用" class="headerlink" title="二、泛型的使用"></a>二、泛型的使用</h3><h4 id="1-泛型类"><a href="#1-泛型类" class="headerlink" title="1.泛型类"></a>1.泛型类</h4><p>泛型类使用起来比较简单，如上面的Point，就是泛型类的一种使用，不过需要注意的是泛型的参数字母可以任意定义，并且参数数量也没有什么限制，在这里就不过多举例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//此处T可以随便写为任意标识，常见的如T、E、K、V等形式的参数常用于表示泛型</span></span><br><span class="line"><span class="comment">//在实例化泛型类时，必须指定T的具体类型</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Generic</span>&lt;<span class="title">T</span>&gt;</span>&#123; </span><br><span class="line">   </span><br><span class="line">    <span class="keyword">private</span> T key;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Generic</span><span class="params">(T key)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">this</span>.key = key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getKey</span><span class="params">()</span></span>&#123; </span><br><span class="line">        <span class="keyword">return</span> key;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如何实例化泛型类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Generic&lt;Integer&gt; genericInteger = <span class="keyword">new</span> Generic&lt;Integer&gt;(<span class="number">123456</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="2-泛型接口"><a href="#2-泛型接口" class="headerlink" title="2.泛型接口"></a>2.泛型接口</h4><p>泛型接口定义和泛型类相似，可以参考如下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IMessage</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(T t)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是值得注意的是，接口实现时，有两种方式：</p>
+<ul>
+<li>继续使用泛型，不指定类型：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IMessageImp</span> &lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">IMessage</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用具体的类型</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IMessageImp</span> <span class="keyword">implements</span> <span class="title">IMessage</span>&lt;<span class="title">String</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(String t)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">            System.out.println(t);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两种方式都有使用，需要都掌握</p>
+<h4 id="3-泛型方法"><a href="#3-泛型方法" class="headerlink" title="3.泛型方法"></a>3.泛型方法</h4><p>泛型方法，个人感觉使用应该不多，但是有必要了解一下，因为在jdk文档当中有一些这样的例子。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; T[] fun(T...t)&#123;</span><br><span class="line">       <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-通配符"><a href="#4-通配符" class="headerlink" title="4.通配符"></a>4.通配符</h4><p>通配符是为了配合泛型类等做参数而使用的，为了防止函数只能对一个具体的参数进行处理而产生的。</p>
+<h5 id="常用的-T，E，K，V，？"><a href="#常用的-T，E，K，V，？" class="headerlink" title="常用的 T，E，K，V，？"></a>常用的 T，E，K，V，？</h5><p>本质上这些个都是通配符，没啥区别，只不过是编码时的一种约定俗成的东西。比如上述代码中的 T ，我们可以换成 A-Z 之间的任何一个 字母都可以，并不会影响程序的正常运行，但是如果换成其他的字母代替 T ，在可读性上可能会弱一些。<strong>通常情况下，T，E，K，V，？ 是这样约定的：</strong></p>
+<ul>
+<li>？ 表示不确定的 java 类型</li>
+<li>T (type) 表示具体的一个java类型</li>
+<li>K V (key value) 分别代表java键值中的Key Value</li>
+<li>E (element) 代表Element</li>
+</ul>
+<h5 id="？-无界通配符"><a href="#？-无界通配符" class="headerlink" title="？ 无界通配符"></a>？ <strong>无界通配符</strong></h5><p>类型通配符一般是使用<code>?</code>代替具体的类型参数。例如 <strong>List</strong> 在逻辑上是<strong>List,List</strong> 等所有List&lt;具体类型实参&gt;的父类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">getData</span><span class="params">(List&lt;?&gt; data)</span> </span>&#123;</span><br><span class="line">     System.out.println(<span class="string">&quot;data :&quot;</span> + data.get(<span class="number">0</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了上述的<code>?</code>通配符，还衍生出了如下两个通配符：</p>
+<ul>
+<li><p>​    <code>?extends</code>:设置泛型上限，参数和方法申明上都可以使用</p>
+<p>如：<code>?extends Number</code>，表示只能设置Number或者其子类，例如：Integer、Double，就是说泛型的上限就是Number</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Number</span> &gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T x;</span><br><span class="line">    <span class="keyword">private</span> T y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun</span><span class="params">(List&lt;? extends Number&gt; list)</span></span>&#123;</span><br><span class="line"><span class="comment">//无实际意义，只是简单举例</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>?super</code>:设置泛型下限,只能设置在参数上</p>
+<p>如：<code>?super String</code>，表示只能设置String或者其父类，例如：Object，就是说泛型的下限就是String</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun</span><span class="params">(List&lt;?<span class="keyword">super</span> Number&gt; list)</span></span>&#123;</span><br><span class="line">       <span class="comment">//无实际意义，只是简单举例</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/ning_zhou/BlogImage/raw/master/java/泛型3.png" alt="泛型3" style="zoom:80%;" /></p>
+<p><strong>参考：</strong><a target="_blank" rel="noopener" href="https://juejin.im/post/6844903917835419661">https://juejin.im/post/6844903917835419661</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>java泛型以前有所了解但是使用不多，这次系统的复习一下，做个小结。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/05/20/java/%E5%9F%BA%E7%A1%80/io/io1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/20/java/%E5%9F%BA%E7%A1%80/io/io1/" class="post-title-link" itemprop="url">io1</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 10:26:53" itemprop="dateCreated datePublished" datetime="2021-05-20T10:26:53+00:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/io/" itemprop="url" rel="index"><span itemprop="name">io</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>[toc]</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p>java的io是一个比较复杂的内容，其中的各种各样的类也是错中复杂，但是最主要的类还是可以分为4个类别：Inputstream、Outstream、Reader、Writer，其中Inputstream、Outstream属于字节流，Reader、Writer属于字符流。</p>
+</blockquote>
+<h2 id="讲解"><a href="#讲解" class="headerlink" title="讲解"></a>讲解</h2><h3 id="一、Inputstream"><a href="#一、Inputstream" class="headerlink" title="一、Inputstream"></a>一、Inputstream</h3><p>从java文档当中找到<code>java.io.InputStream</code>，可以发现<code>InputStream</code>相关的定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">InputStream</span></span></span><br><span class="line"><span class="class"><span class="keyword">extends</span> <span class="title">Object</span></span></span><br><span class="line"><span class="class"><span class="keyword">implements</span> <span class="title">Closeable</span></span></span><br></pre></td></tr></table></figure>
+<p>相关函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">//Reads the next byte of data from the input stream.</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>	<span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Reads some number of bytes from the input stream and stores them into the buffer array b.</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>	<span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Reads up to len bytes of data from the input stream into an array of bytes.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>	<span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">//Closes this input stream and releases any system resources associated with the stream.</span></span></span><br></pre></td></tr></table></figure>
+<p>可以发现该类是一个抽象类，并且实现了接口<code>Closeable</code>。进而结合文档描述可以明白此抽象类是表示字节输入流的所有类的超类（父类），想要在程序中使用该类，就需要定义InputStream的子类，并且子类需要实现抽象函数<code>int read()</code>。</p>
+<h3 id="二、OutputStream"><a href="#二、OutputStream" class="headerlink" title="二、OutputStream"></a>二、OutputStream</h3><p>从java文档当中找到<code>java.io.OutputStream</code> 可以发现<code>OutputStream</code>相关的定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">OutputStream</span></span></span><br><span class="line"><span class="class"><span class="keyword">extends</span> <span class="title">Object</span></span></span><br><span class="line"><span class="class"><span class="keyword">implements</span> <span class="title">Closeable</span>, <span class="title">Flushable</span></span></span><br></pre></td></tr></table></figure>
+<p>相关函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span>	<span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">//Closes this output stream and releases any system resources associated with this stream.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>	<span class="title">flush</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">//Flushes this output stream and forces any buffered output bytes to be written out.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>	<span class="title">write</span><span class="params">(<span class="keyword">byte</span>[] b)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Writes b.length bytes from the specified byte array to this output stream.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>	<span class="title">write</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Writes len bytes from the specified byte array starting at offset off to this output stream.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span>	<span class="title">write</span><span class="params">(<span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Writes the specified byte to this output stream.</span></span></span><br></pre></td></tr></table></figure>
+<p>跟<code>Inputstream</code>一样，该类也是一个抽象类，实现了接口<code>Closeable</code>和<code>Flushable</code>。进而结合文档描述可以知道该抽象类是表示字节输出流的所有类的超类(父类)。输出流接受输出字节并将其发送到某个接收器。在程序中使用该类 需要定义OutputStream子类，并且该类需要实现抽象方法<code>void write(int b)</code>。</p>
+<h3 id="三、Reader"><a href="#三、Reader" class="headerlink" title="三、Reader"></a>三、Reader</h3><p>从java文档当中找到<code>java.io.Reader</code>，可以发现<code>Reader</code>相关的定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Reader</span></span></span><br><span class="line"><span class="class"><span class="keyword">extends</span> <span class="title">Object</span></span></span><br><span class="line"><span class="class"><span class="keyword">implements</span> <span class="title">Readable</span>, <span class="title">Closeable</span></span></span><br></pre></td></tr></table></figure>
+<p>相关函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>	<span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">//Reads a single character.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">int</span>	<span class="title">read</span><span class="params">(<span class="keyword">char</span>[] cbuf)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Reads characters into an array.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">int</span>	<span class="title">read</span><span class="params">(<span class="keyword">char</span>[] cbuf, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Reads characters into a portion of an array.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span>	<span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">//Closes the stream and releases any system resources associated with it.</span></span></span><br></pre></td></tr></table></figure>
+<p>和上面两个类一比发现其实差不太多，也是一个抽象类，实现了接口<code>Readable</code>和<code>Closeable</code>。进而结合文档描述可以知道该类是读取字符流的抽象类。子类必须实现的抽象方法是read（char []，int，int）和close（）。但是，大多数子类将覆盖此处定义的某些方法，以提供更高的效率和/或附加功能。</p>
+<h3 id="四、Writer"><a href="#四、Writer" class="headerlink" title="四、Writer"></a>四、Writer</h3><p>从java文档当中找到<code>java.io.Writer</code>，可以发现<code>Writer</code>相关的定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Writer</span></span></span><br><span class="line"><span class="class"><span class="keyword">extends</span> <span class="title">Object</span></span></span><br><span class="line"><span class="class"><span class="keyword">implements</span> <span class="title">Appendable</span>, <span class="title">Closeable</span>, <span class="title">Flushable</span></span></span><br></pre></td></tr></table></figure>
+<p>相关函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span>	<span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">//Closes the stream, flushing it first.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span>	<span class="title">flush</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">//Flushes the stream.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>	<span class="title">write</span><span class="params">(<span class="keyword">char</span>[] cbuf)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Writes an array of characters.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span>	<span class="title">write</span><span class="params">(<span class="keyword">char</span>[] cbuf, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Writes a portion of an array of characters.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>	<span class="title">write</span><span class="params">(<span class="keyword">int</span> c)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Writes a single character.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>	<span class="title">write</span><span class="params">(String str)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Writes a string.</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span>	<span class="title">write</span><span class="params">(String str, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Writes a portion of a string.</span></span></span><br></pre></td></tr></table></figure>
+<p>从上向下看来，也就明白了<code>Writer</code>肯定也是一个抽象类，实现了<code>Appendable、Closeable、Flushable</code>这三个接口，然后再结合文档可知该类是用于写入字符流的抽象类。子类必须实现的抽象方法是write（char []，int，int），flush（）和close（）。但是，大多数子类将覆盖此处定义的某些方法，以提供更高的效率或附加功能。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>java中的io类大多都是从这四个类派生而来，所以先介绍下这四个类其实有利于理清很多东西。其中Inputstream、Outstream是一类，操作的主要是字节数组byte[]；而Reader、Writer是一类，操作的主要是字符数组char[]。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2021/05/20/java/%E5%9F%BA%E7%A1%80/io/io2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/20/java/%E5%9F%BA%E7%A1%80/io/io2/" class="post-title-link" itemprop="url">io2</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 10:26:53" itemprop="dateCreated datePublished" datetime="2021-05-20T10:26:53+00:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/io/" itemprop="url" rel="index"><span itemprop="name">io</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>[toc]</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p>在IO（一）当中介绍了四个父类，但是四个类都是抽象类，无法直接使用，所以本次讲解一下可以直接使用FileInputstream、FileOutstream、FileReader、FileWriter等，还会讲解一下InputStreamReader和OutputStreamWriter</p>
+</blockquote>
+<h2 id="讲解"><a href="#讲解" class="headerlink" title="讲解"></a>讲解</h2><h3 id="一、FileInputstream"><a href="#一、FileInputstream" class="headerlink" title="一、FileInputstream"></a>一、FileInputstream</h3><p>该流用于从文件读取数据，它的对象可以用关键字 new 来创建。有多种构造方法可用来创建对象。可以使用字符串类型的文件名来创建一个输入流对象来读取文件,也可以使用一个文件对象来创建一个输入流对象来读取文件。</p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        File f = <span class="keyword">new</span> File(<span class="string">&quot;hello.txt&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//通过字符串</span></span><br><span class="line">            <span class="comment">//InputStream in = new FileInputStream(&quot;hello.txt&quot;);</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">//通过File文件对象</span></span><br><span class="line">            InputStream in = <span class="keyword">new</span> FileInputStream(f);</span><br><span class="line">            <span class="keyword">byte</span> [] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">20</span>];</span><br><span class="line">            <span class="keyword">int</span> temp = in.read(b);</span><br><span class="line">			<span class="comment">//只展示此函数的功能，其他的相关函数请查找文档</span></span><br><span class="line">            System.out.println(<span class="string">&quot;读取的字节数:&quot;</span>+temp);</span><br><span class="line">            <span class="comment">//字节数组需要转化为字符串再进行输出</span></span><br><span class="line">            System.out.println(<span class="string">&quot;读取的内容:&quot;</span>+<span class="keyword">new</span> String(b));</span><br><span class="line">			in.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="comment">//<span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">            System.out.println(e);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中”hello.txt”中的内容为<code>hello world</code>,总共<strong>11</strong>个字节</p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/java/io1.png" alt="io1" style="zoom:80%;" /></p>
+<p>输出：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">读取的字节数:<span class="number">11</span></span><br><span class="line">读取的内容:hello world</span><br></pre></td></tr></table></figure>
+<p>可以体会到相对应的功能。在实际写代码当中<code>int read(byte[] b) throws IOException&#123;&#125;</code>这个方法使用的频率最高，也可以看出该函数的功能是从输入流读取b.length长度的字节,并且返回读取的字节数（可能小于b.length），如果是文件结尾则返回-1。</p>
+<h3 id="二、FileOutputStream"><a href="#二、FileOutputStream" class="headerlink" title="二、FileOutputStream"></a>二、FileOutputStream</h3><p>该类用来创建一个文件并向文件中写数据。如果该流在打开文件进行输出前，目标文件不存在，那么该流会创建该文件。有两个构造方法可以用来创建 FileOutputStream 对象。使用字符串类型的文件名来创建一个输出流对象，也可以使用一个文件对象来创建一个输入流对象来读取文件。</p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        File f = <span class="keyword">new</span> File(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            OutputStream out = <span class="keyword">new</span> FileOutputStream(f);</span><br><span class="line">            String s = <span class="string">&quot;test FileOutputStream&quot;</span>;</span><br><span class="line">            <span class="keyword">byte</span> [] b = s.getBytes();</span><br><span class="line">            out.write(b);</span><br><span class="line">            out.close();</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="comment">//<span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">            System.out.println(e);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终test.txt的上的结果为：</p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/java/io2.png" alt="io2" style="zoom:80%;" /></p>
+<p>上面只是简单的讲解了一下用法，如果想要深入了解其他方法可以自行查找文档。</p>
+<h3 id="三、InputStreamReader和OutputStreamWriter"><a href="#三、InputStreamReader和OutputStreamWriter" class="headerlink" title="三、InputStreamReader和OutputStreamWriter"></a>三、InputStreamReader和OutputStreamWriter</h3><p>为什么需要先讲InputStreamReader和OutputStreamWriter呢？</p>
+<p>InputStreamReader是直接继承自Reader的一个类，而OutputStreamWriter是直接继承Writer，想要弄清楚FileReader、FileWriter就必须先了解InputStreamReader、OutputStreamWriter，因为其实FileReader、FileWriter分别是继承自InputStreamReader、OutputStreamWriter的。因为实际总线中流动的只有字节流，所以字节流的InputStream和OutputStream是一切的基础，Java中负责从字节流向字符流解码的桥梁是<strong>InputStreamReader</strong>、<strong>OutputStreamWriter</strong></p>
+<h4 id="1-InputStreamReader"><a href="#1-InputStreamReader" class="headerlink" title="1.InputStreamReader"></a>1.InputStreamReader</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InputStreamReader</span></span></span><br><span class="line"><span class="class"><span class="keyword">extends</span> <span class="title">Reader</span></span></span><br></pre></td></tr></table></figure>
+<p>构造函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">InputStreamReader(InputStream in)</span><br><span class="line"><span class="comment">//Creates an InputStreamReader that uses the default charset.</span></span><br><span class="line">    </span><br><span class="line">InputStreamReader(InputStream in, Charset cs)</span><br><span class="line"><span class="comment">//Creates an InputStreamReader that uses the given charset.</span></span><br><span class="line">    </span><br><span class="line">InputStreamReader(InputStream in, CharsetDecoder dec)</span><br><span class="line"><span class="comment">//Creates an InputStreamReader that uses the given charset decoder.</span></span><br><span class="line">    </span><br><span class="line">InputStreamReader(InputStream in, String charsetName)</span><br><span class="line"><span class="comment">//Creates an InputStreamReader that uses the named charset.</span></span><br></pre></td></tr></table></figure>
+<p>通过构造函数可以看到InputStreamReader通过接收一个InputStream，也证明了InputStreamReader是从字节流到字符流的桥梁：它读取字节，并使用指定的字符集将它们解码为字符。它使用的字符集可以按名称指定，也可以明确指定，也可以接受平台的默认字符集。 InputStreamReader的read（）方法之一的每次调用都可能导致从基础字节输入流中读取一个或多个字节。为了实现字节到字符的有效转换，与满足当前读取操作所需的字节相比，可以从基础流中提前读取更多的字节。</p>
+<h4 id="2-OutputStreamWriter"><a href="#2-OutputStreamWriter" class="headerlink" title="2.OutputStreamWriter"></a>2.OutputStreamWriter</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OutputStreamWriter</span></span></span><br><span class="line"><span class="class"><span class="keyword">extends</span> <span class="title">Writer</span></span></span><br></pre></td></tr></table></figure>
+<p>构造函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">OutputStreamWriter(OutputStream out)</span><br><span class="line"><span class="comment">//Creates an OutputStreamWriter that uses the default character encoding.</span></span><br><span class="line">    </span><br><span class="line">OutputStreamWriter(OutputStream out, Charset cs)</span><br><span class="line"><span class="comment">//Creates an OutputStreamWriter that uses the given charset.</span></span><br><span class="line">    </span><br><span class="line">OutputStreamWriter(OutputStream out, CharsetEncoder enc)</span><br><span class="line"><span class="comment">//Creates an OutputStreamWriter that uses the given charset encoder.</span></span><br><span class="line">    </span><br><span class="line">OutputStreamWriter(OutputStream out, String charsetName)</span><br><span class="line"><span class="comment">//Creates an OutputStreamWriter that uses the named charset.</span></span><br></pre></td></tr></table></figure>
+<p>通过构造函数可以看到OutputStreamWriter通过接收一个OutputStream。也证明了OutputStreamWriter是从字符流到字节流的桥梁：使用指定的字符集将写入其中的字符编码为字节。它使用的字符集可以按名称指定，也可以明确指定，也可以接受平台的默认字符集。 每次调用write（）方法都会导致在给定字符上调用编码转换器。生成的字节在写入底层输出流之前先在缓冲区中累积。可以指定此缓冲区的大小，但是默认情况下，它对于大多数用途来说足够大。请注意，传递给write（）方法的字符不会被缓冲。</p>
+<h3 id="四、FileReader"><a href="#四、FileReader" class="headerlink" title="四、FileReader"></a>四、FileReader</h3><p>FileReader是直接继承自InputStreamReader的，FileReader的构造方法和FileInputstream差不多，在这里就不展开细讲。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        File f = <span class="keyword">new</span> File(<span class="string">&quot;hello.txt&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Reader reader = <span class="keyword">new</span> FileReader(f);</span><br><span class="line">            <span class="keyword">char</span>[] cbuf = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">20</span>];</span><br><span class="line">            <span class="keyword">int</span> temp = reader.read(cbuf);</span><br><span class="line">            <span class="comment">//只展示此函数的功能，其他的相关函数请查找文档</span></span><br><span class="line">            System.out.println(<span class="string">&quot;读取的字符数:&quot;</span>+temp);</span><br><span class="line">            <span class="comment">//字节数组需要转化为字符串再进行输出</span></span><br><span class="line">            System.out.println(<span class="string">&quot;读取的内容:&quot;</span>+<span class="keyword">new</span> String(cbuf));</span><br><span class="line">			reader.close();</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="comment">//<span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">            System.out.println(e);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>hello.txt中内容和上面相同</p>
+<p>最终结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">读取的字符数:<span class="number">11</span></span><br><span class="line">读取的内容:hello world</span><br></pre></td></tr></table></figure>
+<h3 id="五、FileWriter"><a href="#五、FileWriter" class="headerlink" title="五、FileWriter"></a>五、FileWriter</h3><p>FileWriter直接继承自OutputStreamWriter，FileWriter的构造方法和FileOutputStream差不多，在这里就不展开细讲。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        File f = <span class="keyword">new</span> File(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Writer writer = <span class="keyword">new</span> FileWriter(f);</span><br><span class="line">            String s = <span class="string">&quot;test FileWriter&quot;</span>;</span><br><span class="line">            writer.write(s);</span><br><span class="line">            writer.close();</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="comment">//<span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">            System.out.println(e);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终test.txt的上的结果为：</p>
+<p><img src="https://gitee.com/zhou-ning/BlogImage/raw/master/java/io3.png" alt="io3" style="zoom:80%;" /></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结了一下java对于文件io的简单操作，除了文件io还有内存流处理，输入类输出类等还需要进行总结。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2020/04/12/java/%E5%9F%BA%E7%A1%80/java%E5%87%A0%E7%A7%8D%E5%AF%B9%E8%AF%9D%E6%A1%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/12/java/%E5%9F%BA%E7%A1%80/java%E5%87%A0%E7%A7%8D%E5%AF%B9%E8%AF%9D%E6%A1%86/" class="post-title-link" itemprop="url">java自定义对话框弹出</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-12 18:19:26" itemprop="dateCreated datePublished" datetime="2020-04-12T18:19:26+00:00">2020-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- # java自定义对话框弹出 -->
+<blockquote>
+<p>本次实习因为写java界面，有一个自定义对话框的需求，在网上查了一些才发现了一种方法，所以记录一下。具体需求类似于这样：按下一个按钮弹出一个输入界面，输入行李的长宽高，然后进行显示。需求很简单，最重要的是信息在两个界面之间传递。<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/12/java/%E5%9F%BA%E7%A1%80/java%E5%87%A0%E7%A7%8D%E5%AF%B9%E8%AF%9D%E6%A1%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2020/04/02/java/%E5%9F%BA%E7%A1%80/io/io3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/02/java/%E5%9F%BA%E7%A1%80/io/io3/" class="post-title-link" itemprop="url">java中IO（三）：内存流简单讲解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-02 18:19:26" itemprop="dateCreated datePublished" datetime="2020-04-02T18:19:26+00:00">2020-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- # java中IO（三）：内存流简单讲解 -->
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p>在io(二)当中介绍的都是关于文件进行简单的IO处理，除了文件了IO处理之外，其实还有一种内存的IO操作，对于内存的操作流我们称为内存操作类。内存操作流主要有：ByteArrayInputStream、ByteArrayOutputStream、CharArrayReader、CharArrayWriter这四个类<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/02/java/%E5%9F%BA%E7%A1%80/io/io3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bugcat.top/2020/04/02/java/%E5%9F%BA%E7%A1%80/io/io4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+      <meta itemprop="name" content="bugCat">
+      <meta itemprop="description" content="啥都不会">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bugCat's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/02/java/%E5%9F%BA%E7%A1%80/io/io4/" class="post-title-link" itemprop="url">java中IO（四）：打印流简单讲解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-02 18:19:26" itemprop="dateCreated datePublished" datetime="2020-04-02T18:19:26+00:00">2020-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-04-11 05:09:04" itemprop="dateModified" datetime="2026-04-11T05:09:04+00:00">2026-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- # java中IO（四）：打印流简单讲解 -->
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p>打印流主要解决的就是<code>OutputStream</code>的一些问题，属于<code>OutputStream</code>功能的加强版。</p>
+<p>比如：我们只是通过程序向终端输出一些信息，如果使用<code>OutputStream</code>就会产生一些问题,所以数据必须转变为字节数组再输出，输出int、double等类型就不是很方便。这时候我们使用打印流就方便很多。打印流主要是两个类：<code>PrintStream</code>和<code>PrintWriter</code><br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/02/java/%E5%9F%BA%E7%A1%80/io/io4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bugCat"
+      src="https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/avatar/zhouning.png">
+  <p class="site-author-name" itemprop="name">bugCat</p>
+  <div class="site-description" itemprop="description">啥都不会</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bugcat9" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bugcat9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1767508581@qq.com" title="E-Mail → mailto:1767508581@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugCat</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">811k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">12:17</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+
+    </div>
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+</body>
+</html>
