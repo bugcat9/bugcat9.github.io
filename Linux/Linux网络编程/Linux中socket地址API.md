@@ -69,7 +69,7 @@ int main()
 
 我们给`value`赋值为`0x0102`。如果是机器是大端存储，那么`union_bytes`数组第一个元素存储`0x01`，第二个元素存储`0x02`，如果是机器是小端存储，那么`union_bytes`数组第一个元素存储`0x02`，第二个元素存储`0x01`
 
-![image-20220809185922374](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/image-20220809185922374.png)
+![image-20220809185922374](https://cdn.jsdelivr.net/gh/bugcat9/blog-image-bed@main/Linux/Snipaste_2023-03-29_19-41-48.png)
 
 扩展到32位，四字节来说以`0x12345678`为例，那么
 
