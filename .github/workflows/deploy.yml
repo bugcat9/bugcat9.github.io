@@ -5,6 +5,9 @@ on:
     branches:
       - hexo
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,32 +15,34 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: hexo
+          fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '12'
+          node-version: '20'
+          cache: 'npm'
 
       - name: Setup Hexo
-        env:
-          ACTION_DEPLOY_KEY: ${{ secrets.HEXO_DEPLOY_KEY }}
         run: |
-          mkdir -p ~/.ssh/
-          echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
-          chmod 700 ~/.ssh
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.email "1767508581@qq.com"
           git config --global user.name "bugcat9"
           npm install hexo-cli -g
-          npm install
+          npm ci
+
+      - name: Configure deploy remote for Actions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sed -i "s#repo: git@github.com:bugcat9/bugcat9.github.io.git#repo: https://x-access-token:${GH_TOKEN}@github.com/bugcat9/bugcat9.github.io.git#" _config.yml
+
       - name: Set gitalk
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET}}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         run: |
           sed -i "642s/123/$CLIENT_ID/" ./themes/next/_config.yml
           sed -i "643s/123/$CLIENT_SECRET/" ./themes/next/_config.yml
